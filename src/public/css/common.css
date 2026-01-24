@@ -1,0 +1,40 @@
+/* ヘッダー全体の背景（全幅） */
+.header {
+    background-color: #000;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+/* 1400-1540pxで崩さないためのインナー設定 */
+.header__inner {
+    width: 95%;
+    /* 画面幅が狭い時用の余白 */
+    max-width: 1540px;
+    /* 1540px以上は広がらない */
+    margin: 0 auto;
+    /* 左右中央寄せ */
+    display: flex;
+    /* 横並びに設定 */
+    justify-content: space-between;
+    /* ロゴとナビを両端に配置 */
+    align-items: center;
+}
+
+/* ロゴのサイズ固定 */
+.header__logo {
+    height: 30px;
+    display: block;
+}
+
+/* @yield('link') 内の要素用（検索窓とボタンの並び） */
+.header__nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* 要素同士の隙間を固定 */
+    flex-grow: 1;
+    justify-content: flex-end;
+    /* 右側に寄せる */
+}

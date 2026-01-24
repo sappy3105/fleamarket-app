@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// 商品一覧（おすすめ・マイリスト共通）
+Route::get('/', [ItemController::class, 'index'])->name('item.index');
+
+// 商品詳細（未認証でも閲覧可能）
+Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
+
+// ログイン済みの会員のみプロフィール編集画面へアクセス
+Route::middleware('auth')->group(function () {
+    // マイページ（プロフィールと自分の商品一覧）
+    Route::get('/mypage', [ItemController::class, 'mypage'])->name('mypage');
+
+    //プロフィール編集
+    Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::post('/item/{item_id}/like', [LikeController::class, 'store'])->name('like.store');
+    Route::delete('/item/{item_id}/like', [LikeController::class, 'destroy'])->name('like.destroy');
 });

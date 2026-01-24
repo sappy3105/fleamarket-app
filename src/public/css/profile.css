@@ -1,0 +1,81 @@
+/* プロフィール画像のレイアウト */
+.profile-form {
+    max-width: 500px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.profile-form__heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.profile-form__image-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.profile-form__circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    /* グレー色 */
+    object-fit: cover;
+}
+
+.profile-form__image-label {
+    padding: 8px 16px;
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* フォーム入力欄などはログイン画面のCSSを継承するか、同様のスタイルを適用 */
+.profile-form__group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.profile-form__label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.profile-form__input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.profile-form__error-message {
+    color: #ff4d4d;
+    font-size: 13px;
+    height: 18px;
+    /* メッセージの有無でガタつかないよう高さを確保 */
+    margin-top: 4px;
+}
+
+.profile-form__button-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff4d4d;
+    /* 画像に近い赤 */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+}

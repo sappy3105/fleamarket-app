@@ -1,0 +1,64 @@
+.register-form__content {
+    max-width: 500px;
+    margin: 60px auto;
+    text-align: center;
+}
+
+.register-form__heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.register-form__group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.register-form__label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.register-form__input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    /* paddingを含めた幅計算 */
+}
+
+.register-form__error-message {
+    color: #ff4d4d;
+    font-size: 13px;
+    height: 18px;
+    /* メッセージの有無でガタつかないよう高さを確保 */
+    margin-top: 4px;
+}
+
+.register-form__button-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff4d4d;
+    /* 画像に近い赤 */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* 下部リンク */
+.login__link {
+    margin-top: 20px;
+}
+
+.login__button {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}

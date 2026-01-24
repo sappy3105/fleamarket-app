@@ -41,4 +41,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function profile()
+    {
+        // Userは1つのProfileを持っている
+        return $this->hasOne(Profile::class);
+    }
+
+    // ユーザーが「いいね」した商品一覧との紐づけ
+    public function likedItems()
+    {
+        return $this->belongsToMany(Item::class, 'likes');
+    }
 }
