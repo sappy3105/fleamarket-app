@@ -45,7 +45,8 @@
                         @auth
                             @if ($item->isLikedBy(Auth::user()))
                                 {{-- 解除フォーム --}}
-                                <form action="{{ route('like.destroy', $item->id) }}" method="POST">
+                                <form action="{{ route('like.destroy', $item->id) }}" class="item-detail__icon--like"
+                                    method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" style="background:none; border:none; cursor:pointer;">
@@ -54,7 +55,8 @@
                                 </form>
                             @else
                                 {{-- 登録フォーム --}}
-                                <form action="{{ route('like.store', $item->id) }}" method="POST">
+                                <form action="{{ route('like.store', $item->id) }}" class="item-detail__icon--like"
+                                    method="POST">
                                     @csrf
                                     <button type="submit" style="background:none; border:none; cursor:pointer;">
                                         <img src="{{ asset('images/heartlogo_default.png') }}" alt="いいね登録">
@@ -70,11 +72,18 @@
                             </a>
                         @endguest
 
-                        {{-- カウント表示 --}}
+                        {{-- いいねカウント表示 --}}
                         <span>{{ $item->likes->count() }}</span>
                     </div>
+
+                    {{-- コメントカウント機能 --}}
                     <div class="item-detail__icon">
-                        <img src="{{ asset('images/comment.png') }}" alt="コメント">
+                        {{-- ログイン済：コメント投稿・一覧画面へ --}}
+                        <a href="#comment-area">
+                            <img src="{{ asset('images/comment.png') }}" alt="コメント">
+                        </a>
+
+                        {{-- コメントカウント表示 --}}
                         <span>{{ $item->comments->count() }}</span>
                     </div>
                 </div>
@@ -121,35 +130,55 @@
                 </div>
 
                 {{-- コメント表示エリア --}}
-                <div class="item-detail__section">
+                <div class="item-detail__section" id="comment-area">
                     <h2 class="item-detail__section-title">コメント({{ $item->comments->count() }})</h2>
                     @if ($item->comments->isNotEmpty())
-                        @php
-                            // ランダムに1つ取得
-                            $randomComment = $item->comments->random();
-                        @endphp
-                        <div class="comment-item">
-                            <div class="comment-item__user">
-                                <div class="comment-item__user-image">
-                                    <img src="{{ $randomComment->user->profile?->image_path ? asset('storage/' . $randomComment->user->profile->image_path) : asset('images/default-user.png') }}"
-                                        alt="">
+                        @foreach ($item->comments as $comment)
+                            <div class="comment-item">
+                                <div class="comment-item__user">
+                                    <div class="comment-item__user-image">
+                                        <img src="{{ $comment->user->profile?->image_path ? asset('storage/' . $comment->user->profile->image_path) : asset('images/default-user.png') }}"
+                                            alt="">
+                                    </div>
+                                    <span class="comment-item__user-name">{{ $comment->user->name }}</span>
                                 </div>
-                                <span class="comment-item__user-name">{{ $randomComment->user->name }}</span>
+                                <div class="comment-item__content">
+                                    {{ $comment->content }}
+                                </div>
                             </div>
-                            <div class="comment-item__content">
-                                {{ $randomComment->content }}
-                            </div>
-                        </div>
+                        @endforeach
+                    @else
+                        <p>まだコメントはありません。</p>
                     @endif
                 </div>
 
                 {{-- コメント投稿フォーム --}}
                 <div class="item-detail__comment-form">
                     <h3 class="item-detail__comment-form-title">商品へのコメント</h3>
-                    <form action="#" method="POST">
+
+                    {{-- 修正箇所：actionにルートを指定 --}}
+                    <form action="{{ route('comment.store', $item->id) }}" method="POST">
                         @csrf
                         <textarea name="content" class="item-detail__comment-textarea"></textarea>
-                        <button type="submit" class="item-detail__comment-submit">コメントを送信する</button>
+                        {{-- エラーがあれば表示する --}}
+                        <div class="item-detail__comment-error">
+                            @error('content')
+                                {{ $message }}
+                            @enderror
+                        </div>
+
+                        {{-- ログインしている時だけボタンを押せるようにする（念のため） --}}
+                        @auth
+                            <button type="submit" class="item-detail__comment-submit">コメントを送信する</button>
+                        @endauth
+
+                        {{-- 未ログインの場合はボタンを押せないか、ログインへの誘導を出す --}}
+                        @guest
+                            <a href="{{ route('login') }}" class="item-detail__comment-submit"
+                                style="text-align:center; text-decoration:none; display:block;">
+                                ログインしてコメントする
+                            </a>
+                        @endguest
                     </form>
                 </div>
             </div>

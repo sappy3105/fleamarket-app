@@ -10,18 +10,30 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
-        $tab = $request->query('tab');
+        $tab = $request->query('tab', 'all');
+        $keyword = $request->query('keyword');
 
+        // おすすめかマイリストか分ける
         if ($tab === 'mylist') {
-            // マイリスト：ログイン中ならお気に入り商品を取得（機能未実装なら空配列）
-            $items = Auth::check()
-                ? Auth::user()->favoriteItems()->get()
-                : collect();
+            //未認証だったら、ログイン画面へ
+            if (!Auth::check()) {
+                return redirect()->route('login');
+            }
+
+            // ログイン中ならマイリストへ
+            $query = Auth::user()->favoriteItems();
         } else {
-            // おすすめ：自分以外の全商品、または全商品（未ログイン含む）
-            $items = Item::all();
+            // おすすめタブ
+            $query = Item::query();
         }
 
+        // scopeKeywordSearch で絞り込む
+        if (!empty($keyword)) {
+            $query->keywordSearch($keyword);
+        }
+
+        // データを取得
+        $items = $query->get();
         return view('index', compact('items', 'tab'));
     }
 

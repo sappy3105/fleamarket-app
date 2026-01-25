@@ -7,7 +7,8 @@
 @section('link')
     <div class="header__nav">
         <form action="/" method="GET" class="header__search">
-            <input type="text" name="keyword" placeholder="なにをお探しですか？" class="header__search-input">
+            <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？" class="header__search-input">
+            <input type="hidden" name="tab" value="{{ $tab }}">
         </form>
         <nav>
             <ul class="header__nav-list">
@@ -27,15 +28,19 @@
 @section('content')
     <div class="item-list">
         <div class="item-list__tabs">
-            <a href="{{ route('item.index') }}" class="item-list__tab {{ $tab !== 'mylist' ? 'is-active' : '' }}">おすすめ</a>
-            <a href="{{ route('item.index', ['tab' => 'mylist']) }}"
+            {{-- おすすめタブ --}}
+            <a href="{{ route('item.index', ['tab' => 'all', 'keyword' => request('keyword')]) }}"
+                class="item-list__tab {{ $tab !== 'mylist' ? 'is-active' : '' }}">おすすめ</a>
+
+            {{-- マイリストタブ --}}
+            <a href="{{ Auth::check() ? route('item.index', ['tab' => 'mylist', 'keyword' => request('keyword')]) : route('login') }}"
                 class="item-list__tab {{ $tab === 'mylist' ? 'is-active' : '' }}">マイリスト</a>
         </div>
 
         <div class="item-list__grid">
             @foreach ($items as $item)
                 <div class="item-card">
-                    <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item-card">
+                    <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item-card__link">
                         <div class="item-card__image">
                             {{-- 画像URLがhttpから始まる場合はそのまま、そうでない場合はstorageから取得 --}}
                             <img src="{{ Str::startsWith($item->image_path, 'http') ? $item->image_path : asset('storage/' . $item->image_path) }}"

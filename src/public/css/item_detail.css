@@ -48,13 +48,44 @@
 }
 
 .item-detail__icon {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: flex-end; */
+    width: 40px;
+}
+
+/* .item-detail__icon--like {
+    display: inline-block;
+} */
+
+.item-detail__icon a,
+.item-detail__icon button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    /* アイコン画像と同じ高さにする */
+    margin-bottom: 5px;
+    padding: 0;
+    border: none;
+    background: none;
+    line-height: 1;
 }
 
 .item-detail__icon img {
     width: 24px;
+    height: 24px;
     display: block;
-    margin: 0 auto 5px;
+    object-fit: contain;
+}
+
+.item-detail__icon span {
+    display: block;
+    font-size: 16px;
+    line-height: 1;
+    /* 行の高さを1に固定して余計な余白を消す */
+    text-align: center;
 }
 
 .item-detail__buy-btn {
@@ -65,7 +96,7 @@
     text-align: center;
     padding: 12px;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 3px;
     font-weight: bold;
     margin-bottom: 40px;
 }
@@ -124,15 +155,21 @@
 .comment-item__content {
     background-color: #f0f0f0;
     padding: 15px;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 .item-detail__comment-textarea {
     width: 100%;
     height: 120px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 15px;
+    border-radius: 3px;
+    resize: none;
+}
+
+.item-detail__comment-error {
+    height: 30px;
+    color: red;
+    margin-bottom: 10px;
 }
 
 .item-detail__comment-submit {

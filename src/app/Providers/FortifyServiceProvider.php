@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Http\Requests\LoginRequest as MyLoginRequest; // 自作のログインリクエスト
+use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Responses\RegisterResponse as CustomRegisterResponse; // 新しくResponses/RegisterResponse.phpを作成
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
@@ -10,11 +14,12 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\Contracts\LogoutResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
-use App\Http\Requests\LoginRequest as MyLoginRequest;
-use Laravel\Fortify\Contracts\LogoutResponse;
+
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -27,9 +32,12 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->singleton(FortifyLoginRequest::class, MyLoginRequest::class);
 
         // 新規登録リクエストの差し替え
-        $this->app->afterResolving(\App\Http\Requests\RegisterRequest::class, function ($request, $app) {
+        $this->app->afterResolving(RegisterRequest::class, function ($request, $app) {
             // ここは空でも、型を解決させることでLaravelに認識させます
         });
+
+        // 新規登録後の遷移先をカスタムクラスに紐付け
+        $this->app->singleton(RegisterResponse::class, CustomRegisterResponse::class);
     }
 
     /**
@@ -37,8 +45,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // ユーザー作成
         Fortify::createUsersUsing(CreateNewUser::class);
 
+        // 各種ビューの設定
         Fortify::registerView(function () {
             return view('auth.register');
         });
@@ -47,32 +57,18 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.login');
         });
 
+        // ログイン制限（RateLimiter）
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
-
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
+        // ログアウト後の遷移先
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
             public function toResponse($request)
             {
                 return redirect('/login');
             }
         });
-
-        //デフォルトの設定削除↓
-        // Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        // Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-        // Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-
-        // RateLimiter::for('login', function (Request $request) {
-        //     $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
-        //     return Limit::perMinute(5)->by($throttleKey);
-        // });
-
-        // RateLimiter::for('two-factor', function (Request $request) {
-        //     return Limit::perMinute(5)->by($request->session()->get('login.id'));
-        // });
     }
 }

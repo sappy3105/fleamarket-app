@@ -19,25 +19,27 @@ class Item extends Model
         'price',
     ];
 
+    // 中間テーブル名を category_items に指定
     public function categories()
     {
-        // 中間テーブル名を category_items に指定
         return $this->belongsToMany(Category::class, 'category_items');
     }
 
+    // Usersテーブルとのリレーション
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Commentsテーブルとのリレーション(1対多)
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
+    // likesテーブルとの1対多のリレーション
     public function likes()
     {
-        // likesテーブルとの1対多のリレーション
         return $this->hasMany(Like::class);
     }
 
@@ -46,5 +48,14 @@ class Item extends Model
     {
         if (!$user) return false;
         return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    // 商品名で部分一致検索
+    public function scopeKeywordSearch($query, $keyword)
+    {
+        if (!empty($keyword)) {
+            $query->where('items.name', 'like', '%' . $keyword . '%');
+        }
+        return $query;
     }
 }

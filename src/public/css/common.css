@@ -5,20 +5,17 @@
     height: 60px;
     display: flex;
     align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 /* 1400-1540pxで崩さないためのインナー設定 */
 .header__inner {
-    width: 95%;
-    /* 画面幅が狭い時用の余白 */
-    max-width: 1540px;
-    /* 1540px以上は広がらない */
-    margin: 0 auto;
-    /* 左右中央寄せ */
-    display: flex;
-    /* 横並びに設定 */
-    justify-content: space-between;
-    /* ロゴとナビを両端に配置 */
+    width: 100%;
+    max-width: 1540px;/* 1540px以上は広がらない */
+    margin: 0 auto;/* 左右中央寄せ */
+    display: flex; /* 横並びに設定 */
+    justify-content: space-between; /* ロゴとナビを両端に配置 */
     align-items: center;
 }
 
@@ -29,12 +26,65 @@
 }
 
 /* @yield('link') 内の要素用（検索窓とボタンの並び） */
+/* ナビゲーションエリア全体 */
 .header__nav {
     display: flex;
     align-items: center;
-    gap: 20px;
-    /* 要素同士の隙間を固定 */
-    flex-grow: 1;
-    justify-content: flex-end;
-    /* 右側に寄せる */
+    justify-content: space-between;    /* 検索窓とリストの間隔を空ける */
+    flex-grow: 1;    /* 余白を埋める */
+    margin-left: 40px;    /* ロゴとの距離 */
+}
+
+/* 検索フォーム */
+.header__search {
+    width: 100%;
+    max-width: 400px;
+    /* 検索窓の最大幅 */
+}
+
+/* 検索インプット（画像の見た目に合わせる） */
+.header__search-input {
+    width: 100%;
+    height: 36px;
+    border-radius: 3px;    /* 角を少し丸く */
+    border: none;
+    padding: 0 20px;
+    font-size: 18px;
+    box-sizing: border-box;    /* paddingを含めた幅計算 */
+}
+
+/* ナビゲーションリスト（ログアウト・マイページ・出品） */
+.header__nav-list {
+    display: flex;
+    align-items: center;
+    gap: 25px;    /* リンク同士の間隔 */
+    list-style: none;    /* ・を消す */
+    margin: 0;
+    padding: 0;
+}
+
+/* リンク文字（マイページ・ログアウト）共通設定 */
+.header__nav-link {
+    color: #fff;    /* 白文字 */
+    text-decoration: none;    /* 下線を消す */
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background: none;    /* ボタンの背景を消す */
+    border: none;    /* ボタンの枠線を消す */
+    padding: 0;
+    font-family: inherit;    /* フォントを親に合わせる */
+}
+
+/* 出品ボタン（ここだけ白背景のボタンにする） */
+.header__nav-btn {
+    background-color: #fff;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 8px 18px;    /* ボタンの大きさ */
+    border-radius: 3px;    /* 角丸 */
+    display: inline-block;
+    transition: opacity 0.3s;
 }
