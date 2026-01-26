@@ -81,6 +81,7 @@ class PurchaseController extends Controller
         // 5. 支払い方法を一時的にセッションへ保存
         session(["pending_purchase_{$item_id}" => [
             'payment_method' => $request->payment_method,
+            'stripe_checkout_id' => $checkout_session->id,
         ]]);
 
         // 6. Stripeの決済画面へリダイレクト
