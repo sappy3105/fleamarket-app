@@ -4,26 +4,6 @@
     <link rel="stylesheet" href="{{ asset('css/item_detail.css') }}">
 @endsection
 
-@section('link')
-    <div class="header__nav">
-        <form action="/" method="GET" class="header__search">
-            <input type="text" name="keyword" placeholder="なにをお探しですか？" class="header__search-input">
-        </form>
-        <nav>
-            <ul class="header__nav-list">
-                <li>
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button type="submit" class="header__nav-link">ログアウト</button>
-                    </form>
-                </li>
-                <li><a href="/mypage" class="header__nav-link">マイページ</a></li>
-                <li><a href="/sell" class="header__nav-btn">出品</a></li>
-            </ul>
-        </nav>
-    </div>
-@endsection
-
 @section('content')
     <div class="item-detail">
         <div class="item-detail__container">
@@ -88,7 +68,7 @@
                     </div>
                 </div>
 
-                <a href="#" class="item-detail__buy-btn">購入手続きへ</a>
+                <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}" class="item-detail__buy-btn">購入手続きへ</a>
 
                 <div class="item-detail__section">
                     <h2 class="item-detail__section-title">商品説明</h2>

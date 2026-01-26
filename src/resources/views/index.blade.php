@@ -4,27 +4,6 @@
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 @endsection
 
-@section('link')
-    <div class="header__nav">
-        <form action="/" method="GET" class="header__search">
-            <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？" class="header__search-input">
-            <input type="hidden" name="tab" value="{{ $tab }}">
-        </form>
-        <nav>
-            <ul class="header__nav-list">
-                <li>
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button type="submit" class="header__nav-link">ログアウト</button>
-                    </form>
-                </li>
-                <li><a href="/mypage" class="header__nav-link">マイページ</a></li>
-                <li><a href="/sell" class="header__nav-btn">出品</a></li>
-            </ul>
-        </nav>
-    </div>
-@endsection
-
 @section('content')
     <div class="item-list">
         <div class="item-list__tabs">

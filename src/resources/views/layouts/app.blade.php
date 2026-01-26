@@ -20,7 +20,29 @@
                 </a>
             </h1>
 
-            @yield('link') {{-- ここに検索窓とナビが入る --}}
+            {{-- ログインと新規登録画面以外表示する --}}
+            @unless (request()->routeIs('login', 'register'))
+                <div class="header__nav">
+                    <form action="/" method="GET" class="header__search">
+                        <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？"
+                            class="header__search-input">
+                        <input type="hidden" name="tab" value="{{ request('tab', 'all') }}">
+                    </form>
+                    <nav>
+                        <ul class="header__nav-list">
+                            <li>
+                                <form action="/logout" method="POST">
+                                    @csrf
+                                    <button type="submit" class="header__nav-link">ログアウト</button>
+                                </form>
+                            </li>
+                            <li><a href="/mypage" class="header__nav-link">マイページ</a></li>
+                            <li><a href="/sell" class="header__nav-btn">出品</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            @endunless
+
         </div>
     </header>
     <main>

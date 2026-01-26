@@ -11,7 +11,7 @@ class ShippingAddress extends Model
 
     protected $fillable = [
         'sold_item_id',
-        'zipcode',
+        'postcode',
         'address',
         'building',
     ];

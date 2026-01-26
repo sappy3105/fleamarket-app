@@ -15,4 +15,10 @@ class SoldItem extends Model
         'payment_method',
         'stripe_checkout_id',
     ];
+
+    // 商品へのリレーション
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
 }

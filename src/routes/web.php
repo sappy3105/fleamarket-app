@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,6 @@ use App\Http\Controllers\CommentController;
 
 // 商品一覧（おすすめ・マイリスト共通）
 Route::get('/', [ItemController::class, 'index'])->name('item.index');
-
-//検索機能
-// Route::get('/search', [ItemController::class, 'search'])->name('item.search');
 
 // 商品詳細（未認証でも閲覧可能）
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
@@ -42,4 +40,18 @@ Route::middleware('auth')->group(function () {
     //コメント機能
     Route::post('/item/{item_id}/comment', [CommentController::class, 'store'])
         ->name('comment.store');
+
+    // 商品購入画面
+    Route::get('/purchase/{item_id}', [PurchaseController::class, 'showPurchase'])->name('purchase.show');
+
+    // 住所変更画面の表示
+    Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
+
+    // 住所変更の保存（セッションへ）
+    Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+
+    // 購入処理（Stripe決済へ）
+    Route::post('/purchase/{item_id}', [PurchaseController::class, 'storePurchase'])->name('purchase.store');
+
+    Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'successPurchase'])->name('purchase.success');
 });

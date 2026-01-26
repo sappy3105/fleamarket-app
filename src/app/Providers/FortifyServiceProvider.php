@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Actions\Fortify\CreateNewUser;
 use App\Http\Requests\LoginRequest as MyLoginRequest; // 自作のログインリクエスト
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+use Laravel\Fortify\Contracts\LoginResponse;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Responses\RegisterResponse as CustomRegisterResponse; // 新しくResponses/RegisterResponse.phpを作成
 use App\Actions\Fortify\ResetUserPassword;
@@ -61,6 +62,15 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
             return Limit::perMinute(10)->by($email . $request->ip());
+        });
+
+        // ログイン後の遷移先を HOME 定数に従わせる（または直接パスを書く）
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+            public function toResponse($request)
+            {
+                // RouteServiceProvider::HOME の値（/?tab=mylist）へリダイレクト
+                return redirect(\App\Providers\RouteServiceProvider::HOME);
+            }
         });
 
         // ログアウト後の遷移先
