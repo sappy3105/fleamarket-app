@@ -17,9 +17,6 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('image_path')->nullable();
-            // $table->string('display_name')->nullable()->comment('表示名');
-            // $table->string('introduction')->nullable()->comment('自己紹介');
-            // 初期配送先としての住所情報
             $table->string('postcode')->nullable();
             $table->string('address')->nullable();
             $table->string('building')->nullable();
