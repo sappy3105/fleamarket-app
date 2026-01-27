@@ -1,12 +1,17 @@
 @extends('layouts.app')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
+@endsection
+
 @section('content')
     <div class="purchase__container">
-        <div class="purchase__main">
+        <div class="purchase-left">
             {{-- 商品情報 --}}
             <div class="purchase__item">
                 <div class="item__image">
-                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
+                    <img src="{{ Str::startsWith($item->image_path, 'http') ? $item->image_path : asset('storage/' . $item->image_path) }}"
+                        alt="{{ $item->name }}">
                 </div>
                 <div class="item__detail">
                     <h2>{{ $item->name }}</h2>
@@ -24,7 +29,7 @@
                     <option value="1">コンビニ払い</option>
                     <option value="2">カード払い</option>
                 </select>
-                <div class="form__error">
+                <div class="purchase-form__error">
                     @error('payment_method')
                         {{ $message }}
                     @enderror
@@ -37,11 +42,12 @@
                     <h3>配送先</h3>
                     <a href="{{ route('purchase.address.edit', $item->id) }}">変更する</a>
                 </div>
-                <div class="section__content">
+                <div class="address__content">
                     <p>〒 {{ $address['postcode'] }}</p>
-                    <p>{{ $address['address'] }} {{ $address['building'] }}</p>
+                    <p>{{ $address['address'] }} </p>
+                    <p>{{ $address['building'] }}</p>
                 </div>
-                <div class="form__error">
+                <div class="purchase-form__error">
                     @error('shipping_address')
                         {{ $message }}
                     @enderror
@@ -54,18 +60,17 @@
             <table class="confirm__table">
                 <tr>
                     <th>商品代金</th>
-                    <td>¥ {{ number_format($item->price) }}</td>
+                    <td><span class="price-amount">¥ {{ number_format($item->price) }}</span></td>
                 </tr>
                 <tr>
                     <th>支払い方法</th>
                     <td id="display-payment">選択してください</td>
                 </tr>
-
             </table>
 
             <form action="{{ route('purchase.store', $item->id) }}" method="POST" id="purchase-form">
                 @csrf
-                <button type="submit" class="purchase__btn">購入する</button>
+                <button type="submit" class="purchase__button">購入する</button>
             </form>
         </div>
     </div>

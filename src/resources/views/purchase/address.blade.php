@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
+@endsection
+
 @section('content')
     <div class="address__container">
         <h2 class="address-form__heading">住所の変更</h2>
@@ -9,7 +13,7 @@
                 <label>郵便番号</label>
                 <input type="text" name="postcode"
                     value="{{ old('postcode', session("shipping_address_{$item->id}.postcode") ?? Auth::user()->profile->postcode) }}">
-                <div class="form__error">
+                <div class="address-form__error">
                     @error('postcode')
                         {{ $message }}
                     @enderror
@@ -19,7 +23,7 @@
                 <label>住所</label>
                 <input type="text" name="address"
                     value="{{ old('address', session("shipping_address_{$item->id}.address") ?? Auth::user()->profile->address) }}">
-                <div class="form__error">
+                <div class="address-form__error">
                     @error('address')
                         {{ $message }}
                     @enderror

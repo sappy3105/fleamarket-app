@@ -1,0 +1,222 @@
+/* 商品購入画面 & 配送先変更画面 共通スタイル */
+.purchase__container,
+.address__container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #333;
+}
+
+/* バリデーション */
+.purchase-form__error {
+    color: #ff4d4b;
+    font-size: 14px;
+    margin-top: 5px;
+    height: 20px;
+    margin-left: 40px;
+}
+
+.address-form__error {
+    color: #ff4d4b;
+    font-size: 14px;
+    margin-top: 5px;
+    height: 20px;
+}
+
+/* =========================================
+   商品購入画面 (purchase/index.blade.php)
+   ========================================= */
+.purchase__container {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+/* 左側メインエリア */
+.purchase-left {
+    flex: 1;
+}
+
+.purchase__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.item__image img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    background-color: #d9d9d9;
+}
+
+.item__detail h2 {
+    font-size: 24px;
+    margin: 0 0 15px 0;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.item__detail p {
+    font-size: 20px;
+    margin: 0;
+}
+
+.purchase__section {
+    border-top: 2px solid #ccc;
+    padding: 20px 40px 0;
+    margin-bottom: 40px;
+}
+
+.purchase__section:last-of-type {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 40px;
+}
+
+.section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section__header h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.section__header a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* 支払い方法セレクトボックス */
+.purchase__select {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+.address__content p {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.purchase__select,
+.address__content {
+    margin-left: 40px;
+}
+/* 右側サイドバー */
+.purchase__side {
+    width: 350px;
+    padding-top: 20px;
+}
+
+.confirm__table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #ccc;
+    margin-bottom: 30px;
+}
+
+.confirm__table th,
+.confirm__table td {
+    padding: 25px 15px;
+    text-align: center;
+}
+
+.confirm__table th {
+    width: 40%;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.confirm__table td {
+    font-size: 20px;
+}
+
+.confirm__table tr:first-child {
+    border-bottom: 2px solid #ccc;
+}
+
+.price-amount {
+    font-size: 22px;
+    letter-spacing: 0.05em;
+}
+
+/* 購入ボタン */
+.purchase__button {
+    width: 100%;
+    background-color: #ff4d4b;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 3px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.purchase__button:hover {
+    opacity: 0.8;
+}
+
+/* =========================================
+   住所変更画面 (purchase/address.blade.php)
+   ========================================= */
+.address__container {
+    max-width: 600px;
+    /* フォームを中央に寄せる */
+}
+
+.address-form__heading {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.form__group {
+    margin-bottom: 25px;
+}
+
+.form__group label {
+    display: block;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.form__group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.update__btn {
+    width: 100%;
+    background-color: #ff4d4b;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 3px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: opacity 0.3s;
+}
+
+.update__btn:hover {
+    opacity: 0.8;
+}
