@@ -37,6 +37,10 @@
     font-weight: bold;
 }
 
+.profile-form__image-label input {
+    display: none;
+}
+
 /* フォーム入力欄などはログイン画面のCSSを継承するか、同様のスタイルを適用 */
 .profile-form__group {
     margin-bottom: 20px;

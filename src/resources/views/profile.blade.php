@@ -13,16 +13,13 @@
             <div class="profile-form__image-group">
                 <div class="profile-form__image-preview">
                     {{-- 初期状態はグレーの円、選択されたら画像を表示 --}}
-                    {{-- デフォルトの画像を準備しない場合は削除<img id="preview" src="{{ asset('images/default-user.png') }}" alt="" --}}
-                    {{-- class="profile-form__circle"> --}}
                     <img id="preview"
                         src="{{ $profile->image_path ? asset('storage/' . $profile->image_path) : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' }}"
                         alt="" class="profile-form__circle">
                 </div>
-                <label class="profile-form__image-label" for="image-input" style="cursor: pointer;">
+                <label class="profile-form__image-label" for="image-input">
                     画像を選択する
-                    <input type="file" name="image_path" id="image-input" accept="image/png,image/jpeg"
-                        style="display:none;">
+                    <input type="file" name="image_path" id="image-input" accept="image/png,image/jpeg">
                 </label>
 
 
@@ -79,11 +76,13 @@
     <script>
         // 画像プレビュー機能
         document.getElementById('image-input').addEventListener('change', function(e) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('preview').src = e.target.result;
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                }
+                reader.readAsDataURL(e.target.files[0]);
             }
-            reader.readAsDataURL(e.target.files[0]);
         });
     </script>
 @endsection

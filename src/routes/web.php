@@ -24,7 +24,6 @@ Route::get('/', [ItemController::class, 'index'])->name('item.index');
 // 商品詳細（未認証でも閲覧可能）
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
-// ログイン済みの会員のみプロフィール編集画面へアクセス
 Route::middleware('auth')->group(function () {
     // マイページ（プロフィールと自分の商品一覧）
     Route::get('/mypage', [ItemController::class, 'mypage'])->name('mypage');
@@ -54,4 +53,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase/{item_id}', [PurchaseController::class, 'storePurchase'])->name('purchase.store');
 
     Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'successPurchase'])->name('purchase.success');
+
+    //出品画面表示
+    Route::get('/sell', [ItemController::class, 'create'])->name('exhibition.create');
+
+    //出品商品保存
+    Route::post('/sell', [ItemController::class, 'store'])->name('exhibition.store');
 });
