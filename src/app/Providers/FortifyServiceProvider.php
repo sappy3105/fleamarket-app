@@ -33,9 +33,10 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->singleton(FortifyLoginRequest::class, MyLoginRequest::class);
 
         // 新規登録リクエストの差し替え
-        $this->app->afterResolving(RegisterRequest::class, function ($request, $app) {
+        // $this->app->afterResolving(RegisterRequest::class, function ($request, $app) {
             // ここは空でも、型を解決させることでLaravelに認識させます
-        });
+        // });
+        $this->app->singleton(\Laravel\Fortify\Http\Requests\RegisterRequest::class, RegisterRequest::class);
 
         // 新規登録後の遷移先をカスタムクラスに紐付け
         $this->app->singleton(RegisterResponse::class, CustomRegisterResponse::class);
@@ -64,7 +65,7 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
-        // ログイン後の遷移先を HOME 定数に従わせる（または直接パスを書く）
+        // ログイン後の遷移先を HOME 定数に従わせる
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
             public function toResponse($request)
             {

@@ -48,6 +48,6 @@ class ProfileController extends Controller
         $user->profile()->updateOrCreate(['user_id' => $user->id], $profileData);
 
         // 7. 前の画面に戻って「更新したよ！」と表示する
-        return redirect()->route('mypage');
+        return redirect()->route('item.index', ['tab' => 'mylist']);
     }
 }

@@ -6,6 +6,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\MypageController;
+use App\Http\Controllers\ExhibitionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +20,7 @@ use App\Http\Controllers\PurchaseController;
 |
 */
 
-// 商品一覧（おすすめ・マイリスト共通）
+// 商品一覧（おすすめ）
 Route::get('/', [ItemController::class, 'index'])->name('item.index');
 
 // 商品詳細（未認証でも閲覧可能）
@@ -26,7 +28,7 @@ Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show'
 
 Route::middleware('auth')->group(function () {
     // マイページ（プロフィールと自分の商品一覧）
-    Route::get('/mypage', [ItemController::class, 'mypage'])->name('mypage');
+    Route::get('/mypage', [MypageController::class, 'index'])->name('mypage');
 
     //プロフィール編集
     Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -55,8 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'successPurchase'])->name('purchase.success');
 
     //出品画面表示
-    Route::get('/sell', [ItemController::class, 'create'])->name('exhibition.create');
+    Route::get('/sell', [ExhibitionController::class, 'create'])->name('exhibition.create');
 
     //出品商品保存
-    Route::post('/sell', [ItemController::class, 'store'])->name('exhibition.store');
+    Route::post('/sell', [ExhibitionController::class, 'store'])->name('exhibition.store');
 });

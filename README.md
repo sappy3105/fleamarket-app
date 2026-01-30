@@ -6,7 +6,7 @@
 
 **Docker ビルド**
 
-- git clone git@github.com:sappy3105/contact-form-test.git
+- git clone git@github.com:sappy3105/fleamarket-app.git
 - cd contact-form-test
 - docker-compose up -d --build
 
@@ -16,8 +16,8 @@
 - composer install
 - cp .env.example .env
 - [Stripe ダッシュボード](https://dashboard.stripe.com/test/apikeys)（テストモード）にログインし、以下のキーを取得します。
-    * **公開可能キー** (Publishable key): `pk_test_...`
-    * **シークレットキー** (Secret key): `sk_test_...`
+  - **公開可能キー** (Publishable key): `pk_test_...`
+  - **シークレットキー** (Secret key): `sk_test_...`
 - .envファイルに以下の環境変数を追加
 
 ```env
@@ -33,19 +33,22 @@ STRIPE_SECRET_KEY=sk_test_あなたのシークレットキー
 ```
 
 - 設定を反映させるために、必ず以下のコマンドを実行してください。
+
 ```bash
 php artisan config:clear
 ```
 
 **アプリケーションキーの作成**
+
 - php artisan key:generate
 
 **マイグレーションの実行**
+
 - php artisan migrate
 
 **シーディングの実行**
-- php artisan db:seed
 
+- php artisan db:seed
 
 ## 使用技術（実行環境）
 
@@ -58,7 +61,6 @@ php artisan config:clear
 
 - 開発環境： http://localhost/
 - phpMyAdmin： http://localhost:8080/
-
 
 ## ER 図
 

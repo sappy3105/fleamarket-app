@@ -54,9 +54,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Item::class, 'likes');
     }
 
-    // likesテーブルを介して、Itemモデルを多対多で取得する
-    public function favoriteItems()
+    // 購入した商品
+    public function purchasedItems()
     {
-        return $this->belongsToMany(Item::class, 'likes', 'user_id', 'item_id');
+        return $this->belongsToMany(Item::class, 'purchases');
     }
 }

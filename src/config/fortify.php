@@ -157,4 +157,9 @@ return [
         ]),
     ],
 
+    'redirects' => [
+        'login' => '/',
+        'logout' => '/login', // ここを書き換えるだけで済みます
+    ],
+
 ];

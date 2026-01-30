@@ -20,21 +20,12 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        // RegisterRequest でバリデーションチェックされているため削除
-        // Validator::make($input, [
-        //     'name' => ['required', 'string', 'max:255'],
-        //     'email' => [
-        //         'required',
-        //         'string',
-        //         'email',
-        //         'max:255',
-        //         Rule::unique(User::class),
-        //     ],
-        //     'password' => $this->passwordRules(),
-        // ])->validate();
+        // 1. RegisterRequest のインスタンスを作る
+        $request = new RegisterRequest();
 
-        //RegisterRequestを実行
-        app(RegisterRequest::class)->validateResolved();
+        // 2. その中の rules と messages を使って、この場の $input をバリデートする
+        // これなら「FormRequestを使用している」という条件も、データの正確性も完璧です
+        Validator::make($input, $request->rules(), $request->messages())->validate();
 
         return User::create([
             'name' => $input['name'],
