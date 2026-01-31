@@ -27,6 +27,11 @@ class ItemController extends Controller
         } else {
             // おすすめタブ
             $query = Item::query();
+            
+            // ログインしている場合、自分が出品した商品 (user_id が自分のID) を除外
+            if (Auth::check()) {
+                $query->where('user_id', '!=', Auth::id());
+            }
         }
 
         // scopeKeywordSearch で絞り込む

@@ -15,7 +15,12 @@
 
             {{-- 右側：商品情報 --}}
             <div class="item-detail__info">
-                <h1 class="item-detail__name">{{ $item->name }}</h1>
+                <h1 class="item-detail__name">
+                    {{ $item->name }}
+                    @if ($item->isSold())
+                        <span>Sold</span>
+                    @endif
+                </h1>
                 <p class="item-detail__brand">{{ $item->brand_name ?? 'ブランド名なし' }}</p>
                 <p class="item-detail__price">¥{{ number_format($item->price) }}<span>（税込）</span></p>
 
@@ -154,9 +159,8 @@
 
                         {{-- 未ログインの場合はボタンを押せないか、ログインへの誘導を出す --}}
                         @guest
-                            <a href="{{ route('login') }}" class="item-detail__comment-submit"
-                                style="text-align:center; text-decoration:none; display:block;">
-                                ログインしてコメントする
+                            <a href="{{ route('login') }}" class="item-detail__comment-submit">
+                                コメントを送信する
                             </a>
                         @endguest
                     </form>

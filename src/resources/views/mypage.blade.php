@@ -14,14 +14,14 @@
                         alt="プロフィール画像">
                 </div>
                 <h2 class="mypage__profile-name">{{ $user->name }}</h2>
-                <a href="{{ route('profile.edit') }}" class="mypage__profile-edit-btn">プロフィールを編集</a>
+                <a href="{{ route('profile.edit') }}" class="mypage__profile-edit-button">プロフィールを編集</a>
             </div>
         </div>
 
         {{-- タブメニュー --}}
         <div class="mypage__tabs">
-            <a href="?page=sell" class="mypage__tab {{ $page === 'sell' ? 'is-active' : '' }}">出品した商品</a>
-            <a href="?page=buy" class="mypage__tab {{ $page === 'buy' ? 'is-active' : '' }}">購入した商品</a>
+            <a href="?page=sell{{ request('keyword') ? '&keyword=' . request('keyword') : '' }}" class="mypage__tab {{ $page === 'sell' ? 'is-active' : '' }}">出品した商品</a>
+            <a href="?page=buy{{ request('keyword') ? '&keyword=' . request('keyword') : '' }}" class="mypage__tab {{ $page === 'buy' ? 'is-active' : '' }}">購入した商品</a>
         </div>
 
         {{-- 商品一覧グリッド --}}

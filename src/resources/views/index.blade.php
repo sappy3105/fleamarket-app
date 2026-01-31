@@ -25,7 +25,12 @@
                             <img src="{{ Str::startsWith($item->image_path, 'http') ? $item->image_path : asset('storage/' . $item->image_path) }}"
                                 alt="{{ $item->name }}">
                         </div>
-                        <p class="item-card__name">{{ $item->name }}</p>
+                        <p class="item-card__name">
+                            {{ $item->name }}
+                            @if ($item->isSold())
+                                <span>Sold</span>
+                            @endif
+                        </p>
                     </a>
                 </div>
             @endforeach

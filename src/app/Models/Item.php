@@ -50,6 +50,20 @@ class Item extends Model
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
+    // ItemsテーブルとSoldItemsテーブルのリレーション
+    public function soldItem()
+    {
+        return $this->hasOne(SoldItem::class, 'item_id');
+    }
+
+    // 商品が売り切れかどうかを判定するメソッド
+    public function isSold()
+    {
+        // sold_itemsテーブルにこのitem_idが存在すれば true を返す
+        // SoldItemモデルがある場合:
+        return $this->soldItem()->exists();
+    }
+
     // 商品名で部分一致検索
     public function scopeKeywordSearch($query, $keyword)
     {

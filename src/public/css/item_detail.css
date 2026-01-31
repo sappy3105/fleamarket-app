@@ -24,6 +24,11 @@
     margin-bottom: 5px;
 }
 
+.item-detail__name span {
+    color: red;
+    margin-left: 10px;
+}
+
 .item-detail__brand {
     font-size: 14px;
     color: #666;
@@ -180,4 +185,9 @@
     padding: 12px;
     border-radius: 4px;
     cursor: pointer;
+
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
 }
