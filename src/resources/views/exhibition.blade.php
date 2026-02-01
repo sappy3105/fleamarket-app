@@ -52,13 +52,15 @@
             {{-- 商品の状態 --}}
             <div class="sell__section">
                 <h3 class="sell__label">商品の状態</h3>
-                <select name="condition" class="sell__select">
-                    <option value="" disabled selected>選択してください</option>
-                    <option value="1" {{ old('condition') == 1 ? 'selected' : '' }}>良好</option>
-                    <option value="2" {{ old('condition') == 2 ? 'selected' : '' }}>目立った傷や汚れなし</option>
-                    <option value="3" {{ old('condition') == 3 ? 'selected' : '' }}>やや傷や汚れあり</option>
-                    <option value="4" {{ old('condition') == 4 ? 'selected' : '' }}>状態が悪い</option>
-                </select>
+                <div class="sell__select-wrapper">
+                    <select name="condition" class="sell__select">
+                        <option value="" disabled selected>選択してください</option>
+                        <option value="1" {{ old('condition') == 1 ? 'selected' : '' }}>良好</option>
+                        <option value="2" {{ old('condition') == 2 ? 'selected' : '' }}>目立った傷や汚れなし</option>
+                        <option value="3" {{ old('condition') == 3 ? 'selected' : '' }}>やや傷や汚れあり</option>
+                        <option value="4" {{ old('condition') == 4 ? 'selected' : '' }}>状態が悪い</option>
+                    </select>
+                </div>
                 @error('condition')
                     <p class="form__error">{{ $message }}</p>
                 @enderror

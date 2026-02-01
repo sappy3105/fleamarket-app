@@ -1,9 +1,9 @@
 .item-detail__container {
-    max-width: 1000px;
-    margin: 40px auto;
+    max-width: 1200px;
+    margin: 60px auto;
     display: flex;
-    gap: 60px;
-    padding: 0 20px;
+    gap: 80px;
+    padding: 0 40px;
 }
 
 .item-detail__image {
@@ -12,6 +12,8 @@
 
 .item-detail__image img {
     width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
     background-color: #f0f0f0;
 }
 
@@ -20,25 +22,25 @@
 }
 
 .item-detail__name {
-    font-size: 32px;
-    margin-bottom: 5px;
+    font-size: 36px;
+    margin-bottom: 10px;
 }
 
-.item-detail__name span {
-    color: red;
+.sold-label {
+    color: #ff4d4b;
     margin-left: 10px;
 }
 
 .item-detail__brand {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 30px;
 }
 
 .item-detail__price {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .item-detail__price span {
@@ -46,9 +48,10 @@
     font-weight: normal;
 }
 
+/* アイコン */
 .item-detail__icons {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     margin-bottom: 30px;
 }
 
@@ -56,31 +59,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: flex-end; */
-    width: 40px;
+    width: 50px;
 }
-
-/* .item-detail__icon--like {
-    display: inline-block;
-} */
 
 .item-detail__icon a,
 .item-detail__icon button {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 24px;
+    height: 32px;
     /* アイコン画像と同じ高さにする */
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     padding: 0;
     border: none;
     background: none;
+    cursor: pointer;
     line-height: 1;
 }
 
 .item-detail__icon img {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     display: block;
     object-fit: contain;
 }
@@ -88,27 +87,28 @@
 .item-detail__icon span {
     display: block;
     font-size: 16px;
-    line-height: 1;
-    /* 行の高さを1に固定して余計な余白を消す */
+    color: #333;
+    line-height: 1;/* 行の高さを1に固定して余計な余白を消す */
     text-align: center;
 }
 
-.item-detail__buy-btn {
+.item-detail__buy-button {
     display: block;
     width: 100%;
-    background-color: #ff4d4d;
+    background-color: #ff4d4b;
     color: #fff;
+    font-size: 20px;
     text-align: center;
-    padding: 12px;
+    padding: 10px;
     text-decoration: none;
     border-radius: 3px;
     font-weight: bold;
     margin-bottom: 40px;
 }
 
+/* --- 商品説明・情報 --- */
 .item-detail__section-title {
-    font-size: 20px;
-    border-bottom: 1px solid #333;
+    font-size: 24px;
     padding-bottom: 10px;
     margin: 30px 0 15px;
 }
@@ -119,21 +119,22 @@
 }
 
 .item-detail__info-label {
-    width: 120px;
+    width: 150px;
     font-weight: bold;
+    font-size: 18px;
 }
 
 .item-detail__category-tag {
     background-color: #e0e0e0;
-    padding: 4px 12px;
+    padding: 5px 25px;
     border-radius: 20px;
-    font-size: 12px;
-    margin-right: 5px;
+    font-size: 14px;
+    margin-right: 10px;
 }
 
 /* コメントエリアのスタイル */
 .comment-item {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .comment-item__user {
@@ -144,8 +145,8 @@
 }
 
 .comment-item__user-image {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background-color: #ddd;
     overflow: hidden;
@@ -159,15 +160,23 @@
 
 .comment-item__content {
     background-color: #f0f0f0;
-    padding: 15px;
+    padding: 20px;
     border-radius: 3px;
+}
+
+.item-detail__comment-label {
+    font-size: 20px;
+    margin: 40px 0 15px;
+    font-weight: bold;
 }
 
 .item-detail__comment-textarea {
     width: 100%;
     height: 120px;
+    padding: 15px;
+    font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 5px;
     resize: none;
 }
 
@@ -179,11 +188,13 @@
 
 .item-detail__comment-submit {
     width: 100%;
-    background-color: #ff4d4d;
+    background-color: #ff4d4b;
     color: #fff;
+    font-size: 18px;
     border: none;
-    padding: 12px;
-    border-radius: 4px;
+    padding: 15px;
+    /* margin-top: 20px; */
+    border-radius: 3px;
     cursor: pointer;
 
     display: block;

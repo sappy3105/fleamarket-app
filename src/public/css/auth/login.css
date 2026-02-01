@@ -1,24 +1,25 @@
 .login-form__content {
-    max-width: 500px;
-    margin: 60px auto;
+    max-width: 450px;
+    margin: 80px auto;
     text-align: center;
 }
 
 .login-form__heading {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 40px;
     font-weight: bold;
 }
 
 .login-form__group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-align: left;
 }
 
 .login-form__label {
     display: block;
     font-weight: bold;
-    margin-bottom: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .login-form__input {
@@ -27,38 +28,38 @@
     border: 1px solid #ccc;
     border-radius: 3px;
     box-sizing: border-box;
-    /* paddingを含めた幅計算 */
+    font-size: 16px;
 }
 
 .login-form__error-message {
-    color: #ff4d4d;
-    font-size: 13px;
-    height: 18px;
+    color: #ff4d4b;
+    font-size: 14px;
+    height: 25px;
     /* メッセージの有無でガタつかないよう高さを確保 */
-    margin-top: 4px;
+    margin-top: 5px;
 }
 
 .login-form__button-submit {
     width: 100%;
-    padding: 12px;
-    background-color: #ff4d4d;
+    padding: 15px;
+    background-color: #ff4d4b;
     /* 画像に近い赤 */
     color: #fff;
     border: none;
     border-radius: 3px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 /* 下部リンク */
 .register__link {
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .register__button {
     color: #007bff;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
 }

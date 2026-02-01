@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="item-list">
+    <div class="item-list__container">
         <div class="item-list__tabs">
             {{-- おすすめタブ --}}
             <a href="/{{ request('keyword') ? '?keyword=' . request('keyword') : '' }}"
@@ -17,7 +17,7 @@
         </div>
 
         <div class="item-list__grid">
-            @foreach ($items as $item)
+            @forelse ($items as $item)
                 <div class="item-card">
                     <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item-card__link">
                         <div class="item-card__image">
@@ -28,12 +28,14 @@
                         <p class="item-card__name">
                             {{ $item->name }}
                             @if ($item->isSold())
-                                <span>Sold</span>
+                                <span class="sold-label">Sold</span>
                             @endif
                         </p>
                     </a>
                 </div>
-            @endforeach
+            @empty
+                <p class="mypage__empty-message">該当する商品がありません</p>
+            @endforelse
         </div>
     </div>
 @endsection

@@ -23,10 +23,16 @@
             {{-- ログインと新規登録画面以外表示する --}}
             @unless (request()->routeIs('login', 'register'))
                 <div class="header__nav">
-                    <form action="/" method="GET" class="header__search">
+                    <form action="{{ request()->url() }}" method="GET" class="header__search">
                         <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？"
                             class="header__search-input">
-                        <input type="hidden" name="tab" value="{{ request('tab', 'all') }}">
+                        @if (Route::is('mypage'))
+                            {{-- マイページにいるときは 'page' を送る --}}
+                            <input type="hidden" name="page" value="{{ request('page', 'sell') }}">
+                        @elseif (Route::is('item.index'))
+                            {{-- 商品一覧ページにいるときは 'tab' を送る --}}
+                            <input type="hidden" name="page" value="{{ request('tab', 'all') }}">
+                        @endif
                     </form>
                     <nav>
                         <ul class="header__nav-list">
@@ -42,12 +48,15 @@
                     </nav>
                 </div>
             @endunless
-
         </div>
     </header>
-    <main>
-        @yield('content')
+
+    <main class="main">
+        <div class="main__inner">
+            @yield('content')
+        </div>
     </main>
+
 </body>
 
 </html>

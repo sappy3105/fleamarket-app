@@ -24,11 +24,13 @@
                 <div class="section__header">
                     <h3>支払い方法</h3>
                 </div>
-                <select name="payment_method" form="purchase-form" class="purchase__select">
-                    <option value="" disabled selected>選択してください</option>
-                    <option value="1">コンビニ払い</option>
-                    <option value="2">カード払い</option>
-                </select>
+                <div class="select-wrapper">
+                    <select name="payment_method" form="purchase-form" class="purchase__select">
+                        <option value="" disabled selected>選択してください</option>
+                        <option value="1">コンビニ払い</option>
+                        <option value="2">カード払い</option>
+                    </select>
+                </div>
                 <div class="purchase-form__error">
                     @error('payment_method')
                         {{ $message }}

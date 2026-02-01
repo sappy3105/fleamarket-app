@@ -24,7 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'image_path' => ['nullable', 'image', 'mimes:jpeg,jpg,png'], // jpegまたはpng
+            'image_path' => ['nullable',  'mimes:jpeg,jpg,png'], // jpegまたはpng
             'name'       => ['required', 'max:20'],       // 必須、20文字以内, 'string'いらない？
             'postcode'   => ['required', 'regex:/^\d{3}-\d{4}$/'], // 必須、ハイフンあり8文字、 'string'いらない？
             'address'    => ['required'],     // 必須、 'string'いらない？

@@ -1,22 +1,36 @@
-/* ヘッダー全体の背景（全幅） */
 .header {
     background-color: #000;
-    width: 100%;
     height: 60px;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    box-sizing: border-box;
+    width: 100%;
 }
 
-/* 1400-1540pxで崩さないためのインナー設定 */
+/* header背景（全幅） */
 .header__inner {
     width: 100%;
-    max-width: 1540px;/* 1540px以上は広がらない */
-    margin: 0 auto;/* 左右中央寄せ */
-    display: flex; /* 横並びに設定 */
-    justify-content: space-between; /* ロゴとナビを両端に配置 */
+    height: 100%;
+    max-width: 1400px;/* ここで1400pxに制限 */
+    margin: 0 auto;/* 中央寄せ */
+    padding: 0 20px;/* 画面端に密着するのを防ぐ */
+    box-sizing: border-box;
+    display: flex;/* 横並びに設定 */
+    justify-content: space-between;/* ロゴとナビを両端に配置 */
     align-items: center;
+}
+
+.main {
+    width: 100%;
+    /* 背景色などを入れたい場合はここに記述 */
+}
+
+.main__inner {
+    width: 100%;
+    max-width: 1400px;
+    /* ここで1400pxに制限 */
+    margin: 0 auto;
+    /* 左右中央寄せ */
+    padding: 0 20px;
+    /* スマホサイズなどで端に付かないように */
+    box-sizing: border-box;
 }
 
 /* ロゴのサイズ固定 */

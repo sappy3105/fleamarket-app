@@ -22,13 +22,10 @@ class MypageController extends Controller
         }
 
         // キーワードがあれば商品名で絞り込む
-        if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
-        }
+        $query->keywordSearch($keyword);
 
         $items = $query->get();
-        
+
         return view('mypage', compact('user', 'profile', 'items', 'page'));
     }
-
 }

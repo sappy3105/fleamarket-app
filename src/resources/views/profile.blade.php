@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="profile-form">
-        <h2 class="profile-form__heading">プロフィール設定</h2>
+        <h2 class="profile-form__title">プロフィール設定</h2>
         <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" novalidate>
             @method('patch')
             @csrf
@@ -21,55 +21,52 @@
                     画像を選択する
                     <input type="file" name="image_path" id="image-input" accept="image/png,image/jpeg">
                 </label>
+            </div>
 
-
-                <p class="profile-form__error-message">
-                    @error('image_path')
-                        {{ $message }}
-                    @enderror
-                </p>
+            <div class="profile-form__error-message">
+                @error('image_path')
+                    {{ $message }}
+                @enderror
             </div>
 
             <div class="profile-form__group">
                 <label class="profile-form__label">ユーザー名</label>
                 <input type="text" name="name" class="profile-form__input"
                     value="{{ old('name', Auth::user()->name) }}">
-                <p class="profile-form__error-message">
+                <div class="profile-form__error-message">
                     @error('name')
                         {{ $message }}
                     @enderror
-                </p>
+                </div>
             </div>
 
             <div class="profile-form__group">
                 <label class="profile-form__label">郵便番号</label>
                 <input type="text" name="postcode" class="profile-form__input"
                     value="{{ old('postcode', $profile->postcode) }}">
-                <p class="profile-form__error-message">
+                <div class="profile-form__error-message">
                     @error('postcode')
                         {{ $message }}
                     @enderror
-                </p>
-            </div>
+                </div>
 
-            <div class="profile-form__group">
-                <label class="profile-form__label">住所</label>
-                <input type="text" name="address" class="profile-form__input"
-                    value="{{ old('address', $profile->address) }}">
-                <p class="profile-form__error-message">
-                    @error('address')
-                        {{ $message }}
-                    @enderror
-                </p>
-            </div>
+                <div class="profile-form__group">
+                    <label class="profile-form__label">住所</label>
+                    <input type="text" name="address" class="profile-form__input"
+                        value="{{ old('address', $profile->address) }}">
+                    <div class="profile-form__error-message">
+                        @error('address')
+                            {{ $message }}
+                        @enderror
+                    </div>
 
-            <div class="profile-form__group">
-                <label class="profile-form__label">建物名</label>
-                <input type="text" name="building" class="profile-form__input"
-                    value="{{ old('building', $profile->building) }}">
-            </div>
+                    <div class="profile-form__group">
+                        <label class="profile-form__label">建物名</label>
+                        <input type="text" name="building" class="profile-form__input"
+                            value="{{ old('building', $profile->building) }}">
+                    </div>
 
-            <button type="submit" class="profile-form__button-submit">更新する</button>
+                    <button type="submit" class="profile-form__button-submit">更新する</button>
         </form>
     </div>
 

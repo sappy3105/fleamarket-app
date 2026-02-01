@@ -65,7 +65,7 @@
 
 .purchase__section {
     border-top: 2px solid #ccc;
-    padding: 20px 40px 0;
+    padding: 20px 20px 0;
     margin-bottom: 40px;
 }
 
@@ -93,14 +93,38 @@
 }
 
 /* 支払い方法セレクトボックス */
-.purchase__select {
+.select-wrapper {
+    position: relative;
     width: 100%;
     max-width: 300px;
+    margin-left: 40px;
+}
+.purchase__select {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 16px;
     background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;/* Safari用 */
+    -moz-appearance: none;/* Firefox用 */
+    cursor: pointer;
+}
+
+.select-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid #333;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    pointer-events: none;
+
 }
 
 .address__content p {
@@ -109,7 +133,6 @@
     font-weight: bold;
 }
 
-.purchase__select,
 .address__content {
     margin-left: 40px;
 }

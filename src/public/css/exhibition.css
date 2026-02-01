@@ -115,13 +115,53 @@
 
 /* 入力要素 */
 .sell__input,
-.sell__select,
 .sell__textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+}
+
+.sell__select-wrapper {
+    position: relative;
+    width: 100%;
+    /* 横いっぱいに広げる */
+}
+
+/* セレクトボックス本体 */
+.sell__select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    /* デフォルトの矢印を消す */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    cursor: pointer;
+    /* 矢印と文字が重ならないように右側に余白を作る */
+    padding-right: 40px;
+}
+
+/* 自作の逆三角形 */
+.sell__select-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    /* 右端からの距離 */
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    /* 三角形の形と色 */
+    border-top: 10px solid #333;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    pointer-events: none;
+    /* 下のセレクトボックスをクリック可能にする */
 }
 
 .sell__textarea {

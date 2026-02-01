@@ -18,11 +18,14 @@
                 <h1 class="item-detail__name">
                     {{ $item->name }}
                     @if ($item->isSold())
-                        <span>Sold</span>
+                        <span class="sold-label">Sold</span>
                     @endif
                 </h1>
                 <p class="item-detail__brand">{{ $item->brand_name ?? 'ブランド名なし' }}</p>
-                <p class="item-detail__price">¥{{ number_format($item->price) }}<span>（税込）</span></p>
+                <p class="item-detail__price">
+                    ¥{{ number_format($item->price) }}
+                    <span>(税込)</span>
+                </p>
 
                 {{-- いいね・コメント数 --}}
                 <div class="item-detail__icons">
@@ -34,16 +37,16 @@
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" style="background:none; border:none; cursor:pointer;">
+                                    <button type="submit">
                                         <img src="{{ asset('images/heartlogo_pink.png') }}" alt="いいね解除">
                                     </button>
                                 </form>
                             @else
-                                {{-- 登録フォーム --}}
+                                {{-- いいね登録フォーム --}}
                                 <form action="{{ route('like.store', $item->id) }}" class="item-detail__icon--like"
                                     method="POST">
                                     @csrf
-                                    <button type="submit" style="background:none; border:none; cursor:pointer;">
+                                    <button type="submit">
                                         <img src="{{ asset('images/heartlogo_default.png') }}" alt="いいね登録">
                                     </button>
                                 </form>
@@ -73,7 +76,7 @@
                     </div>
                 </div>
 
-                <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}" class="item-detail__buy-btn">購入手続きへ</a>
+                <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}" class="item-detail__buy-button">購入手続きへ</a>
 
                 <div class="item-detail__section">
                     <h2 class="item-detail__section-title">商品説明</h2>
@@ -95,19 +98,19 @@
                         <span class="item-detail__info-value">
                             @switch($item->condition)
                                 @case(1)
-                                    新品
-                                @break
-
-                                @case(2)
                                     良好
                                 @break
 
+                                @case(2)
+                                    目立った傷や汚れなし
+                                @break
+
                                 @case(3)
-                                    やや傷あり
+                                    やや傷や汚れあり
                                 @break
 
                                 @case(4)
-                                    状態悪い
+                                    状態が悪い
                                 @break
                             @endswitch
                         </span>
@@ -139,7 +142,7 @@
 
                 {{-- コメント投稿フォーム --}}
                 <div class="item-detail__comment-form">
-                    <h3 class="item-detail__comment-form-title">商品へのコメント</h3>
+                    <h3 class="item-detail__comment-label">商品へのコメント</h3>
 
                     {{-- 修正箇所：actionにルートを指定 --}}
                     <form action="{{ route('comment.store', $item->id) }}" method="POST">

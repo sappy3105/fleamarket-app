@@ -1,27 +1,31 @@
 .mypage__container {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    margin: 60px auto;
+    padding: 0 40px;
 }
 
 .mypage__profile {
-    width: 80%;
-    margin: 0 auto 40px;
-    padding: 40px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 40px auto 60px;
+    padding: 0 20px;
 }
 
-.mypage__profile-flex {
+.mypage__profile-left {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 40px;
 }
 
 .mypage__profile-image {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    background-color: #ddd;
+    background-color: #d9d9d9;
 }
 
 .mypage__profile-image img {
@@ -32,68 +36,88 @@
 
 .mypage__profile-name {
     font-size: 24px;
-    flex-grow: 1;
+    font-weight: bold;
+    margin: 0;
 }
 
 .mypage__profile-edit-button {
-    padding: 8px 16px;
-    border: 2px solid #ff4d4d;
-    color: #ff4d4d;
+    padding: 10px 20px;
+    border: 2px solid #ff4d4b;
+    color: #ff4d4b;
     text-decoration: none;
     border-radius: 3px;
     font-weight: bold;
+    background-color: #fff;
+    white-space: nowrap;
+    min-width: 150px;
+    text-align: center;
 }
 
 .mypage__tabs {
     display: flex;
-    gap: 40px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 30px;
+    gap: 80px;
+    border-bottom: 3px solid #ddd;
+    margin-bottom: 40px;
+    padding-left: 40px;
 }
 
 .mypage__tab {
     text-decoration: none;
     color: #333;
     font-weight: bold;
-    padding-bottom: 10px;
+    font-size: 18px;
+    padding-bottom: 0 5px 10px;
     cursor: pointer;
 }
 
 .mypage__tab.is-active {
-    color: #ff4d4d;
+    color: #ff4d4b;
 }
 
 .mypage__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 60px 30px;
+}
+
+.item-card__link {
+    text-decoration: none;
+    display: block;
+    color: inherit;
 }
 
 .item-card__image {
     width: 100%;
     aspect-ratio: 1 / 1;
     background-color: #f0f0f0;
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
     border-radius: 3px;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 .item-card__image img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
 }
 
 .item-card__name {
     margin-top: 10px;
-    font-size: 16px;
+    font-size: 18px;
     color: #333;
 }
 
 .mypage__empty-message {
-
+    text-align: center;
+    color: #666;
+    margin-top: 40px;
 }
 
-.
+.sold-label {
+    color: #ff4d4b;
+    font-weight: bold;
+    margin-left: 10px;
+}
