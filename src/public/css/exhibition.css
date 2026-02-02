@@ -1,46 +1,43 @@
-.sell__container {
-    max-width: 700px;
+.exhibition__container {
+    max-width: 600px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-.sell__title {
+.exhibition__title {
     font-size: 28px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 40px;
+    margin: 0 0 40px 0;
 }
 
-.sell__sub-title {
+.exhibition__sub-title {
     font-size: 20px;
     font-weight: bold;
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
-    margin: 40px 0 20px;
-    color: #555;
+    margin: 40px 0 20px 0;
 }
 
-.sell__section {
+.exhibition__section {
     margin-bottom: 25px;
 }
 
-.sell__label {
+.exhibition__label {
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     display: block;
 }
 
 /* 画像アップロード */
 .image-upload__box {
-    border: 2px dashed #ccc;
-    padding: 20px;
-    /* 画像が大きくなるのでpaddingは少し減らす */
+    border: 1px dotted #ccc;
+    padding: 30px;
     text-align: center;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    min-height: 200px;
-    /* 高さを確保 */
+    border-radius: 3px;
+    background-color: #fff;
+    min-height: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,46 +48,35 @@
     display: none;
 }
 
-.image-upload__preview-img {
-    display: block;
+.image-upload__preview {
+    display: none;
     /* 初期状態は非表示 */
     max-width: 100%;
-    max-height: 250px;
+    max-height: 200px;
     /* 縦長になりすぎないように制限 */
-    margin-bottom: 0 auto;
-}
-
-.image-upload__preview-img:not([src]) {
-    display: none;
-}
-
-/* プレビュー画像が表示された時のためのマージン */
-#preview[src^="data:image/"] {
     margin-bottom: 20px;
+}
+
+.image-upload__preview:not([src]),
+.image-upload__preview[src=""] {
+    display: none;
 }
 
 .image-upload__button {
     display: inline-block;
-    padding: 10px 30px;
+    padding: 5px 20px;
     border: 1px solid #ff4d4b;
     color: #ff4d4b;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
-    background-color: white;
-    transition: all 0.3s;
 }
 
-/* .image-upload__button:hover {
-    background-color: #ff4d4b;
-    color: white;
-} */
-
-/* カテゴリーチップ */
+/* カテゴリー選択 */
 .category__group {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
 }
 
 .category__label input {
@@ -99,43 +85,38 @@
 
 .category__name {
     display: inline-block;
-    padding: 5px 15px;
+    padding: 5px 20px;
     border: 1px solid #ff4d4b;
     color: #ff4d4b;
     border-radius: 20px;
     cursor: pointer;
     font-size: 14px;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 
-.category__label input:checked+.category__name {
+.category__label input:checked + .category__name {
     background-color: #ff4d4b;
     color: white;
 }
 
 /* 入力要素 */
-.sell__input,
-.sell__textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.sell__select-wrapper {
-    position: relative;
-    width: 100%;
-    /* 横いっぱいに広げる */
-}
-
-/* セレクトボックス本体 */
-.sell__select {
+.exhibition__input,
+.exhibition__select,
+.exhibition__textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* セレクトボックス */
+.exhibition__select-wrapper {
+    position: relative;
+}
+
+.exhibition__select {
     /* デフォルトの矢印を消す */
     appearance: none;
     -webkit-appearance: none;
@@ -147,7 +128,7 @@
 }
 
 /* 自作の逆三角形 */
-.sell__select-wrapper::after {
+.exhibition__select-wrapper::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -164,44 +145,49 @@
     /* 下のセレクトボックスをクリック可能にする */
 }
 
-.sell__textarea {
-    height: 150px;
+.exhibition__textarea {
+    height: 120px;
     resize: none;
 }
 
 .price__input-container {
     position: relative;
+    width: 100%;
     display: flex;
     align-items: center;
 }
 
-.price__unit {
+.price-input__unit {
     position: absolute;
     left: 15px;
     font-size: 18px;
-    font-weight: bold;
+    z-index: 1;
 }
 
-.price__input-container input {
+.exhibition__input--price {
+    width: 100%;
     padding-left: 35px;
+    box-sizing: border-box;
 }
 
 /* 出品ボタン */
-.sell__button {
+.exhibition__submit-button {
     width: 100%;
     background-color: #ff4d4b;
-    color: white;
+    color: #fff;
     padding: 15px;
     border: none;
-    border-radius: 4px;
+    border-radius: 3px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 40px;
+    margin: 40px 0;
 }
 
-.form__error {
+/* バリデーション */
+.error-message {
+    height: 25px;
     color: #ff4d4b;
     font-size: 14px;
-    margin-top: 5px;
+    margin: 5px 0 0 0;
 }

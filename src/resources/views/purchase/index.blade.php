@@ -6,7 +6,8 @@
 
 @section('content')
     <div class="purchase__container">
-        <div class="purchase-left">
+        {{-- 左側：商品・支払い・配送先 --}}
+        <div class="purchase__left">
             {{-- 商品情報 --}}
             <div class="purchase__item">
                 <div class="item__image">
@@ -42,12 +43,11 @@
             <div class="purchase__section">
                 <div class="section__header">
                     <h3>配送先</h3>
-                    <a href="{{ route('purchase.address.edit', $item->id) }}">変更する</a>
+                    <a href="{{ route('purchase.address.edit', $item->id) }}"class="address-edit-link">変更する</a>
                 </div>
                 <div class="address__content">
-                    <p>〒 {{ $address['postcode'] }}</p>
-                    <p>{{ $address['address'] }} </p>
-                    <p>{{ $address['building'] }}</p>
+                    <p class="address__postcode">〒 {{ $address['postcode'] }}</p>
+                    <p class="address__text">{{ $address['address'] }} {{ $address['building'] }}</p>
                 </div>
                 <div class="purchase-form__error">
                     @error('shipping_address')
@@ -57,8 +57,8 @@
             </div>
         </div>
 
-        {{-- サイドバー（確認画面） --}}
-        <div class="purchase__side">
+        {{-- 右側：確認・購入ボタン --}}
+        <div class="purchase__right">
             <table class="confirm__table">
                 <tr>
                     <th>商品代金</th>

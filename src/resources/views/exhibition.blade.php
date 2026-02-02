@@ -5,36 +5,35 @@
 @endsection
 
 @section('content')
-    <div class="sell__container">
-        <h2 class="sell__title">商品の出品</h2>
+    <div class="exhibition__container">
+        <h2 class="exhibition__title">商品の出品</h2>
 
-        <form action="{{ route('exhibition.store') }}" method="POST" enctype="multipart/form-data" class="sell__form">
+        <form action="{{ route('exhibition.store') }}" method="POST" enctype="multipart/form-data" class="exhibition__form">
             @csrf
 
             {{-- 商品画像 --}}
-            <div class="sell__section">
-                <h3 class="sell__label">商品画像</h3>
+            <div class="exhibition__section">
+                <h4 class="exhibition__label">商品画像</h4>
                 <div class="image-upload__box">
-                    <div class="image-upload__preview-wrapper">
-                        <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt=""
-                            class="image-upload__preview-img">
-                    </div>
+                    <img id="preview" src="" alt="" class="image-upload__preview">
                     <label class="image-upload__label">
                         <input type="file" name="image_path" id="image-input" class="image-upload__input"
                             accept="image/png, image/jpeg">
                         <span class="image-upload__button">画像を選択する</span>
                     </label>
                 </div>
-                @error('image_path')
-                    <p class="form__error">{{ $message }}</p>
-                @enderror
+                <div class="error-message">
+                    @error('image_path')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
 
-            <h2 class="sell__sub-title">商品の詳細</h2>
+            <h3 class="exhibition__sub-title">商品の詳細</h3>
 
             {{-- カテゴリー --}}
-            <div class="sell__section">
-                <h3 class="sell__label">カテゴリー</h3>
+            <div class="exhibition__section">
+                <h4 class="exhibition__label">カテゴリー</h4>
                 <div class="category__group">
                     @foreach ($categories as $category)
                         <label class="category__label">
@@ -44,16 +43,18 @@
                         </label>
                     @endforeach
                 </div>
-                @error('category_ids')
-                    <p class="form__error">{{ $message }}</p>
-                @enderror
+                <div class="error-message">
+                    @error('category_ids')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
 
             {{-- 商品の状態 --}}
-            <div class="sell__section">
-                <h3 class="sell__label">商品の状態</h3>
-                <div class="sell__select-wrapper">
-                    <select name="condition" class="sell__select">
+            <div class="exhibition__section">
+                <h4 class="exhibition__label">商品の状態</h4>
+                <div class="exhibition__select-wrapper">
+                    <select name="condition" class="exhibition__select">
                         <option value="" disabled selected>選択してください</option>
                         <option value="1" {{ old('condition') == 1 ? 'selected' : '' }}>良好</option>
                         <option value="2" {{ old('condition') == 2 ? 'selected' : '' }}>目立った傷や汚れなし</option>
@@ -61,60 +62,70 @@
                         <option value="4" {{ old('condition') == 4 ? 'selected' : '' }}>状態が悪い</option>
                     </select>
                 </div>
-                @error('condition')
-                    <p class="form__error">{{ $message }}</p>
-                @enderror
+                <div class="error-message">
+                    @error('condition')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
 
-            <h2 class="sell__sub-title">商品名と説明</h2>
+            <h3 class="exhibition__sub-title">商品名と説明</h3>
 
             {{-- 商品名 --}}
-            <div class="sell__section">
-                <h3 class="sell__label">商品名</h3>
-                <input type="text" name="name" class="sell__input" value="{{ old('name') }}">
-                @error('name')
-                    <p class="form__error">{{ $message }}</p>
-                @enderror
+            <div class="exhibition__section">
+                <h4 class="exhibition__label">商品名</h4>
+                <input type="text" name="name" class="exhibition__input" value="{{ old('name') }}">
+                <div class="error-message">
+                    @error('name')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
 
             {{-- ブランド名 --}}
-            <div class="sell__section">
-                <h3 class="sell__label">ブランド名</h3>
-                <input type="text" name="brand_name" class="sell__input" value="{{ old('brand_name') }}">
+            <div class="exhibition__section">
+                <h4 class="exhibition__label">ブランド名</h4>
+                <input type="text" name="brand_name" class="exhibition__input" value="{{ old('brand_name') }}">
             </div>
 
             {{-- 商品の説明 --}}
-            <div class="sell__section">
-                <h3 class="sell__label">商品の説明</h3>
-                <textarea name="description" class="sell__textarea">{{ old('description') }}</textarea>
-                @error('description')
-                    <p class="form__error">{{ $message }}</p>
-                @enderror
+            <div class="exhibition__section">
+                <h4 class="exhibition__label">商品の説明</h4>
+                <textarea name="description" class="exhibition__textarea">{{ old('description') }}</textarea>
+                <div class="error-message">
+                    @error('description')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
 
             {{-- 販売価格 --}}
-            <div class="sell__section">
-                <h3 class="sell__label">販売価格</h3>
+            <div class="exhibition__section">
+                <h4 class="exhibition__label">販売価格</h4>
                 <div class="price__input-container">
-                    <span class="price__unit">¥</span>
-                    <input type="number" name="price" class="sell__input" value="{{ old('price') }}">
+                    <span class="price-input__unit">¥</span>
+                    <input type="number" name="price" class="exhibition__input exhibition__input--price"
+                        value="{{ old('price') }}">
                 </div>
-                @error('price')
-                    <p class="form__error">{{ $message }}</p>
-                @enderror
+                <div class="error-message">
+                    @error('price')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
 
-            <button type="submit" class="sell__button">出品する</button>
+            <button type="submit" class="exhibition__submit-button">出品する</button>
         </form>
     </div>
 
     <script>
-        // 画像プレビュー機能
         document.getElementById('image-input').addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('preview').src = e.target.result;
+                    const preview = document.getElementById('preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
                 }
                 reader.readAsDataURL(e.target.files[0]);
             }

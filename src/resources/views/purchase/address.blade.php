@@ -32,7 +32,7 @@
             <div class="form__group">
                 <label>建物名</label>
                 <input type="text"
-                    name="building"value="{{ old('building', session("shipping_address_{$item->id}.building") ?? Auth::user()->profile->building) }}">
+                    name="building" value="{{ old('building', session("shipping_address_{$item->id}.building") ?? Auth::user()->profile->building) }}">
             </div>
             <button type="submit" class="update__btn">更新する</button>
         </form>

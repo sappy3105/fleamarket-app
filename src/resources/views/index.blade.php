@@ -34,7 +34,7 @@
                     </a>
                 </div>
             @empty
-                <p class="mypage__empty-message">該当する商品がありません</p>
+                <p class="mylist__empty-message">該当する商品がありません</p>
             @endforelse
         </div>
     </div>

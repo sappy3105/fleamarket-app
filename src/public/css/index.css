@@ -66,3 +66,9 @@
     font-weight: bold;
     margin-left: 10px;
 }
+
+.mylist__empty-message {
+    text-align: center;
+    color: #666;
+    margin-top: 40px;
+}

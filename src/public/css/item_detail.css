@@ -1,29 +1,33 @@
 .item-detail__container {
     max-width: 1200px;
     margin: 60px auto;
-    display: flex;
-    gap: 80px;
     padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    gap: 80px;
+
 }
 
-.item-detail__image {
+.item-detail__left {
     flex: 1;
 }
 
-.item-detail__image img {
+.item-detail__image-box img {
     width: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: contain;
+    object-fit: cover;
     background-color: #f0f0f0;
 }
 
-.item-detail__info {
+/* 右側：商品情報 */
+.item-detail__right {
     flex: 1;
 }
 
 .item-detail__name {
     font-size: 36px;
-    margin-bottom: 10px;
+    font-weight: bold;
+    margin: 0 0 5px 0;
 }
 
 .sold-label {
@@ -33,66 +37,55 @@
 
 .item-detail__brand {
     font-size: 18px;
-    color: #333;
-    margin-bottom: 30px;
+    margin: 0 0 20px 0;
 }
 
 .item-detail__price {
     font-size: 32px;
     font-weight: bold;
-    margin-bottom: 40px;
+    margin: 0 0 20px 0;
 }
 
 .item-detail__price span {
     font-size: 16px;
     font-weight: normal;
+    margin-left: 5px;
 }
 
 /* アイコン */
 .item-detail__icons {
     display: flex;
     gap: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
-.item-detail__icon {
+.item-detail__icon-group {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 50px;
 }
 
-.item-detail__icon a,
-.item-detail__icon button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 32px;
-    /* アイコン画像と同じ高さにする */
-    margin-bottom: 8px;
-    padding: 0;
+.icon-button {
     border: none;
     background: none;
     cursor: pointer;
-    line-height: 1;
+    padding: 0;
+    margin-bottom: 5px;
 }
 
-.item-detail__icon img {
+.icon-button img {
     width: 32px;
     height: 32px;
-    display: block;
-    object-fit: contain;
 }
 
-.item-detail__icon span {
-    display: block;
+.icon-count {
     font-size: 16px;
-    color: #333;
-    line-height: 1;/* 行の高さを1に固定して余計な余白を消す */
-    text-align: center;
+    margin: 0;
 }
 
-.item-detail__buy-button {
+.item-detail__buy-button,
+.item-detail__comment-submit {
     display: block;
     width: 100%;
     background-color: #ff4d4b;
@@ -103,6 +96,11 @@
     text-decoration: none;
     border-radius: 3px;
     font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.item-detail__buy-button {
     margin-bottom: 40px;
 }
 
@@ -115,26 +113,27 @@
 
 .item-detail__info-row {
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    align-items: center;
 }
 
 .item-detail__info-label {
     width: 150px;
     font-weight: bold;
-    font-size: 18px;
+    /* font-size: 18px; */
 }
 
 .item-detail__category-tag {
-    background-color: #e0e0e0;
-    padding: 5px 25px;
+    background-color: #ddd;
+    padding: 4px 25px;
     border-radius: 20px;
     font-size: 14px;
     margin-right: 10px;
 }
 
-/* コメントエリアのスタイル */
+/* コメントエリア */
 .comment-item {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .comment-item__user {
@@ -174,31 +173,15 @@
     width: 100%;
     height: 120px;
     padding: 15px;
-    font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
+    box-sizing: border-box;
 }
 
 .item-detail__comment-error {
-    height: 30px;
-    color: red;
+    height: 25px;
+    color: #ff4d4b;
+    font-size: 14px;
     margin-bottom: 10px;
-}
-
-.item-detail__comment-submit {
-    width: 100%;
-    background-color: #ff4d4b;
-    color: #fff;
-    font-size: 18px;
-    border: none;
-    padding: 15px;
-    /* margin-top: 20px; */
-    border-radius: 3px;
-    cursor: pointer;
-
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    box-sizing: border-box;
 }

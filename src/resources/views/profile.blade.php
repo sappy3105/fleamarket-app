@@ -71,12 +71,13 @@
     </div>
 
     <script>
-        // 画像プレビュー機能
         document.getElementById('image-input').addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('preview').src = e.target.result;
+                    const preview = document.getElementById('preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
                 }
                 reader.readAsDataURL(e.target.files[0]);
             }
