@@ -15,10 +15,10 @@ class CreateSoldItemsTable extends Migration
     {
         Schema::create('sold_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('item_id')->unique()->constrained()->cascadeOnDelete(); // 1商品は1度しか売れない
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // 購入者
+            $table->foreignId('item_id')->unique()->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->tinyInteger('payment_method')->comment('1:コンビニ払い 2:カード払い');
-            $table->string('stripe_checkout_id')->nullable()->comment('決済ID');
+            $table->string('stripe_checkout_id')->nullable();
             $table->timestamps();
         });
     }

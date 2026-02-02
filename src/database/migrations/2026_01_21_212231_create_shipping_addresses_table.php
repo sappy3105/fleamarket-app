@@ -15,7 +15,7 @@ class CreateShippingAddressesTable extends Migration
     {
         Schema::create('shipping_addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sold_item_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('sold_item_id')->unique()->constrained()->cascadeOnDelete();
             $table->string('postcode');
             $table->string('address');
             $table->string('building')->nullable();
