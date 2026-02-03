@@ -66,19 +66,19 @@ php artisan config:clear
 
 ```mermaid
 erDiagram
-users ||--o| profiles
-users ||--o{ items
-users ||--o{ sold_items
-users ||--o{ comments
-users ||--o{ likes
+users ||--o| profiles : ""
+users ||--o{ items : ""
+users ||--o{ sold_items : ""
+users ||--o{ comments : ""
+users ||--o{ likes : ""
 
-items ||--o{ category_item
-categories ||--o{ category_item
-items ||--o| sold_items : "売却済みの場合のみ存在"
-items ||--o{ comments
-items ||--o{ likes
+items ||--o{ category_item : ""
+categories ||--o{ category_item : ""
+items ||--o| sold_items : "sold"
+items ||--o{ comments : ""
+items ||--o{ likes : ""
 
-sold_items ||--|| shipping_addresses
+sold_items ||--|| shipping_addresses : ""
 
 users {
     unsigned_bigint id PK
@@ -112,11 +112,12 @@ items {
     unsigned_bigint user_id FK
     varchar image_path
     tinyint condition "1:良好 2:目立った傷や汚れなし 3:やや傷や汚れあり 4:状態が悪い"
-    string name
-    string brand_name
+    varchar name
+    varchar brand_name
     text description
-    integer price
-    timestamps created_at_updated_at
+    unsigned_integer price
+    timestamp created_at
+    timestamp updated_at
 }
 
 category_item {
@@ -152,15 +153,6 @@ sold_items {
     varchar stripe_checkout_id
     timestamp created_at
     timestamp updated_at
-}
-
-shipping_addresses {
-    unsigned_bigint id PK
-    unsigned_bigint sold_item_id FK
-    string postcode
-    string address
-    string building
-    timestamps created_at_updated_at
 }
 
 shipping_addresses {
