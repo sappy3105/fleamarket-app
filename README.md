@@ -66,45 +66,52 @@ php artisan config:clear
 
 ```mermaid
 erDiagram
-users ||--o| profiles : "1:1 (has one)"
-users ||--o{ items : "1:N (exhibits)"
-users ||--o{ sold_items : "1:N (buys)"
-users ||--o{ comments : "1:N (writes)"
-users ||--o{ likes : "1:N (likes)"
+users ||--o| profiles
+users ||--o{ items
+users ||--o{ sold_items
+users ||--o{ comments
+users ||--o{ likes
 
-items ||--|{ category_item : "1:N (belongs to)"
-categories ||--|{ category_item : "1:N (contains)"
-items ||--o| sold_items : "1:1 (is sold as)"
-items ||--o{ comments : "1:N (has)"
-items ||--o{ likes : "1:N (has)"
+items ||--o{ category_item
+categories ||--o{ category_item
+items ||--o| sold_items : "売却済みの場合のみ存在"
+items ||--o{ comments
+items ||--o{ likes
 
-sold_items ||--o| shipping_addresses : "1:1 (ships to)"
+sold_items ||--|| shipping_addresses
 
 users {
-    bigint_unsigned id PK
-    string name
-    string email
-    timestamp email_verified_at
-    string password
-    string remember_token
-    timestamps created_at_updated_at
+    unsigned_bigint id PK
+    varchar name
+    varchar email UK
+    varchar password
+    timestamp created_at
+    timestamp updated_at
 }
 
 profiles {
-    bigint_unsigned id PK
-    bigint_unsigned user_id FK
-    string image_path
-    string postcode
-    string address
-    string building
-    timestamps created_at_updated_at
+    unsigned_bigint id PK
+    unsigned_bigint user_id FK,UK
+    varchar image_path
+    varchar postcode
+    varchar address
+    varchar building
+    timestamp created_at
+    timestamp updated_at
+}
+
+categories {
+    unsigned_bigint id PK
+    varchar name UK
+    timestamp created_at
+    timestamp updated_at
 }
 
 items {
-    bigint_unsigned id PK
-    bigint_unsigned user_id FK
-    string image_path
-    tinyInteger condition "1:良好 2:目立った傷や汚れなし 3:やや傷や汚れあり 4:状態が悪い"
+    unsigned_bigint id PK
+    unsigned_bigint user_id FK
+    varchar image_path
+    tinyint condition "1:良好 2:目立った傷や汚れなし 3:やや傷や汚れあり 4:状態が悪い"
     string name
     string brand_name
     text description
@@ -112,49 +119,57 @@ items {
     timestamps created_at_updated_at
 }
 
-categories {
-    bigint_unsigned id PK
-    string name
-    timestamps created_at_updated_at
+category_item {
+    unsigned_bigint id PK
+    unsigned_bigint item_id FK,UK
+    unsigned_bigint category_id FK,UK
+    timestamp created_at
+    timestamp updated_at
 }
 
-category_item {
-    bigint_unsigned id PK
-    bigint_unsigned item_id FK
-    bigint_unsigned category_id FK
-    timestamps created_at_updated_at
+likes {
+    unsigned_bigint id PK
+    unsigned_bigint user_id FK,UK
+    unsigned_bigint item_id FK,UK
+    timestamp created_at
+    timestamp updated_at
+}
+
+comments {
+    unsigned_bigint id PK
+    unsigned_bigint user_id FK
+    unsigned_bigint item_id FK
+    text content
+    timestamp created_at
+    timestamp updated_at
 }
 
 sold_items {
-    bigint_unsigned id PK
-    bigint_unsigned item_id FK "Unique"
-    bigint_unsigned user_id FK
-    tinyInteger payment_method "1:コンビニ 2:カード"
-    string stripe_checkout_id
-    timestamps created_at_updated_at
+    unsigned_bigint id PK
+    unsigned_bigint item_id FK,UK
+    unsigned_bigint user_id FK
+    tinyint payment_method "1:コンビニ 2:カード"
+    varchar stripe_checkout_id
+    timestamp created_at
+    timestamp updated_at
 }
 
 shipping_addresses {
-    bigint_unsigned id PK
-    bigint_unsigned sold_item_id FK
+    unsigned_bigint id PK
+    unsigned_bigint sold_item_id FK
     string postcode
     string address
     string building
     timestamps created_at_updated_at
 }
 
-comments {
-    bigint_unsigned id PK
-    bigint_unsigned user_id FK
-    bigint_unsigned item_id FK
-    text content
-    timestamps created_at_updated_at
-}
-
-likes {
-    bigint_unsigned id PK
-    bigint_unsigned user_id FK
-    bigint_unsigned item_id FK
-    timestamps created_at_updated_at
+shipping_addresses {
+    unsigned_bigint id PK
+    unsigned_bigint sold_item_id FK,UK
+    varchar postcode
+    varchar address
+    varchar building
+    timestamp created_at
+    timestamp updated_at
 }
 ```
