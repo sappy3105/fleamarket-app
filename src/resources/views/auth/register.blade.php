@@ -44,7 +44,7 @@
                     <input class="register-form__input" type="password" name="password_confirmation"
                         id="password_confirmation">
                     <div class="register-form__error-message">
-                        @error('password')
+                        @error('password_confirmation')
                             {{ $message }}
                         @enderror
                     </div>
