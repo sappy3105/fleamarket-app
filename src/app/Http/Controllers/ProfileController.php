@@ -37,9 +37,12 @@ class ProfileController extends Controller
 
         // 5. 画像が送られてきた場合の特別処理
         if ($request->hasFile('image_path')) {
+            // 1. 古い画像があれば削除
+            if ($user->profile && $user->profile->image_path) {
+                \Storage::disk('public')->delete($user->profile->image_path);
+            }
             // storage/app/public/profiles というフォルダに画像を保存し、その名前（パス）を$pathに入れる
             $path = $request->file('image_path')->store('profiles', 'public');
-            // 保存するデータリストに「画像の場所」を追加する
             $profileData['image_path'] = $path;
         }
 

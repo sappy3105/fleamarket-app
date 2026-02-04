@@ -8,11 +8,11 @@
     <div class="item-list__container">
         <div class="item-list__tabs">
             {{-- おすすめタブ --}}
-            <a href="/{{ request('keyword') ? '?keyword=' . request('keyword') : '' }}"
+            <a href="{{ route('item.index', ['tab' => 'all', 'keyword' => request('keyword')]) }}"
                 class="item-list__tab {{ $tab !== 'mylist' ? 'is-active' : '' }}">おすすめ</a>
 
             {{-- マイリストタブ --}}
-            <a href="{{ Auth::check() ? '?tab=mylist' . (request('keyword') ? '&keyword=' . request('keyword') : '') : route('login') }}"
+            <a href="{{ route('item.index', ['tab' => 'mylist', 'keyword' => request('keyword')]) }}"
                 class="item-list__tab {{ $tab === 'mylist' ? 'is-active' : '' }}">マイリスト</a>
         </div>
 

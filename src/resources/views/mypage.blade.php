@@ -11,7 +11,7 @@
             <div class="mypage__profile-left">
                 <div class="mypage__profile-image">
                     <img src="{{ $profile?->image_path ? asset('storage/' . $profile->image_path) : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' }}"
-                        alt="プロフィール画像">
+                        alt="">
                 </div>
                 <h2 class="mypage__profile-name">{{ $user->name }}</h2>
             </div>

@@ -21,21 +21,46 @@ class PurchaseController extends Controller
         $item = Item::findOrFail($item_id);
         $user = Auth::user();
 
-        // セッションに変更後の住所があればそれを使う、なければプロフィールの住所を使う
-        $address = session("shipping_address_{$item_id}", [
-            'postcode' => $user->profile->postcode ?? '',
-            'address'  => $user->profile->address ?? '',
-            'building' => $user->profile->building ?? '',
-        ]);
+        // 1. セッションに「変更後の住所」があるか確認
+        if (session()->has("shipping_address_{$item_id}")) {
+            $address = session("shipping_address_{$item_id}");
+        } else {
+            // 2. なければプロフィールの住所を初期値にする
+            $address = [
+                'postcode' => $user->profile->postcode ?? '',
+                'address'  => $user->profile->address ?? '',
+                'building' => $user->profile->building ?? '',
+            ];
+        }
 
         return view('purchase.index', compact('item', 'address'));
     }
 
     // 住所変更画面の表示
-    public function editAddress($item_id)
+    public function editAddress(Request $request, $item_id)
     {
         $item = Item::findOrFail($item_id);
-        return view('purchase.address', compact('item'));
+        $user = Auth::user();
+
+        // 1. もしURLに支払い方法が含まれていたらセッションに入れる
+        if ($request->has('payment_method')) {
+            session(["payment_method_{$item_id}" => $request->payment_method]);
+        }
+
+        // 2. 【重要】配送先情報の取得
+        // すでにセッションに変更後の住所があるか確認
+        if (session()->has("shipping_address_{$item_id}")) {
+            $address = session("shipping_address_{$item_id}");
+        } else {
+            // なければプロフィールの住所を初期値にする
+            $address = [
+                'postcode' => $user->profile->postcode ?? '',
+                'address'  => $user->profile->address ?? '',
+                'building' => $user->profile->building ?? '',
+            ];
+        }
+
+        return view('purchase.address', compact('item', 'address'));
     }
 
     // 住所をセッションに一時保存
@@ -126,7 +151,11 @@ class PurchaseController extends Controller
         });
 
         // 最後にセッションをクリア
-        session()->forget(["pending_purchase_{$item_id}", "shipping_address_{$item_id}"]);
+        session()->forget([
+            "pending_purchase_{$item_id}",
+            "shipping_address_{$item_id}",
+            "payment_method_{$item_id}"
+        ]);
 
         // 完了画面へ（まだ作っていなければトップへリダイレクトなど）
         return redirect('/?tab=mylist');

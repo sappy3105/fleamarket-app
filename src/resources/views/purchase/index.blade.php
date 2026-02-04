@@ -26,10 +26,14 @@
                     <h3>支払い方法</h3>
                 </div>
                 <div class="select-wrapper">
-                    <select name="payment_method" form="purchase-form" class="purchase__select">
-                        <option value="" disabled selected>選択してください</option>
-                        <option value="1">コンビニ払い</option>
-                        <option value="2">カード払い</option>
+                    {{-- セッションに保存されている値があれば selected にする --}}
+                    <select name="payment_method" form="purchase-form" class="purchase__select" id="payment-select">
+                        <option value="" disabled {{ !session("payment_method_{$item->id}") ? 'selected' : '' }}>
+                            選択してください</option>
+                        <option value="1" {{ session("payment_method_{$item->id}") == 1 ? 'selected' : '' }}>コンビニ払い
+                        </option>
+                        <option value="2" {{ session("payment_method_{$item->id}") == 2 ? 'selected' : '' }}>カード払い
+                        </option>
                     </select>
                 </div>
                 <div class="purchase-form__error">
@@ -43,7 +47,8 @@
             <div class="purchase__section">
                 <div class="section__header">
                     <h3>配送先</h3>
-                    <a href="{{ route('purchase.address.edit', $item->id) }}"class="address-edit-link">変更する</a>
+                    <a href="{{ route('purchase.address.edit', $item->id) }}" class="address-edit-link"
+                        id="address-edit-link">変更する</a>
                 </div>
                 <div class="address__content">
                     <p class="address__postcode">〒 {{ $address['postcode'] }}</p>
@@ -66,7 +71,15 @@
                 </tr>
                 <tr>
                     <th>支払い方法</th>
-                    <td id="display-payment">選択してください</td>
+                    <td id="display-payment">
+                        @if (session("payment_method_{$item->id}") == 1)
+                            コンビニ払い
+                        @elseif(session("payment_method_{$item->id}") == 2)
+                            カード払い
+                        @else
+                            選択してください
+                        @endif
+                    </td>
                 </tr>
             </table>
 
@@ -78,10 +91,24 @@
     </div>
 
     <script>
-        // プルダウンの選択値を右側の表にリアルタイム反映させるJS
-        document.querySelector('.purchase__select').addEventListener('change', function() {
+        const select = document.getElementById('payment-select');
+        const display = document.getElementById('display-payment');
+        const addressLink = document.getElementById('address-edit-link');
+        const baseAddressUrl = "{{ route('purchase.address.edit', $item->id) }}";
+
+        // 1. セレクトボックス変更時の処理
+        select.addEventListener('change', function() {
             const text = this.options[this.selectedIndex].text;
-            document.getElementById('display-payment').textContent = text;
+            const value = this.value;
+            display.textContent = text;
+
+            // 住所変更リンクに支払い方法をくっつける (例: /address/edit/1?payment_method=2)
+            addressLink.href = baseAddressUrl + "?payment_method=" + value;
         });
+
+        // 2. ページ読み込み時に、既に選択されていたらリンクを更新しておく
+        if (select.value) {
+            addressLink.href = baseAddressUrl + "?payment_method=" + select.value;
+        }
     </script>
 @endsection

@@ -18,7 +18,7 @@ class MypageController extends Controller
         if ($page === 'buy') {
             $query = $user->purchasedItems(); // 購入した商品
         } else {
-            $query = Item::where('user_id', $user->id); // 出品した商品
+            $query = $user->items(); // 出品した商品
         }
 
         // キーワードがあれば商品名で絞り込む

@@ -25,30 +25,19 @@ class ExhibitionController extends Controller
         // 戻り値 $imagePath には自動的に 'item_images/ハッシュ値.jpg' が入ります。
         $imagePath = $request->file('image_path')->store('item_images', 'public');
 
+        // バリデーション済みデータを取得
+        $validated = $request->validated();
 
         // 【2】商品情報のDB保存
         // createメソッドを使って itemsテーブルにデータを保存します。
         $item = Item::create([
-            // Auth::id()で現在ログインしているユーザーのIDを取得して保存
             'user_id' => Auth::id(),
-
-            // フォームから送信された商品名
-            'name' => $request->name,
-
-            // フォームから送信された商品説明
-            'description' => $request->description,
-
-            // フォームから送信された価格
-            'price' => $request->price,
-
-            // フォームから送信された商品の状態（1〜4の数値）
-            'condition' => $request->condition,
-
-            // 先ほど生成した画像のパス
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'condition' => $validated['condition'],
             'image_path' => $imagePath,
-
-            // フォームから送信されたブランド名（nullableなので空の場合もあり）
-            'brand_name' => $request->brand_name,
+            'brand_name' => $validated['brand_name'],
         ]);
 
 

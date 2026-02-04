@@ -19,10 +19,10 @@ class Item extends Model
         'price',
     ];
 
-    // 中間テーブル名を category_items に指定
+    // 中間テーブル名を category_item に指定
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_items');
+        return $this->belongsToMany(Category::class);
     }
 
     // Usersテーブルとのリレーション

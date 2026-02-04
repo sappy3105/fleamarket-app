@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\ExhibitionRequest;
 use Illuminate\Support\Facades\Auth; // Authを使うために必要
 use App\Models\Item;                // Itemモデルを使うために必要
-use App\Models\Category;
 
 class ItemController extends Controller
 {
@@ -19,15 +17,19 @@ class ItemController extends Controller
         if ($tab === 'mylist') {
             //未認証だったら、ログイン画面へ
             if (!Auth::check()) {
-                return redirect()->route('login');
+                // 未認証でも、受け取ったキーワードがあれば「空の結果」として表示を維持
+                return view('index', [
+                    'items' => collect(),
+                    'tab' => $tab,
+                    'keyword' => $keyword // キーワードをViewに渡して検索窓に残す
+                ]);
             }
-
-            // ログイン中ならマイリストへ
+            // ログイン中なら $query を作成
             $query = Auth::user()->likedItems();
         } else {
             // おすすめタブ
             $query = Item::query();
-            
+
             // ログインしている場合、自分が出品した商品 (user_id が自分のID) を除外
             if (Auth::check()) {
                 $query->where('user_id', '!=', Auth::id());
@@ -41,6 +43,7 @@ class ItemController extends Controller
 
         // データを取得
         $items = $query->get();
+
         return view('index', compact('items', 'tab'));
     }
 

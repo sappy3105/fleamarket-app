@@ -59,4 +59,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Item::class, 'sold_items');
     }
+
+    //出品した商品←これが無くても動いてるがなぜ？
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
+
 }
