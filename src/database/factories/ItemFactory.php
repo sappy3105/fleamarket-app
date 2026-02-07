@@ -14,7 +14,7 @@ class ItemFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'image_path'   => $this->faker->word() . $this->faker->randomElement(['.png', '.jpeg']),
+            'image_path' => 'item_images/' .$this->faker->word() . $this->faker->randomElement(['.png', '.jpeg']),
             'condition' => $this->faker->randomElement(['良好', '目立った傷や汚れなし', 'やや傷や汚れあり', '状態が悪い']),
             'name'        => $this->faker->name(),
             'brand_name' => $this->faker->optional(0.7)->company(),
