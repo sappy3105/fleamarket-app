@@ -50,6 +50,6 @@ class ExhibitionController extends Controller
         // 【5】リダイレクト
         // 保存が完了したら、トップページ（商品一覧）や出品完了画面などへ遷移させます。
         // ここではルート名 'item.index'（商品一覧）に戻るとします。
-        return redirect()->route('item.index');
+        return redirect()->route('mypage');
     }
 }
