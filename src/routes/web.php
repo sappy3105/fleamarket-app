@@ -8,6 +8,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\ExhibitionController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ Route::get('/', [ItemController::class, 'index'])->name('item.index');
 // 商品詳細（未認証でも閲覧可能）
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     // マイページ（プロフィールと自分の商品一覧）
     Route::get('/mypage', [MypageController::class, 'index'])->name('mypage');
 

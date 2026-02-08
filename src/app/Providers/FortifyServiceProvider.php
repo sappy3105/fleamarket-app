@@ -34,7 +34,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         // 新規登録リクエストの差し替え
         // $this->app->afterResolving(RegisterRequest::class, function ($request, $app) {
-            // ここは空でも、型を解決させることでLaravelに認識させます
+        // ここは空でも、型を解決させることでLaravelに認識させます
         // });
         $this->app->singleton(\Laravel\Fortify\Http\Requests\RegisterRequest::class, RegisterRequest::class);
 
@@ -80,6 +80,11 @@ class FortifyServiceProvider extends ServiceProvider
             {
                 return redirect('/login');
             }
+        });
+
+        //メール認証機能
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify-email');
         });
     }
 }
