@@ -3,6 +3,7 @@
 ## 環境構築
 
 ### Docker ビルド
+
 ```bash
 git clone git@github.com:sappy3105/fleamarket-app.git
 cd fleamarket-app
@@ -117,11 +118,11 @@ php artisan db:seed
 
 ```mermaid
 erDiagram
-users ||--o| profiles : ""
-users ||--o{ items : ""
-users ||--o{ sold_items : ""
-users ||--o{ comments : ""
-users ||--o{ likes : ""
+users ||--o| profiles
+users ||--o{ items
+users ||--o{ sold_items
+users ||--o{ comments
+users ||--o{ likes
 
 items ||--o{ category_item : ""
 categories ||--o{ category_item : ""
@@ -162,7 +163,7 @@ items {
     unsigned_bigint id PK
     unsigned_bigint user_id FK
     varchar image_path
-    tinyint condition "1:good 2:not bad 3:not good 4:bad"
+    tinyint condition "1:Excellent 2:Good 3:Fair 4:Poor"
     varchar name
     varchar brand_name
     text description
