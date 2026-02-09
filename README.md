@@ -3,17 +3,21 @@
 ## 環境構築
 
 ### Docker ビルド
-
-- git clone git@github.com:sappy3105/fleamarket-app.git
-- cd contact-form-test
-- docker-compose up -d --build
+```bash
+git clone git@github.com:sappy3105/fleamarket-app.git
+cd fleamarket-app
+docker-compose up -d --build
+```
 
 ### Laravel 環境構築
 
-- docker-compose exec php bash
-- composer install
-- cp .env.example .env
-- .envファイルに以下の環境変数を追加
+```bash
+docker-compose exec php bash
+composer install
+cp .env.example .env
+```
+
+envファイルに以下の環境変数を追加してください。
 
 ```env
 DB_CONNECTION=mysql
@@ -29,7 +33,8 @@ DB_PASSWORD=laravel_pass
 本プロジェクトでは決済機能に [Stripe](https://stripe.com/jp) を使用しています。
 開発環境（テストモード）で動作させるには、以下の手順でキーを設定してください。
 
-** 1. APIキーの取得 **
+**1. APIキーの取得**
+
 1. [Stripe公式サイト](https://stripe.com/jp)でアカウントを作成します。
 2. [Stripeダッシュボード](https://dashboard.stripe.com/login)にログインし、画面左上のアカウント名が「サンドボックス（またはテスト用のアカウント名）」になっていることを確認します。
 3. 画面上部の「検索」窓に「APIキー」と入力し、検索結果から「開発者 ＞ APIキー」を選択します。
@@ -37,7 +42,8 @@ DB_PASSWORD=laravel_pass
    - **公開可能キー** (Publishable key) : `pk_test_...`
    - **シークレットキー** (Secret key) : `sk_test_...`
 
-** 2. 環境設定 (.env) **
+**2. 環境設定 (.env)**
+
 プロジェクト直下の `.env` ファイルに、取得したキーを反映させてください。
 
 ```env
@@ -50,13 +56,15 @@ STRIPE_SECRET=sk_test_あなたのシークレットキー
 本プロジェクトでは、メール認証のテストに [Mailtrap](https://mailtrap.io/) を使用しています。
 機能を再現するには、以下の手順で設定を行ってください。
 
-** 1. Mailtrap のセットアップ **
+**1. Mailtrap のセットアップ**
+
 1. [Mailtrap公式サイト](https://mailtrap.io/)でアカウントを作成します。
 2. ログイン後、左メニューの「Sandboxes」→「My Sandbox」をクリックします。
 3. 中央の「Integration」タブが選択されていることを確認し、その下の「SMTP」を選択します。
 4. 表示された `Credentials` 欄の `Username` と `Password` を確認します。
 
-** 2. 環境設定 (.env) **
+**2. 環境設定 (.env)**
+
 プロジェクト直下の `.env` ファイルに、確認した値を反映させてください。
 
 ```env
@@ -67,6 +75,7 @@ MAIL_PASSWORD=（確認したパスワード）
 ```
 
 ### 環境変数の反映
+
 Laravel環境構築 および Stripe 、 Mailtrap の設定を `.env` に追記した後は、設定をアプリケーションに反映させるため、必ず以下のコマンドを実行してください。
 
 ```bash
@@ -76,15 +85,21 @@ php artisan config:clear
 
 ### アプリケーションキーの作成
 
-- php artisan key:generate
+```bash
+php artisan key:generate
+```
 
 ### マイグレーションの実行
 
-- php artisan migrate
+```bash
+php artisan migrate
+```
 
 ### シーディングの実行
 
-- php artisan db:seed
+```bash
+php artisan db:seed
+```
 
 ## 使用技術（実行環境）
 
