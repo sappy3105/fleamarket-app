@@ -118,11 +118,11 @@ php artisan db:seed
 
 ```mermaid
 erDiagram
-users ||--o| profiles
-users ||--o{ items
-users ||--o{ sold_items
-users ||--o{ comments
-users ||--o{ likes
+users ||--o| profiles : ""
+users ||--o{ items : ""
+users ||--o{ sold_items : ""
+users ||--o{ comments : ""
+users ||--o{ likes : ""
 
 items ||--o{ category_item : ""
 categories ||--o{ category_item : ""
