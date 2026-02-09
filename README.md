@@ -1,23 +1,18 @@
-## アプリケーション名
-
-フリマアプリ
+# フリマアプリ
 
 ## 環境構築
 
-**Docker ビルド**
+### Docker ビルド
 
 - git clone git@github.com:sappy3105/fleamarket-app.git
 - cd contact-form-test
 - docker-compose up -d --build
 
-**Laravel 環境構築**
+### Laravel 環境構築
 
 - docker-compose exec php bash
 - composer install
 - cp .env.example .env
-- [Stripe ダッシュボード](https://dashboard.stripe.com/test/apikeys)（テストモード）にログインし、以下のキーを取得します。
-  - **公開可能キー** (Publishable key): `pk_test_...`
-  - **シークレットキー** (Secret key): `sk_test_...`
 - .envファイルに以下の環境変数を追加
 
 ```env
@@ -27,26 +22,67 @@ DB_PORT=3306
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
-
-STRIPE_PUBLIC_KEY=pk_test_あなたの公開可能キー
-STRIPE_SECRET_KEY=sk_test_あなたのシークレットキー
 ```
 
-- 設定を反映させるために、必ず以下のコマンドを実行してください。
+### STRIPE決済システムの設定
+
+本プロジェクトでは決済機能に [Stripe](https://stripe.com/jp) を使用しています。
+開発環境（テストモード）で動作させるには、以下の手順でキーを設定してください。
+
+** 1. APIキーの取得 **
+1. [Stripe公式サイト](https://stripe.com/jp)でアカウントを作成します。
+2. [Stripeダッシュボード](https://dashboard.stripe.com/login)にログインし、画面左上のアカウント名が「サンドボックス（またはテスト用のアカウント名）」になっていることを確認します。
+3. 画面上部の「検索」窓に「APIキー」と入力し、検索結果から「開発者 ＞ APIキー」を選択します。
+4. 表示された以下の2つのキーを控えておきます。
+   - **公開可能キー** (Publishable key) : `pk_test_...`
+   - **シークレットキー** (Secret key) : `sk_test_...`
+
+** 2. 環境設定 (.env) **
+プロジェクト直下の `.env` ファイルに、取得したキーを反映させてください。
+
+```env
+STRIPE_KEY=pk_test_あなたの公開可能キー
+STRIPE_SECRET=sk_test_あなたのシークレットキー
+```
+
+### 開発環境でのメール認証テスト (Mailtrap)
+
+本プロジェクトでは、メール認証のテストに [Mailtrap](https://mailtrap.io/) を使用しています。
+機能を再現するには、以下の手順で設定を行ってください。
+
+** 1. Mailtrap のセットアップ **
+1. [Mailtrap公式サイト](https://mailtrap.io/)でアカウントを作成します。
+2. ログイン後、左メニューの「Sandboxes」→「My Sandbox」をクリックします。
+3. 中央の「Integration」タブが選択されていることを確認し、その下の「SMTP」を選択します。
+4. 表示された `Credentials` 欄の `Username` と `Password` を確認します。
+
+** 2. 環境設定 (.env) **
+プロジェクト直下の `.env` ファイルに、確認した値を反映させてください。
+
+```env
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=（確認したユーザー名）
+MAIL_PASSWORD=（確認したパスワード）
+```
+
+### 環境変数の反映
+Laravel環境構築 および Stripe 、 Mailtrap の設定を `.env` に追記した後は、設定をアプリケーションに反映させるため、必ず以下のコマンドを実行してください。
 
 ```bash
+docker-compose exec php bash
 php artisan config:clear
 ```
 
-**アプリケーションキーの作成**
+### アプリケーションキーの作成
 
 - php artisan key:generate
 
-**マイグレーションの実行**
+### マイグレーションの実行
 
 - php artisan migrate
 
-**シーディングの実行**
+### シーディングの実行
 
 - php artisan db:seed
 
