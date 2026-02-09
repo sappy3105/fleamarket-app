@@ -17,7 +17,7 @@ composer install
 cp .env.example .env
 ```
 
-envファイルに以下の環境変数を追加してください。
+`.env`ファイルに以下の環境変数を追加してください。
 
 ```env
 DB_CONNECTION=mysql
@@ -76,7 +76,7 @@ MAIL_PASSWORD=（確認したパスワード）
 
 ### 環境変数の反映
 
-Laravel環境構築 および Stripe 、 Mailtrap の設定を `.env` に追記した後は、設定をアプリケーションに反映させるため、必ず以下のコマンドを実行してください。
+Laravel環境構築およびStripe、Mailtrapの設定を `.env` に追記した後は、設定をアプリケーションに反映させるため、必ず以下のコマンドを実行してください。
 
 ```bash
 docker-compose exec php bash
@@ -162,7 +162,7 @@ items {
     unsigned_bigint id PK
     unsigned_bigint user_id FK
     varchar image_path
-    tinyint condition "1:良好 2:目立った傷や汚れなし 3:やや傷や汚れあり 4:状態が悪い"
+    tinyint condition "1:good 2:not bad 3:not good 4:bad"
     varchar name
     varchar brand_name
     text description
@@ -200,7 +200,7 @@ sold_items {
     unsigned_bigint id PK
     unsigned_bigint item_id FK,UK
     unsigned_bigint user_id FK
-    tinyint payment_method "1:コンビニ 2:カード"
+    tinyint payment_method "1:convenience 2:card"
     varchar stripe_checkout_id
     timestamp created_at
     timestamp updated_at
