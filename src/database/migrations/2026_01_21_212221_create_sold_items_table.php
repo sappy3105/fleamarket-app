@@ -18,6 +18,7 @@ class CreateSoldItemsTable extends Migration
             $table->foreignId('item_id')->unique()->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->tinyInteger('payment_method')->comment('1:コンビニ払い 2:カード払い');
+            $table->string('status')->default('pending'); // pending: 支払い待ち, paid: 支払い済み
             $table->string('stripe_checkout_id')->nullable();
             $table->timestamps();
         });

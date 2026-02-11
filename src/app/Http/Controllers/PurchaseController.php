@@ -79,6 +79,7 @@ class PurchaseController extends Controller
 
         $item = Item::findOrFail($item_id);
 
+
         // 2. Stripeの設定（.envから読み込み）
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
