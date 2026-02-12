@@ -202,6 +202,7 @@ sold_items {
     unsigned_bigint item_id FK,UK
     unsigned_bigint user_id FK
     tinyint payment_method "1:convenience 2:card"
+    varchar status
     varchar stripe_checkout_id
     timestamp created_at
     timestamp updated_at

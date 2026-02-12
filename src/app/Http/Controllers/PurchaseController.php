@@ -75,18 +75,16 @@ class PurchaseController extends Controller
     // 購入後Stripeの決済ページへ
     public function storePurchase(PurchaseRequest $request, $item_id)
     {
-        // dd($request->all());
-
         $item = Item::findOrFail($item_id);
+        $user = Auth::user();
 
-
-        // 2. Stripeの設定（.envから読み込み）
+        // 1. Stripeの設定（.envから読み込み）
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        // 3. 支払い方法の判定 (1:コンビニ, 2:カード)
+        // 2. 支払い方法の判定 (1:コンビニ, 2:カード)
         $payment_method_types = ($request->payment_method == 1) ? ['konbini'] : ['card'];
 
-        // 4. Stripe Checkoutセッションの作成
+        // 3. Stripe Checkoutセッションの作成
         $checkout_session = \Stripe\Checkout\Session::create([
             'payment_method_types' => $payment_method_types,
             'line_items' => [[
@@ -104,45 +102,23 @@ class PurchaseController extends Controller
             'cancel_url' => route('purchase.show', ['item_id' => $item_id]),
         ]);
 
-        // 5. 支払い方法を一時的にセッションへ保存
-        session(["pending_purchase_{$item_id}" => [
-            'payment_method' => $request->payment_method,
-            'stripe_checkout_id' => $checkout_session->id,
-        ]]);
-
-        // 6. Stripeの決済画面へリダイレクト
-        return redirect($checkout_session->url);
-    }
-
-    // Stripeの決済処理後
-    public function successPurchase($item_id)
-    {
-        $user = Auth::user();
-        $item = Item::findOrFail($item_id);
-
-        // セッションから保留中の購入情報と住所を取得
-        $pending = session("pending_purchase_{$item_id}");
-        $sessionAddress = session("shipping_address_{$item_id}");
-
-        // もしセッションに住所がなければ、プロフィールの住所を使う
-        $addressData = $sessionAddress ?? [
-            'postcode' => $user->profile->postcode,
-            'address'  => $user->profile->address,
-            'building' => $user->profile->building,
-        ];
-
-        // データベースへの保存（2つのテーブルに保存するためトランザクションを使う）
-        DB::transaction(function () use ($item, $user, $pending, $addressData) {
-            // 1. sold_items テーブルに保存
+        // 4. DBに「未払い(pending)」状態で保存
+        DB::transaction(function () use ($item, $user, $request, $checkout_session, $item_id) {
             $soldItem = SoldItem::create([
                 'item_id' => $item->id,
                 'user_id' => $user->id,
-                'payment_method' => $pending['payment_method'],
-                // StripeのIDを保存する場合はここに入れる（今回は簡易化）
-                'stripe_checkout_id' => $pending['stripe_checkout_id'] ?? null,
+                'payment_method' => $request->payment_method,
+                'stripe_checkout_id' => $checkout_session->id,
+                'status' => 'pending',
             ]);
 
-            // 2. shipping_addresses テーブルに保存
+            $sessionAddress = session("shipping_address_{$item_id}");
+            $addressData = $sessionAddress ?? [
+                'postcode' => $user->profile->postcode,
+                'address'  => $user->profile->address,
+                'building' => $user->profile->building,
+            ];
+
             ShippingAddress::create([
                 'sold_item_id' => $soldItem->id,
                 'postcode' => $addressData['postcode'],
@@ -151,14 +127,21 @@ class PurchaseController extends Controller
             ]);
         });
 
-        // 最後にセッションをクリア
+        // 5. Stripeの決済画面へリダイレクト
+        return redirect($checkout_session->url);
+    }
+
+    // Stripeの決済処理後
+    public function successPurchase($item_id)
+    {
+        // セッションをクリア
         session()->forget([
             "pending_purchase_{$item_id}",
             "shipping_address_{$item_id}",
             "payment_method_{$item_id}"
         ]);
 
-        // 完了画面へ（まだ作っていなければトップへリダイレクトなど）
+        // マイリストタブに戻る
         return redirect('/?tab=mylist');
     }
 }

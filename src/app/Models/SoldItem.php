@@ -14,6 +14,7 @@ class SoldItem extends Model
         'user_id',
         'payment_method',
         'stripe_checkout_id',
+        'status',
     ];
 
     // 商品へのリレーション

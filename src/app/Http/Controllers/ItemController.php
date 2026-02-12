@@ -42,7 +42,7 @@ class ItemController extends Controller
         }
 
         // データを取得
-        $items = $query->get();
+        $items = $query->with('soldItem')->get();
 
         return view('index', compact('items', 'tab'));
     }

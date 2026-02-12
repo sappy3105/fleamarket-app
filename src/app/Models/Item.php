@@ -61,7 +61,7 @@ class Item extends Model
     {
         // sold_itemsテーブルにこのitem_idが存在すれば true を返す
         // SoldItemモデルがある場合:
-        return $this->soldItem()->exists();
+        return $this->soldItem && $this->soldItem->status === 'paid';
     }
 
     // 商品名で部分一致検索
