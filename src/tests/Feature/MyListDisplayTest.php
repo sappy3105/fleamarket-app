@@ -59,6 +59,7 @@ class MyListDisplayTest extends TestCase
             'item_id' => $soldItem->id,
             'user_id' => User::factory()->create()->id, // 自分以外の誰かが購入
             'payment_method' => 1,
+            'status'  => 'paid',
         ]);
 
         // 実行

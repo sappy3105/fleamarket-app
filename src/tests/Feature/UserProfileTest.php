@@ -37,6 +37,7 @@ class UserProfileTest extends TestCase
             'item_id' => $boughtItem->id,
             'user_id' => $user->id,
             'payment_method' => 1,
+            'status'  => 'paid',
         ]);
 
         // 4. 実行：ログインしてプロフィールページを開く

@@ -49,6 +49,7 @@ class ItemShowTest extends TestCase
         // 2. 「売却済みの商品名」に対して、SoldItemレコードを作成（これで売れた状態になる）
         SoldItem::factory()->create([
             'item_id' => $soldItem->id,
+            'status'  => 'paid',
         ]);
 
         // 3. 一覧ページにアクセス
