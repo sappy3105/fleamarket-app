@@ -114,21 +114,31 @@
 .item-detail__info-row {
     display: flex;
     margin-bottom: 20px;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .item-detail__info-label {
-    width: 150px;
+    width: 120px;
     font-weight: bold;
-    /* font-size: 18px; */
+}
+
+.item-detail__categories {
+    display: flex;
+    flex-wrap: wrap;
+    /* タグが増えた時に自動で改行させる */
+    gap: 5px 10px;
+    /* 上下 8px、左右 10px の余白をタグ間に作る（便利！） */
+    flex: 1;
+    /* 残りの横幅をすべて使う */
 }
 
 .item-detail__category-tag {
+    display: inline-block;
     background-color: #ddd;
     padding: 4px 25px;
     border-radius: 20px;
     font-size: 14px;
-    margin-right: 10px;
+    white-space: nowrap;
 }
 
 /* コメントエリア */

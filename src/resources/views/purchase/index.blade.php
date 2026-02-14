@@ -27,7 +27,8 @@
                 </div>
                 <div class="select-wrapper">
                     {{-- セッションに保存されている値があれば selected にする --}}
-                    <select name="payment_method" form="purchase-form" class="purchase__select" id="payment-select">
+                    <select name="payment_method" form="purchase-form" class="custom-select-input hidden-select"
+                        id="payment-select">
                         <option value="" disabled {{ !session("payment_method_{$item->id}") ? 'selected' : '' }}>
                             選択してください</option>
                         <option value="1" {{ session("payment_method_{$item->id}") == 1 ? 'selected' : '' }}>コンビニ払い
@@ -35,6 +36,27 @@
                         <option value="2" {{ session("payment_method_{$item->id}") == 2 ? 'selected' : '' }}>カード払い
                         </option>
                     </select>
+                    {{-- カスタムドロップダウン --}}
+                    <div class="select-trigger">
+                        {{-- セッションがあればそのテキスト、なければ「選択してください」 --}}
+                        @php
+                            $currentMethod = session("payment_method_{$item->id}");
+                            $label = '選択してください';
+                            if ($currentMethod == 1) {
+                                $label = 'コンビニ払い';
+                            }
+                            if ($currentMethod == 2) {
+                                $label = 'カード払い';
+                            }
+                        @endphp
+                        <span class="trigger-text {{ !$currentMethod ? 'is-placeholder' : '' }}">{{ $label }}</span>
+                    </div>
+                    <div class="custom-options">
+                        <div class="custom-option {{ $currentMethod == 1 ? 'selected' : '' }}" data-value="1">コンビニ払い
+                        </div>
+                        <div class="custom-option {{ $currentMethod == 2 ? 'selected' : '' }}" data-value="2">カード払い
+                        </div>
+                    </div>
                 </div>
                 <div class="purchase-form__error">
                     @error('payment_method')
@@ -91,24 +113,28 @@
     </div>
 
     <script>
-        const select = document.getElementById('payment-select');
-        const display = document.getElementById('display-payment');
-        const addressLink = document.getElementById('address-edit-link');
-        const baseAddressUrl = "{{ route('purchase.address.edit', $item->id) }}";
+        document.addEventListener('DOMContentLoaded', function() {
+            const select = document.getElementById('payment-select');
+            const display = document.getElementById('display-payment');
+            const addressLink = document.getElementById('address-edit-link');
+            const baseAddressUrl = "{{ route('purchase.address.edit', $item->id) }}";
 
-        // 1. セレクトボックス変更時の処理
-        select.addEventListener('change', function() {
-            const text = this.options[this.selectedIndex].text;
-            const value = this.value;
-            display.textContent = text;
+            if (!select) return;
 
-            // 住所変更リンクに支払い方法をくっつける (例: /address/edit/1?payment_method=2)
-            addressLink.href = baseAddressUrl + "?payment_method=" + value;
+            select.addEventListener('change', function() {
+                const text = this.options[this.selectedIndex].text;
+                const value = this.value;
+
+                if (display) display.textContent = text;
+                if (addressLink) {
+                    addressLink.href = baseAddressUrl + "?payment_method=" + value;
+                }
+            });
+
+            // ページ読み込み時の初期化
+            if (select.value && addressLink) {
+                addressLink.href = baseAddressUrl + "?payment_method=" + select.value;
+            }
         });
-
-        // 2. ページ読み込み時に、既に選択されていたらリンクを更新しておく
-        if (select.value) {
-            addressLink.href = baseAddressUrl + "?payment_method=" + select.value;
-        }
     </script>
 @endsection

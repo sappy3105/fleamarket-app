@@ -53,14 +53,39 @@
             {{-- 商品の状態 --}}
             <div class="exhibition__section">
                 <h4 class="exhibition__label">商品の状態</h4>
-                <div class="exhibition__select-wrapper">
-                    <select name="condition" class="exhibition__select">
+                <div class="select-wrapper exhibition__select-wrapper">
+                    {{-- 実際のselect --}}
+                    <select name="condition" class="custom-select-input hidden-select">
                         <option value="" disabled selected>選択してください</option>
                         <option value="1" {{ old('condition') == 1 ? 'selected' : '' }}>良好</option>
                         <option value="2" {{ old('condition') == 2 ? 'selected' : '' }}>目立った傷や汚れなし</option>
                         <option value="3" {{ old('condition') == 3 ? 'selected' : '' }}>やや傷や汚れあり</option>
                         <option value="4" {{ old('condition') == 4 ? 'selected' : '' }}>状態が悪い</option>
                     </select>
+
+                    {{-- カスタム部分 --}}
+                    <div class="custom-select-ui">
+                        <div class="select-trigger">
+                            @php
+                                $conditionMap = [
+                                    1 => '良好',
+                                    2 => '目立った傷や汚れなし',
+                                    3 => 'やや傷や汚れあり',
+                                    4 => '状態が悪い',
+                                ];
+                                $currentCondition = old('condition');
+                                $conditionLabel = $conditionMap[$currentCondition] ?? '選択してください';
+                            @endphp
+                            <span
+                                class="trigger-text {{ !$currentCondition ? 'is-placeholder' : '' }}">{{ $conditionLabel }}</span>
+                        </div>
+                        <div class="custom-options">
+                            @foreach ($conditionMap as $val => $text)
+                                <div class="custom-option {{ $currentCondition == $val ? 'selected' : '' }}"
+                                    data-value="{{ $val }}">{{ $text }}</div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
                 <div class="error-message">
                     @error('condition')

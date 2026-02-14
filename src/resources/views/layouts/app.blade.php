@@ -57,6 +57,52 @@
         </div>
     </main>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const allWrappers = document.querySelectorAll('.select-wrapper');
+
+            allWrappers.forEach(wrapper => {
+                const realSelect = wrapper.querySelector('.custom-select-input');
+                const trigger = wrapper.querySelector('.select-trigger');
+                const triggerText = wrapper.querySelector('.trigger-text');
+                const options = wrapper.querySelectorAll('.custom-option');
+
+                if (!trigger || !realSelect) return;
+
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    allWrappers.forEach(w => {
+                        if (w !== wrapper) w.classList.remove('is-open');
+                    });
+                    wrapper.classList.toggle('is-open');
+                });
+
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const val = this.getAttribute('data-value');
+                        const text = this.textContent;
+
+                        realSelect.value = val;
+                        triggerText.textContent = text;
+                        triggerText.classList.remove('is-placeholder');
+
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+
+                        // 既存のイベント（支払い方法反映など）を連動させる
+                        realSelect.dispatchEvent(new Event('change'));
+
+                        wrapper.classList.remove('is-open');
+                    });
+                });
+            });
+
+            document.addEventListener('click', () => {
+                allWrappers.forEach(w => w.classList.remove('is-open'));
+            });
+        });
+    </script>
+
 </body>
 
 </html>
