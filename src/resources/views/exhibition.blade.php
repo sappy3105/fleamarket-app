@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('css')
+{{-- @section('css')
     <link rel="stylesheet" href="{{ asset('css/exhibition.css') }}">
-@endsection
+@endsection --}}
 
 @section('content')
     <div class="exhibition__container">
@@ -22,7 +22,7 @@
                         <span class="image-upload__button">画像を選択する</span>
                     </label>
                 </div>
-                <div class="error-message">
+                <div class="exhibition__error-message">
                     @error('image_path')
                         {{ $message }}
                     @enderror
@@ -43,7 +43,7 @@
                         </label>
                     @endforeach
                 </div>
-                <div class="error-message">
+                <div class="exhibition__error-message">
                     @error('category_ids')
                         {{ $message }}
                     @enderror
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="error-message">
+                <div class="exhibition__error-message">
                     @error('condition')
                         {{ $message }}
                     @enderror
@@ -100,7 +100,7 @@
             <div class="exhibition__section">
                 <h4 class="exhibition__label">商品名</h4>
                 <input type="text" name="name" class="exhibition__input" value="{{ old('name') }}">
-                <div class="error-message">
+                <div class="exhibition__error-message">
                     @error('name')
                         {{ $message }}
                     @enderror
@@ -117,7 +117,7 @@
             <div class="exhibition__section">
                 <h4 class="exhibition__label">商品の説明</h4>
                 <textarea name="description" class="exhibition__textarea">{{ old('description') }}</textarea>
-                <div class="error-message">
+                <div class="exhibition__error-message">
                     @error('description')
                         {{ $message }}
                     @enderror
@@ -132,7 +132,7 @@
                     <input type="number" name="price" class="exhibition__input exhibition__input--price"
                         value="{{ old('price') }}">
                 </div>
-                <div class="error-message">
+                <div class="exhibition__error-message">
                     @error('price')
                         {{ $message }}
                     @enderror

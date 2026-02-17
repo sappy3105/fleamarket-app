@@ -119,6 +119,21 @@
     width: 100%;
 }
 
+.exhibition__select-wrapper.select-wrapper {
+    max-width: none;
+    /* 購入画面の 300px を打ち消し */
+    margin-left: 0;
+    /* 購入画面の 40px を打ち消し */
+    width: 100%;
+    /* 親の 600px に対して100%にする */
+}
+
+.exhibition__select-wrapper .select-trigger {
+    width: 100%;
+    min-height: 45px;
+    padding: 12px;
+}
+
 .hidden-select {
     display: none;
 }
@@ -153,6 +168,11 @@
 }
 
 /* 5. カスタムリスト本体（画像のデザインを再現） */
+.exhibition__select-wrapper .custom-options {
+    /* リストが表示される際の幅も親に合わせる */
+    width: 100%;
+}
+
 .custom-options {
     position: absolute;
     top: 0;
@@ -244,8 +264,8 @@
 }
 
 /* バリデーション */
-.error-message {
-    position: absolute;
+.exhibition__error-message {
+    /* position: absolute; */
     color: #ff4d4b;
     font-size: 14px;
     margin: 5px 0 0 0;

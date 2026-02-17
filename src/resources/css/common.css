@@ -102,3 +102,9 @@
     display: inline-block;
     transition: opacity 0.3s;
 }
+
+.sold-label {
+    color: #ff4d4b;
+    font-weight: bold;
+    margin-left: 10px;
+}

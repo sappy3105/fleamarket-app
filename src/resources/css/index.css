@@ -27,10 +27,11 @@
 
 .item-list__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 60px 30px;
 }
 
+/*商品一覧ページとマイページとで共通のCSS(item画像に関するcss)*/
 .item-card__link {
     text-decoration: none;
     display: block;
@@ -61,11 +62,11 @@
     color: #333;
 }
 
-.sold-label {
+/* .sold-label {
     color: #ff4d4b;
     font-weight: bold;
     margin-left: 10px;
-}
+} */
 
 .mylist__empty-message {
     text-align: center;
