@@ -29,6 +29,7 @@
 }
 
 .profile-form__image-label {
+    display: inline-block;
     padding: 8px 16px;
     border: 1px solid #ff4d4b;
     color: #ff4d4b;
@@ -36,6 +37,7 @@
     cursor: pointer;
     font-weight: bold;
     font-size: 14px;
+    background-color: #fff;
 }
 
 .profile-form__image-label input {

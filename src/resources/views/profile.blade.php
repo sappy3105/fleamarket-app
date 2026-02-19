@@ -49,24 +49,24 @@
                         {{ $message }}
                     @enderror
                 </div>
+            </div>
+            <div class="profile-form__group">
+                <label class="profile-form__label">住所</label>
+                <input type="text" name="address" class="profile-form__input"
+                    value="{{ old('address', $profile->address) }}">
+                <div class="profile-form__error-message">
+                    @error('address')
+                        {{ $message }}
+                    @enderror
+                </div>
+            </div>
+            <div class="profile-form__group">
+                <label class="profile-form__label">建物名</label>
+                <input type="text" name="building" class="profile-form__input"
+                    value="{{ old('building', $profile->building) }}">
+            </div>
 
-                <div class="profile-form__group">
-                    <label class="profile-form__label">住所</label>
-                    <input type="text" name="address" class="profile-form__input"
-                        value="{{ old('address', $profile->address) }}">
-                    <div class="profile-form__error-message">
-                        @error('address')
-                            {{ $message }}
-                        @enderror
-                    </div>
-
-                    <div class="profile-form__group">
-                        <label class="profile-form__label">建物名</label>
-                        <input type="text" name="building" class="profile-form__input"
-                            value="{{ old('building', $profile->building) }}">
-                    </div>
-
-                    <button type="submit" class="profile-form__button-submit">更新する</button>
+            <button type="submit" class="profile-form__button-submit">更新する</button>
         </form>
     </div>
 
