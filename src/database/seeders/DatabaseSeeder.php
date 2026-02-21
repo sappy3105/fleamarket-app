@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
         DB::table('category_item')->truncate();
         DB::table('sold_items')->truncate();
         DB::table('shipping_addresses')->truncate();
+        DB::table('likes')->truncate();
+        DB::table('comments')->truncate();
         // 今後テーブルが増えたらここに追記していく
 
         // 3. 外部キー制約を元に戻す
@@ -39,7 +41,9 @@ class DatabaseSeeder extends Seeder
             ItemsTableSeeder::class,
             CategoryItemSeeder::class,
             SoldItemsTableSeeder::class,
-            ShippingAddressesTableSeeder::class
+            ShippingAddressesTableSeeder::class,
+            LikesTableSeeder::class,    // 追記
+            CommentsTableSeeder::class,
         ]);
     }
 }

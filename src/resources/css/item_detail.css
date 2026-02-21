@@ -112,6 +112,14 @@
     pointer-events: none;
 }
 
+/* 支払い待ち専用のスタイル（例：オレンジなど） */
+.item-detail__buy-button.item-detail__buy-button--pending {
+    background-color: #ff9900;
+    /* オレンジ */
+    color: #fff;
+    cursor: not-allowed;
+}
+
 /* --- 商品説明・情報 --- */
 .item-detail__section-title {
     font-size: 24px;

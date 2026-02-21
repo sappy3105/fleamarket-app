@@ -80,8 +80,11 @@
                 <button class="item-detail__buy-button item-detail__buy-button--disabled" disabled>
                     出品した商品は購入できません
                 </button>
-            @elseif($item->isSold())
-                {{-- 売り切れの場合 --}}
+            @elseif ($item->soldItem && $item->soldItem->status === 'pending')
+                {{-- 最初に pending を直接チェックする --}}
+                <button class="item-detail__buy-button item-detail__buy-button--pending" disabled>支払い処理中です</button>
+            @elseif ($item->isSold())
+                {{-- ここは今まで通り 'paid' の時だけ true になる --}}
                 <button class="item-detail__buy-button item-detail__buy-button--disabled" disabled>売り切れました</button>
             @else
                 <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}" class="item-detail__buy-button">購入手続きへ</a>

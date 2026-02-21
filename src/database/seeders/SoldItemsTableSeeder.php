@@ -20,7 +20,7 @@ class SoldItemsTableSeeder extends Seeder
                 'item_id' => 9,
                 'user_id' => 1,
                 'payment_method' => 2, // カード払い
-                'status' => 'paid',
+                'status' => 'pending',
             ],
             [
                 'item_id' => 6,
@@ -52,7 +52,7 @@ class SoldItemsTableSeeder extends Seeder
                 'item_id' => 4,
                 'user_id' => 3,
                 'payment_method' => 1, // コンビニ払い
-                'status' => 'paid',
+                'status' => 'pending',
             ],
 
         ];
