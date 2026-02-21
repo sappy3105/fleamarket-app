@@ -12,7 +12,6 @@ class ProfileFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'user_id' => User::factory(),
             'image_path' => 'item_images/' . $this->faker->word() . $this->faker->randomElement(['.png', '.jpeg']),
             'postcode' => $this->faker->postcode(),
             'address' => $this->faker->address(),

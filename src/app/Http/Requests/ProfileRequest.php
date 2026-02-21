@@ -34,7 +34,7 @@ class ProfileRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'image_path.image' => '指定されたファイルが画像ではありません',
+            // 'image_path.image' => '指定されたファイルが画像ではありません',
             'image_path.mimes' => '画像は .jpeg もしくは .png 形式でアップロードしてください',
             'name.required'    => 'お名前を入力してください',
             'name.max'         => 'お名前は20文字以内で入力してください',
