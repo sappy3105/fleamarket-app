@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -115,13 +117,26 @@ class RegisterTest extends TestCase
             'email' => 'newuser@example.com',
         ]);
 
-        // 3. 期待挙動：プロフィール設定画面へのリダイレクト確認
-        // CustomRegisterResponse で設定したパス（例: /mypage/profile）を指定してください
-        $response->assertRedirect('/mypage/profile');
+        // 作成されたユーザーを取得
+        $user = User::where('email', 'newuser@example.com')->first();
 
-        // 4. ログイン状態になっていることを確認
+        // 3. 【重要】メール認証を完了させるステップを追加
+        // ID 16-3で行った「署名付きURLへのアクセス」をここでもシミュレートします
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+
+        // 認証URLへアクセス
+        $response = $this->actingAs($user)->get($verificationUrl);
+
+        // 4. 最終的な期待挙動：プロフィール設定画面へのリダイレクト確認
+        // VerifyEmailResponseで設定した route('profile.edit') へ遷移するか
+        $response->assertRedirect(route('profile.edit'));
+
+        // 5. ログイン状態かつ、メール認証済みであることを確認
         $this->assertAuthenticated();
+        $this->assertTrue($user->fresh()->hasVerifiedEmail());
     }
-
-
 }

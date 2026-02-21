@@ -88,7 +88,5 @@ class FortifyServiceProvider extends ServiceProvider
                 return redirect('/login');
             }
         });
-
-
     }
 }
