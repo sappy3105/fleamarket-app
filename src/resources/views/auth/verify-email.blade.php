@@ -13,8 +13,9 @@
             </p>
 
             <div class="verify__button-wrapper">
-                {{-- 実際の「認証」はメール内のリンクから行うため、画面上は案内用のボタンになります --}}
-                <button class="verify__btn-dummy">認証はこちらから</button>
+                <a href="https://mailtrap.io/inboxes" target="_blank" rel="noopener noreferrer" class="verify__button">
+                    認証はこちらから
+                </a>
             </div>
 
             {{-- 再送フォーム --}}

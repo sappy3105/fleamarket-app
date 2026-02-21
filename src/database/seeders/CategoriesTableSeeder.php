@@ -15,7 +15,7 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->insert([
+        $categories = [
             ['name' => 'ファッション'],
             ['name' => '家電'],
             ['name' => 'インテリア'],
@@ -30,6 +30,14 @@ class CategoriesTableSeeder extends Seeder
             ['name' => 'アクセサリー'],
             ['name' => 'おもちゃ'],
             ['name' => 'ベビー・キッズ'],
-        ]);
+        ];
+
+        foreach ($categories as $category) {
+            // 名前を条件に探し、なければ作成、あれば何もしない（更新なし）
+            Category::updateOrCreate(
+                ['name' => $category['name']], // 探す条件
+                [] // 更新する内容（名前が一致すれば更新不要なので空でもOK）
+            );
+        }
     }
 }

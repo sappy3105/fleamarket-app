@@ -53,7 +53,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => '',
             ],
             [
-                'user_id' => 1, // 既存のユーザーID
+                'user_id' => 2, // 既存のユーザーID
                 'name' => 'ノートPC',
                 'price' => 45000,
                 'description' => '高性能なノートパソコン',
@@ -62,7 +62,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => '',
             ],
             [
-                'user_id' => 1, // 既存のユーザーID
+                'user_id' => 2, // 既存のユーザーID
                 'name' => 'マイク',
                 'price' => 8000,
                 'description' => '高音質のレコーディング用マイク',
@@ -71,7 +71,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => 'なし',
             ],
             [
-                'user_id' => 1, // 既存のユーザーID
+                'user_id' => 2, // 既存のユーザーID
                 'name' => 'ショルダーバッグ',
                 'price' => 3500,
                 'description' => 'おしゃれなショルダーバッグ',
@@ -80,7 +80,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => '',
             ],
             [
-                'user_id' => 1, // 既存のユーザーID
+                'user_id' => 3, // 既存のユーザーID
                 'name' => 'タンブラー',
                 'price' => 500,
                 'description' => '使いやすいタンブラー',
@@ -89,7 +89,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => 'なし',
             ],
             [
-                'user_id' => 1, // 既存のユーザーID
+                'user_id' => 3, // 既存のユーザーID
                 'name' => 'コーヒーミル',
                 'price' => 4000,
                 'description' => '手動のコーヒーミル',
@@ -98,7 +98,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => 'Starbacks',
             ],
             [
-                'user_id' => 1, // 既存のユーザーID
+                'user_id' => 3, // 既存のユーザーID
                 'name' => 'メイクセット',
                 'price' => 2500,
                 'description' => '便利なメイクアップセット',
@@ -106,14 +106,23 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 2, // 目立った傷や汚れなし
                 'brand_name' => '',
             ],
-            // ... 他の商品も同様に追加
         ];
 
-        foreach ($items as $item) {
-            DB::table('items')->insert(array_merge($item, [
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]));
+        foreach ($items as $itemData) {
+            // user_id と name が一致するデータがあれば更新、なければ新規作成
+            Item::updateOrCreate(
+                [
+                    'user_id' => $itemData['user_id'],
+                    'name'    => $itemData['name']
+                ],
+                [
+                    'price'       => $itemData['price'],
+                    'description' => $itemData['description'],
+                    'image_path'  => $itemData['image_path'],
+                    'condition'   => $itemData['condition'],
+                    'brand_name'  => $itemData['brand_name'],
+                ]
+            );
         }
     }
 }

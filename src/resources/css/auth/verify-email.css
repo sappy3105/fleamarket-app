@@ -22,7 +22,9 @@
 }
 
 /* 「認証はこちらから」ボタンの装飾 */
-.verify__btn-dummy {
+.verify__button {
+    display: inline-block;
+    text-decoration: none;
     background-color: #e0e0e0;
     /* 薄いグレー */
     color: #000;
@@ -30,8 +32,9 @@
     padding: 12px 60px;
     font-size: 18px;
     font-weight: bold;
-    border-radius: 4px;
-    cursor: default;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
 }
 
 /* 再送リンク */
