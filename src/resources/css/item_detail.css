@@ -104,6 +104,14 @@
     margin-bottom: 40px;
 }
 
+/* --- 追加：自分が出品した商品の場合の無効化ボタン --- */
+.item-detail__buy-button.item-detail__buy-button--disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* --- 商品説明・情報 --- */
 .item-detail__section-title {
     font-size: 24px;

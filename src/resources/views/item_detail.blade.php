@@ -75,7 +75,17 @@
                 </div>
             </div>
 
-            <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}" class="item-detail__buy-button">購入手続きへ</a>
+            @if (Auth::check() && Auth::id() === $item->user_id)
+                {{-- ログイン中、かつ自分が出品した商品の場合（押せないボタン） --}}
+                <button class="item-detail__buy-button item-detail__buy-button--disabled" disabled>
+                    出品した商品は購入できません
+                </button>
+            @elseif($item->isSold())
+                {{-- 売り切れの場合 --}}
+                <button class="item-detail__buy-button item-detail__buy-button--disabled" disabled>売り切れました</button>
+            @else
+                <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}" class="item-detail__buy-button">購入手続きへ</a>
+            @endif
 
             <div class="item-detail__section">
                 <h2 class="item-detail__section-title">商品説明</h2>
