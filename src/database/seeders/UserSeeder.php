@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             ],
             [
                 // 'id' => 2,
-                'name' => 'テストユーザー2（未認証・メール送信あり）',
+                'name' => 'テストユーザー2（未認証・メールあり）',
                 'email' => 'test2@example.com',
                 'password' => Hash::make('password'),
                 'verified' => false, // 未認証のままにする

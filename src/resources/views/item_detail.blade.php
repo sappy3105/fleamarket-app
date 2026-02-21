@@ -137,8 +137,17 @@
                         <div class="comment-item">
                             <div class="comment-item__user">
                                 <div class="comment-item__user-image">
-                                    <img src="{{ $comment->user->profile?->image_path ? asset('storage/' . $comment->user->profile->image_path) : asset('images/default-user.png') }}"
-                                        alt="">
+                                    @php
+                                        $imagePath = $comment->user->profile?->image_path;
+                                        // ファイルが存在し、かつパスが空でないか確認
+                                        $hasImage = $imagePath && \Storage::disk('public')->exists($imagePath);
+                                    @endphp
+
+                                    @if ($hasImage)
+                                        <img src="{{ asset('storage/' . $imagePath) }}" alt="">
+                                    @else
+                                        {{-- 画像がない場合は img タグ自体を出さないことで、CSSの背景色（#ddd）が表示される --}}
+                                    @endif
                                 </div>
                                 <span class="comment-item__user-name">{{ $comment->user->name }}</span>
                             </div>
