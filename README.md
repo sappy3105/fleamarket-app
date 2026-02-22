@@ -102,6 +102,27 @@ php artisan migrate
 php artisan db:seed
 ```
 
+### フロントエンド環境構築
+CSSのスタイルを反映させるために、パッケージのインストールとビルドが必要です。
+
+```bash
+docker-compose exec php bash
+
+# パッケージのインストール
+npm install
+
+# アセットのコンパイル
+npm run dev
+```
+
+### ストレージリンクの作成
+商品画像などのアップロードファイルを表示するために、ストレージへのシンボリックリンクを作成する必要があります。
+
+```bash
+docker-compose exec php bash
+php artisan storage:link
+```
+
 ## 使用技術（実行環境）
 
 - PHP 8.1.34

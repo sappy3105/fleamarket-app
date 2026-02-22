@@ -46,16 +46,16 @@ Route::middleware('auth', 'verified')->group(function () {
     // 商品購入画面
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'showPurchase'])->name('purchase.show');
 
+    // 購入処理（Stripe決済へ）
+    Route::post('/purchase/{item_id}', [PurchaseController::class, 'storePurchase'])->name('purchase.store');
+
+    Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'successPurchase'])->name('purchase.success');
+
     // 住所変更画面の表示
     Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
 
     // 住所変更の保存（セッションへ）
     Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
-
-    // 購入処理（Stripe決済へ）
-    Route::post('/purchase/{item_id}', [PurchaseController::class, 'storePurchase'])->name('purchase.store');
-
-    Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'successPurchase'])->name('purchase.success');
 
     //出品画面表示
     Route::get('/sell', [ExhibitionController::class, 'create'])->name('exhibition.create');
