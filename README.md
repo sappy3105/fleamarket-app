@@ -103,16 +103,21 @@ php artisan db:seed
 ```
 
 ### フロントエンド環境構築
-CSSのスタイルを反映させるために、パッケージのインストールとビルドが必要です。
+本プロジェクトでは Autoprefixer を使用して CSS のブラウザ互換性を管理しています。スタイルを正しく反映させるため、以下の手順を実行してください。
 
 ```bash
 docker-compose exec php bash
 
-# パッケージのインストール
+# 1. 依存パッケージ（Autoprefixer等）のインストール
 npm install
 
-# アセットのコンパイル
+# 2. アセットのコンパイル（ビルド）
+# 初回実行時、Autoprefixer等の追加インストールを求められた場合は、指示に従い再度実行してください。
 npm run dev
+```
+もし `npm run dev` でエラーが出る場合は、以下のコマンドを試してから再度ビルドしてください。
+```bash
+npm install postcss-loader autoprefixer --save-dev
 ```
 
 ### ストレージリンクの作成
