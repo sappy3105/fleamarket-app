@@ -2,7 +2,7 @@
 
 ## 環境構築
 
-### Docker ビルド
+### 1. Docker ビルド
 
 ```bash
 git clone git@github.com:sappy3105/fleamarket-app.git
@@ -10,7 +10,7 @@ cd fleamarket-app
 docker-compose up -d --build
 ```
 
-### Laravel 環境構築
+### 2. Laravel 環境構築
 
 ```bash
 docker-compose exec php bash
@@ -29,9 +29,9 @@ DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 ```
 
-### STRIPE決済システムの設定
+### 3. STRIPE決済システムの設定
 
-本プロジェクトでは決済機能に [Stripe](https://stripe.com/jp) を使用しています。
+本プロジェクトでは決済機能に [Stripe](https://stripe.com/jp) を使用しています。  
 開発環境（テストモード）で動作させるには、以下の手順でキーを設定してください。
 
 **1. APIキーの取得**
@@ -52,16 +52,16 @@ STRIPE_KEY=pk_test_あなたの公開可能キー
 STRIPE_SECRET=sk_test_あなたのシークレットキー
 ```
 
-### 開発環境でのメール認証テスト (Mailtrap)
+### 4. 開発環境でのメール認証テスト (Mailtrap)
 
-本プロジェクトでは、メール認証のテストに [Mailtrap](https://mailtrap.io/) を使用しています。
+本プロジェクトでは、メール認証のテストに [Mailtrap](https://mailtrap.io/) を使用しています。  
 機能を再現するには、以下の手順で設定を行ってください。
 
 **1. Mailtrap のセットアップ**
 
 1. [Mailtrap公式サイト](https://mailtrap.io/)でアカウントを作成します。
 2. ログイン後、左メニューの「Sandboxes」→「My Sandbox」をクリックします。
-3. 中央の「Integration」タブが選択されていることを確認し、その下の「SMTP」を選択します。
+3. 「Integration」タブが選択されていることを確認し、その下の「SMTP」を選択します。
 4. 表示された `Credentials` 欄の `Username` と `Password` を確認します。
 
 **2. 環境設定 (.env)**
@@ -75,7 +75,7 @@ MAIL_USERNAME=（確認したユーザー名）
 MAIL_PASSWORD=（確認したパスワード）
 ```
 
-### 環境変数の反映
+### 5. 環境変数の反映
 
 Laravel環境構築およびStripe、Mailtrapの設定を `.env` に追記した後は、設定をアプリケーションに反映させるため、必ず以下のコマンドを実行してください。
 
@@ -84,25 +84,25 @@ docker-compose exec php bash
 php artisan config:clear
 ```
 
-### アプリケーションキーの作成
+### 6. アプリケーションキーの作成
 
 ```bash
 php artisan key:generate
 ```
 
-### マイグレーションの実行
+### 7. マイグレーションの実行
 
 ```bash
 php artisan migrate
 ```
 
-### シーディングの実行
+### 8. シーディングの実行
 
 ```bash
 php artisan db:seed
 ```
 
-### フロントエンド環境構築
+### 9. フロントエンド環境構築
 
 本プロジェクトでは Autoprefixer を使用して CSS のブラウザ互換性を管理しています。スタイルを正しく反映させるため、以下の手順を実行してください。
 
@@ -121,11 +121,12 @@ npm run dev
 npm install postcss-loader autoprefixer --save-dev
 ```
 
-### ストレージリンクの作成
+### 10. ストレージリンクの作成
 
 商品画像などのアップロードファイルを表示するために、ストレージへのシンボリックリンクを作成する必要があります。
 
 ```bash
+docker-compose exec php bash
 php artisan storage:link
 ```
 
@@ -149,11 +150,11 @@ php artisan storage:link
 
 **1. データの初期化**
 
-リポジトリをクローンし、環境構築が完了した後、以下のコマンドを実行してデータベースを最新の状態にします。
-
+リポジトリをクローンし、環境構築が完了した後、以下のコマンドを実行してデータベースを最新の状態にします。  
 ※初回シーディング直後の場合は、この作業はスキップしてください。
 
 ```bash
+docker-compose exec php bash
 php artisan migrate:fresh --seed
 ```
 
