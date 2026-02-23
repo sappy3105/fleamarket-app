@@ -64,6 +64,7 @@ stripe login
 ```
 
 **3. Webhookの転送を開始**
+
 別のターミナルを開き、以下のコマンドを常に実行した状態にしてください。
 
 ```Bash
@@ -71,6 +72,7 @@ stripe listen --forward-to localhost/api/webhook
 ```
 
 **4. Webhookシークレットの取得と設定**
+
 上記コマンドを実行すると、ターミナルに `Your webhook signing secret is whsec_XXXXXXXX` と表示されます。この値を `.env` に追記してください。
 
 ```env
@@ -78,7 +80,9 @@ STRIPE_WEBHOOK_SECRET=whsec_(表示された値)
 ```
 
 **注意**
-※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。  
+
+※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。
+
 ※`stripe listen` を実行するたびに、Webhookシークレット (whsec_...) が変わる可能性があります。`stripe listen` を起動した際に表示される `whsec_...` を確認し、`.env` の `STRIPE_WEBHOOK_SECRET` と一致しているかチェックしてください。
 
 ### 4. 開発環境でのメール認証テスト (Mailtrap)
