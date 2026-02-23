@@ -48,9 +48,38 @@ DB_PASSWORD=laravel_pass
 プロジェクト直下の `.env` ファイルに、取得したキーを反映させてください。
 
 ```env
-STRIPE_KEY=pk_test_あなたの公開可能キー
-STRIPE_SECRET=sk_test_あなたのシークレットキー
+STRIPE_KEY=pk_test_(あなたの公開可能キー)
+STRIPE_SECRET=sk_test_(あなたのシークレットキー)
 ```
+
+**3. Webhookの設定**
+
+決済成功時にDBのステータスを更新するためには、Stripe CLIをインストールし、以下の設定を行う必要があります。
+
+1. Stripe CLIをインストール: [公式ドキュメント](https://docs.stripe.com/stripe-cli)に従ってインストールしてください。
+2. Stripeにログイン:
+
+```Bash
+stripe login
+```
+
+**3. Webhookの転送を開始**
+別のターミナルを開き、以下のコマンドを常に実行した状態にしてください。
+
+```Bash
+stripe listen --forward-to localhost/api/webhook
+```
+
+**4. Webhookシークレットの取得と設定**
+上記コマンドを実行すると、ターミナルに `Your webhook signing secret is whsec_XXXXXXXX` と表示されます。この値を `.env` に追記してください。
+
+```env
+STRIPE_WEBHOOK_SECRET=whsec_(表示された値)
+```
+
+**注意**
+※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。  
+※`stripe listen` を実行するたびに、Webhookシークレット (whsec_...) が変わる可能性があります。`stripe listen` を起動した際に表示される `whsec_...` を確認し、`.env` の `STRIPE_WEBHOOK_SECRET` と一致しているかチェックしてください。
 
 ### 4. 開発環境でのメール認証テスト (Mailtrap)
 
@@ -102,7 +131,16 @@ php artisan migrate
 php artisan db:seed
 ```
 
-### 9. フロントエンド環境構築
+### 9. ストレージリンクの作成
+
+商品画像などのアップロードファイルを表示するために、ストレージへのシンボリックリンクを作成する必要があります。
+
+```bash
+docker-compose exec php bash
+php artisan storage:link
+```
+
+### 10. フロントエンド環境構築
 
 本プロジェクトでは Autoprefixer を使用して CSS のブラウザ互換性を管理しています。スタイルを正しく反映させるため、以下の手順を実行してください。
 
@@ -119,15 +157,6 @@ npm run dev
 
 ```bash
 npm install postcss-loader autoprefixer --save-dev
-```
-
-### 10. ストレージリンクの作成
-
-商品画像などのアップロードファイルを表示するために、ストレージへのシンボリックリンクを作成する必要があります。
-
-```bash
-docker-compose exec php bash
-php artisan storage:link
 ```
 
 ## 使用技術（実行環境）
