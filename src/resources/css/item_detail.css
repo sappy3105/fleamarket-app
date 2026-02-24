@@ -5,7 +5,6 @@
     display: flex;
     justify-content: space-between;
     gap: 80px;
-
 }
 
 .item-detail__left {
@@ -29,11 +28,6 @@
     font-weight: bold;
     margin: 0 0 5px 0;
 }
-
-/* .sold-label {
-    color: #ff4d4b;
-    margin-left: 10px;
-} */
 
 .item-detail__brand {
     font-size: 18px;
@@ -104,7 +98,7 @@
     margin-bottom: 40px;
 }
 
-/* --- 追加：自分が出品した商品の場合の無効化ボタン --- */
+/* 自分が出品した商品の場合の無効化ボタン */
 .item-detail__buy-button.item-detail__buy-button--disabled {
     background-color: #cccccc;
     color: #666666;
@@ -112,10 +106,9 @@
     pointer-events: none;
 }
 
-/* 支払い待ち専用のスタイル（例：オレンジなど） */
+/* 支払い待ちの場合のボタン */
 .item-detail__buy-button.item-detail__buy-button--pending {
     background-color: #ff9900;
-    /* オレンジ */
     color: #fff;
     cursor: not-allowed;
 }
@@ -141,11 +134,8 @@
 .item-detail__categories {
     display: flex;
     flex-wrap: wrap;
-    /* タグが増えた時に自動で改行させる */
     gap: 5px 10px;
-    /* 上下 8px、左右 10px の余白をタグ間に作る（便利！） */
     flex: 1;
-    /* 残りの横幅をすべて使う */
 }
 
 .item-detail__category-tag {

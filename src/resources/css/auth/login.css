@@ -35,7 +35,6 @@
     color: #ff4d4b;
     font-size: 14px;
     height: 25px;
-    /* メッセージの有無でガタつかないよう高さを確保 */
     margin-top: 5px;
 }
 
@@ -43,7 +42,6 @@
     width: 100%;
     padding: 15px;
     background-color: #ff4d4b;
-    /* 画像に近い赤 */
     color: #fff;
     border: none;
     border-radius: 3px;

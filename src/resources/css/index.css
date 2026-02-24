@@ -42,9 +42,6 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     background-color: #d9d9d9;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
     border-radius: 3px;
     overflow: hidden;
 }
@@ -61,12 +58,6 @@
     font-size: 18px;
     color: #333;
 }
-
-/* .sold-label {
-    color: #ff4d4b;
-    font-weight: bold;
-    margin-left: 10px;
-} */
 
 .mylist__empty-message {
     text-align: center;

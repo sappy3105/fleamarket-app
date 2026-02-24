@@ -1,11 +1,9 @@
 .verify__container {
     padding: 100px 0;
-    /* 上下に大きな余白を作って中央に見せる */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 120px);
-    /* ヘッダー(60px)と適度な余白分を引いた高さ */
     box-sizing: border-box;
 }
 
@@ -17,16 +15,14 @@
     font-size: 18px;
     font-weight: bold;
     line-height: 2.0;
-    /* 行間を広げて読みやすく */
     margin-bottom: 50px;
 }
 
-/* 「認証はこちらから」ボタンの装飾 */
+/* 「認証はこちらから」ボタン */
 .verify__button {
     display: inline-block;
     text-decoration: none;
     background-color: #e0e0e0;
-    /* 薄いグレー */
     color: #000;
     border: 1px solid #333;
     padding: 12px 60px;
@@ -47,7 +43,6 @@
     border: none;
     color: #007bff;
     text-decoration: none;
-    /* 画像に合わせて一旦下線なしに。お好みで */
     font-size: 16px;
     cursor: pointer;
     padding: 0;
@@ -60,6 +55,5 @@
 .verify__alert {
     margin-top: 20px;
     color: #d9534f;
-    /* 通知とわかる色に */
     font-size: 14px;
 }

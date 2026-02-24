@@ -1,4 +1,4 @@
-/* 商品購入画面 & 配送先変更画面 共通スタイル */
+/* --- 商品購入画面 & 配送先変更画面 共通スタイル --- */
 .purchase__container,
 .address__container {
     max-width: 1200px;
@@ -74,14 +74,8 @@
 /* 支払い方法・配送先共通 */
 .purchase__section {
     padding: 20px 0;
-    /* margin-bottom: 40px; */
     border-bottom: 1px solid #ccc;
 }
-
-/* .purchase__section:last-of-type {
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 40px;
-} */
 
 .section__header {
     display: flex;
@@ -101,100 +95,15 @@
     font-size: 16px;
 }
 
-/* 支払い方法 */
-.select-wrapper {
-    position: relative;
-    width: 100%;
+/* 支払い方法セレクトボックス（購入画面固有） */
+.purchase__container .select-wrapper {
     max-width: 300px;
     margin-left: 40px;
     margin-top: 10px;
 }
 
-.hidden-select {
-    display: none;
-}
-
-/* 閉じている状態の枠 */
-.select-trigger {
+.purchase__container .select-trigger {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-
-.trigger-text.is-placeholder {
-    color: #888;
-}
-
-/* 逆三角形 */
-.select-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%);
-    border-top: 10px solid #333;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.select-wrapper.is-open::after {
-    display: none;
-    /* リストが開いている時は三角形を消す */
-}
-
-/* ドロップダウンリスト（展開時） */
-.custom-options {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #555; /* 濃いグレー */
-    border-radius: 4px;
-    display: none; /* 初期は非表示 */
-    z-index: 100;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-.custom-option:first-child {
-    padding-top: 12px;
-}
-
-/* openクラスがついたら表示 */
-.select-wrapper.is-open .custom-options {
-    display: block;
-}
-
-/* 各選択肢 */
-.custom-option {
-    padding: 12px 15px 12px 35px; /* 左側にチェックマーク用の余白 */
-    color: #fff;
-    cursor: pointer;
-    position: relative;
-    transition: background 0.2s;
-}
-
-.custom-option:hover {
-    background-color: #666;
-}
-
-/* 選択中の青背景 */
-.custom-option.selected {
-    background-color: #4A90E2;
-}
-
-/* チェックマーク */
-.custom-option.selected::before {
-    content: "✓";
-    position: absolute;
-    left: 12px;
-    font-weight: bold;
 }
 
 /* 配送先 */

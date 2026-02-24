@@ -50,11 +50,9 @@
 }
 
 .image-upload__preview {
-    display: none;
-    /* 初期状態は非表示 */
+    display: none; /* 初期状態は非表示 */
     max-width: 100%;
     max-height: 200px;
-    /* 縦長になりすぎないように制限 */
     margin-bottom: 20px;
 }
 
@@ -101,7 +99,19 @@
     color: white;
 }
 
-/* 入力要素 */
+/* セレクトボックス（出品画面固有） */
+.exhibition__container .select-wrapper {
+    max-width: none;
+    margin-left: 0;
+}
+
+.exhibition__container .select-trigger {
+    min-height: 45px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* 各入力要素 */
 .exhibition__input,
 .select-trigger,
 .exhibition__textarea {
@@ -111,117 +121,6 @@
     border-radius: 3px;
     font-size: 16px;
     box-sizing: border-box;
-}
-
-/* セレクトボックス */
-.select-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.exhibition__select-wrapper.select-wrapper {
-    max-width: none;
-    /* 購入画面の 300px を打ち消し */
-    margin-left: 0;
-    /* 購入画面の 40px を打ち消し */
-    width: 100%;
-    /* 親の 600px に対して100%にする */
-}
-
-.exhibition__select-wrapper .select-trigger {
-    width: 100%;
-    min-height: 45px;
-    padding: 12px;
-}
-
-.hidden-select {
-    display: none;
-}
-
-/* 閉じている時の枠 */
-.select-trigger {
-    background-color: #fff;
-    cursor: pointer;
-    min-height: 45px;
-    display: flex;
-    align-items: center;
-}
-
-/* 自作の逆三角形 */
-.select-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%);
-    /* 三角形の形と色 */
-    border-top: 10px solid #333;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    pointer-events: none;
-    z-index: 5;
-}
-
-/* リストが開いている時は三角形を隠す */
-.select-wrapper.is-open::after {
-    display: none;
-}
-
-/* 5. カスタムリスト本体（画像のデザインを再現） */
-.exhibition__select-wrapper .custom-options {
-    /* リストが表示される際の幅も親に合わせる */
-    width: 100%;
-}
-
-.custom-options {
-    position: absolute;
-    top: 0;
-    /* 枠の真上から表示してプレースホルダーを隠す */
-    left: 0;
-    right: 0;
-    background-color: #555;
-    border-radius: 3px;
-    display: none;
-    z-index: 100;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* JSで is-open クラスがついた時だけ表示 */
-.select-wrapper.is-open .custom-options {
-    display: block;
-}
-
-/* 各選択肢のスタイル */
-.custom-option {
-    padding: 12px 15px 12px 35px;
-    /* 左側にチェックマーク用の余白 */
-    color: #fff;
-    cursor: pointer;
-    position: relative;
-    /* font-size: 14px; */
-}
-
-.custom-option:hover {
-    background-color: #666;
-}
-
-/* 選択中の青背景 */
-.custom-option.selected {
-    background-color: #5897fb;
-}
-
-/* チェックマーク */
-.custom-option.selected::before {
-    content: "✓";
-    position: absolute;
-    left: 12px;
-    font-weight: bold;
-}
-
-/* プレースホルダー（選択してください）の色 */
-.trigger-text.is-placeholder {
-    color: #888;
 }
 
 .exhibition__textarea {
@@ -265,7 +164,6 @@
 
 /* バリデーション */
 .exhibition__error-message {
-    /* position: absolute; */
     color: #ff4d4b;
     font-size: 14px;
     margin: 5px 0 0 0;
