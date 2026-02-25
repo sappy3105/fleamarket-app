@@ -153,40 +153,40 @@ exit
 
 1. Stripe CLIのインストール  
 
-[公式ドキュメント](https://docs.stripe.com/stripe-cli)に従ってインストールしてください。  
+   [公式ドキュメント](https://docs.stripe.com/stripe-cli)に従ってインストールしてください。  
 
 2. Stripeへログイン  
 
-ターミナルで以下のコマンドを実行します。
+   ターミナルで以下のコマンドを実行します。
 
-```Bash
-stripe login
-```
+   ```Bash
+   stripe login
+   ```
 
 > **補足：stripe login 実行後**  
 > ターミナルに表示されたURLをブラウザで開き、ペアリングコードを確認して「アクセスを許可（Allow access）」をクリックしてください。ターミナルに Done! と表示されればログイン完了です。
 
 3. Webhookの転送を開始  
 
-別のターミナル（ホスト側のローカル環境）を開き、以下のコマンドを常に実行した状態にしてください。
+   別のターミナル（ホスト側のローカル環境）を開き、以下のコマンドを常に実行した状態にしてください。
 
-```Bash
-stripe listen --forward-to localhost/api/webhook
-```
+   ```Bash
+   stripe listen --forward-to localhost/api/webhook
+   ```
 
 4. Webhookシークレットの取得と設定
 
-上記コマンドを実行すると、ターミナルに `Your webhook signing secret is whsec_XXXXXXXX` と表示されます。この値を `.env` に追記してください。
+   上記コマンドを実行すると、ターミナルに `Your webhook signing secret is whsec_XXXXXXXX` と表示されます。この値を `.env` に追記してください。
 
-```env
-STRIPE_WEBHOOK_SECRET=whsec_(表示された値)
-```
+   ```env
+   STRIPE_WEBHOOK_SECRET=whsec_(表示された値)
+   ```
 
-**注意**
+   **注意**
 
-※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。
+   ※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。
 
-※`stripe listen` を実行するたびに、Webhookシークレット (whsec*...) が変わる可能性があります。`stripe listen` を起動した際に表示される `whsec*...` を確認し、`.env`の`STRIPE_WEBHOOK_SECRET` と一致しているかチェックしてください。
+   ※`stripe listen` を実行するたびに、Webhookシークレット (whsec*...) が変わる可能性があります。`stripe listen` を起動した際に表示される `whsec*...` を確認し、`.env`の`STRIPE_WEBHOOK_SECRET` と一致しているかチェックしてください。
 
 ## 使用技術（実行環境）
 
