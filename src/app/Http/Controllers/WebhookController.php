@@ -27,32 +27,48 @@ class WebhookController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
 
-        // 4.支払い完了イベントをキャッチ
-        if (
-            $event->type === 'checkout.session.completed' ||
-            $event->type === 'checkout.session.async_payment_succeeded'
-        ) {
+        // 4. イベントの種類によって処理を分ける
+        $session = $event->data->object;
 
-            // 5. 通知データの中から「セッション情報」を取り出す
-            $session = $event->data->object;
+        \Log::info("--- Webhook受信ログ開始 ---");
+        \Log::info("イベントタイプ: " . $event->type);
+        \Log::info("セッションID: " . $session->id);
+        \Log::info("Stripe上の支払い状態(payment_status): " . $session->payment_status);
+        \Log::info("--- Webhook受信ログ終了 ---");
 
-            // 【デバッグ用】実際に届いたIDをログに出してみる
-            \Log::info("届いたセッションID: " . $session->id);
+        // --- ケースA: チェックアウト完了（カード決済の完了、またはコンビニ決済の番号発行時） ---
+        if ($event->type === 'checkout.session.completed') {
 
-            // 6. DBから、対象の購入データを探す
-            // storePurchaseで作っておいた「stripe_checkout_id」を頼りに検索します。
+            \Log::info("Checkout Session Completed 届きました: " . $session->id);
+
             $soldItem = SoldItem::where('stripe_checkout_id', $session->id)->first();
 
-            // 7. データが見つかり、かつ、まだ「未払い(pending)」状態なら更新
             if ($soldItem && $soldItem->status === 'pending') {
-                // ここでステータスを「支払い済み(paid)」に書き換えます！
-                $soldItem->update(['status' => 'paid']);
-
-                // ログに記録を残しておくと、後でトラブルがあった時に確認しやすくなります。
-                \Log::info("決済完了アップデート成功: SoldItem ID {$soldItem->id}");
+                // セッション内の支払い状況を確認
+                if ($session->payment_status === 'paid') {
+                    // カード決済など、この時点で支払いが済んでいる場合のみ更新
+                    $soldItem->update(['status' => 'paid']);
+                    \Log::info("即時決済完了（カード等）: SoldItem ID {$soldItem->id}");
+                } else {
+                    // コンビニ払いなど、支払いがまだの場合は pending のまま維持
+                    \Log::info("支払い待ち状態（コンビニ等）: SoldItem ID {$soldItem->id} は pending を維持します");
+                }
             } else {
-                // 【デバッグ用】見つからなかった場合にログを出す
-                \Log::warning("DBに該当するIDがありませんでした: " . $session->id);
+                \Log::warning("対象のデータがないか、既に処理済みです: " . $session->id);
+            }
+        }
+
+        // --- ケースB: 非同期決済の成功（コンビニで実際に現金が支払われた時） ---
+        if ($event->type === 'checkout.session.async_payment_succeeded') {
+
+            \Log::info("コンビニ入金通知届きました: " . $session->id);
+
+            $soldItem = SoldItem::where('stripe_checkout_id', $session->id)->first();
+
+            if ($soldItem && $soldItem->status === 'pending') {
+                // 実際にお金が払われたので、確実に paid に更新
+                $soldItem->update(['status' => 'paid']);
+                \Log::info("コンビニ入金確認アップデート成功: SoldItem ID {$soldItem->id}");
             }
         }
 
