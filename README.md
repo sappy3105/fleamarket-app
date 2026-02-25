@@ -6,18 +6,18 @@
 
 1. プロジェクトをクローンし、Dockerコンテナを起動します。
 
-```bash
-git clone git@github.com:sappy3105/fleamarket-app.git
-cd fleamarket-app
-docker-compose up -d --build
-```
+   ```bash
+   git clone git@github.com:sappy3105/fleamarket-app.git
+   cd fleamarket-app
+   docker-compose up -d --build
+   ```
 
 2. `.env.example` をコピーして `.env` を作成し、環境準備をします。
 
-```bash
-docker-compose exec php bash
-cp .env.example .env
-```
+   ```bash
+   docker-compose exec php bash
+   cp .env.example .env
+   ```
 
 ### 2. 各種サービスの設定 (.env)
 
@@ -163,8 +163,8 @@ exit
    stripe login
    ```
 
-> **補足：stripe login 実行後**  
-> ターミナルに表示されたURLをブラウザで開き、ペアリングコードを確認して「アクセスを許可（Allow access）」をクリックしてください。ターミナルに Done! と表示されればログイン完了です。
+   > **補足：stripe login 実行後**  
+   > ターミナルに表示されたURLをブラウザで開き、ペアリングコードを確認して「アクセスを許可（Allow access）」をクリックしてください。ターミナルに Done! と表示されればログイン完了です。
 
 3. Webhookの転送を開始  
 
