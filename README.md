@@ -182,6 +182,12 @@ exit
    STRIPE_WEBHOOK_SECRET=whsec_(表示された値)
    ```
 
+   追記後、設定を反映させるためにコンテナ内で以下のコマンドを実行してください。
+
+   ```bash
+   php artisan config:clear
+   ```
+   
    **注意**
 
    ※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。
