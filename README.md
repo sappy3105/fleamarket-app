@@ -140,6 +140,7 @@ npm run production
 ```bash
 npm install postcss-loader autoprefixer --save-dev
 ```
+
 #### 3-6. 完了したらコンテナを抜ける
 
 ```bash
@@ -157,7 +158,8 @@ exit
 stripe login
 ```
 
-3. Webhookの転送を開始
+**補足：stripe login 実行後**
+ターミナルに表示されたURLをブラウザで開き、ペアリングコードを確認して「アクセスを許可（Allow access）」をクリックしてください。ターミナルに Done! と表示されればログイン完了です。3. Webhookの転送を開始
 
 別のターミナル（ホスト側のローカル環境）を開き、以下のコマンドを常に実行した状態にしてください。
 
