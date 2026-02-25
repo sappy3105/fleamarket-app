@@ -2,9 +2,9 @@
 
 ## 環境構築
 
-### 1. リポジトリのクローンとDockerの起動（ローカル環境）
+### 1. リポジトリのクローンと環境準備（ローカル環境）
 
-まず、プロジェクトをクローンし、Dockerコンテナを起動します。
+1. プロジェクトをクローンし、Dockerコンテナを起動します。
 
 ```bash
 git clone git@github.com:sappy3105/fleamarket-app.git
@@ -12,13 +12,16 @@ cd fleamarket-app
 docker-compose up -d --build
 ```
 
-### 2. Laravel 環境構築
+2. `.env.example` をコピーして `.env` を作成し、環境準備をします。
 
 ```bash
 docker-compose exec php bash
-composer install
 cp .env.example .env
 ```
+
+### 2. 各種サービスの設定 (.env)
+
+#### 2-1. データベース設定
 
 `.env`ファイルに以下の環境変数を追加してください。
 
@@ -31,7 +34,7 @@ DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 ```
 
-### 3. STRIPE決済システムの設定
+#### 2-2. STRIPE決済システムの設定
 
 本プロジェクトでは決済機能に [Stripe](https://stripe.com/jp) を使用しています。  
 開発環境（テストモード）で動作させるには、以下の手順でキーを設定してください。
@@ -54,40 +57,7 @@ STRIPE_KEY=pk_test_(あなたの公開可能キー)
 STRIPE_SECRET=sk_test_(あなたのシークレットキー)
 ```
 
-**3. Webhookの設定**
-
-決済成功時にDBのステータスを更新するためには、Stripe CLIをインストールし、以下の設定を行う必要があります。
-
-1. Stripe CLIをインストール: [公式ドキュメント](https://docs.stripe.com/stripe-cli)に従ってインストールしてください。
-2. Stripeにログイン:
-
-```Bash
-stripe login
-```
-
-**3. Webhookの転送を開始**
-
-別のターミナルを開き、以下のコマンドを常に実行した状態にしてください。
-
-```Bash
-stripe listen --forward-to localhost/api/webhook
-```
-
-**4. Webhookシークレットの取得と設定**
-
-上記コマンドを実行すると、ターミナルに `Your webhook signing secret is whsec_XXXXXXXX` と表示されます。この値を `.env` に追記してください。
-
-```env
-STRIPE_WEBHOOK_SECRET=whsec_(表示された値)
-```
-
-**注意**
-
-※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。
-
-※`stripe listen` を実行するたびに、Webhookシークレット (whsec*...) が変わる可能性があります。`stripe listen` を起動した際に表示される `whsec*...` を確認し、`.env`の`STRIPE_WEBHOOK_SECRET` と一致しているかチェックしてください。
-
-### 4. 開発環境でのメール認証テスト (Mailtrap)
+#### 2-3. 開発環境でのメール認証テスト (Mailtrap)
 
 本プロジェクトでは、メール認証のテストに [Mailtrap](https://mailtrap.io/) を使用しています。  
 機能を再現するには、以下の手順で設定を行ってください。
@@ -110,54 +80,54 @@ MAIL_USERNAME=（確認したユーザー名）
 MAIL_PASSWORD=（確認したパスワード）
 ```
 
-### 5. 環境変数の反映
+### 3. アプリケーションの初期化（コンテナ内操作）
 
-Laravel環境構築およびStripe、Mailtrapの設定を `.env` に追記した後は、設定をアプリケーションに反映させるため、必ず以下のコマンドを実行してください。
+以下のコマンドを実行して、PHPコンテナ内でアプリケーションの構築を行います。
 
 ```bash
+# コンテナ内に入る（一度だけ実行）
 docker-compose exec php bash
-php artisan config:clear
 ```
 
-### 6. アプリケーションキーの作成
+--- 以下、コンテナ内での操作 ---
+
+#### 3-1. パッケージのインストール
+
+```bash
+composer install
+```
+
+#### 3-2. アプリケーションキーの生成と反映
 
 ```bash
 php artisan key:generate
+php artisan config:clear
 ```
 
-### 7. マイグレーションの実行
+#### 3-3. データベースの構築
 
 ```bash
 php artisan migrate
-```
-
-### 8. シーディングの実行
-
-```bash
 php artisan db:seed
 ```
 
-### 9. ストレージリンクの作成
+#### 3-4. ストレージリンクの作成
 
 商品画像などのアップロードファイルを表示するために、ストレージへのシンボリックリンクを作成する必要があります。
 
 ```bash
-docker-compose exec php bash
 php artisan storage:link
 ```
 
-### 10. フロントエンド環境構築
+#### 3-5. フロントエンドの環境構築
 
 本プロジェクトでは Autoprefixer を使用して CSS のブラウザ互換性を管理しています。スタイルを正しく反映させるため、以下の手順を実行してください。
 
 ```bash
-# 1. コンテナ内に入る
-docker-compose exec php bash
-
-# 2. パッケージのインストール（初回のみ）
+# 1. パッケージのインストール（初回のみ）
 npm install
 
-# 3. ビルドの実行
+# 2. ビルドの実行
 # 開発用（変更を確認したい場合など）
 npm run dev
 
@@ -170,6 +140,44 @@ npm run production
 ```bash
 npm install postcss-loader autoprefixer --save-dev
 ```
+#### 3-6. 完了したらコンテナを抜ける
+
+```bash
+exit
+```
+
+### 4. Stripe Webhookの設定
+
+決済成功時にDBのステータスを更新するためには、Stripe CLIをインストールし、以下の設定を行う必要があります。
+
+1. Stripe CLIをインストール: [公式ドキュメント](https://docs.stripe.com/stripe-cli)に従ってインストールしてください。
+2. Stripeにログイン:
+
+```Bash
+stripe login
+```
+
+3. Webhookの転送を開始
+
+別のターミナル（ホスト側のローカル環境）を開き、以下のコマンドを常に実行した状態にしてください。
+
+```Bash
+stripe listen --forward-to localhost/api/webhook
+```
+
+4. Webhookシークレットの取得と設定
+
+上記コマンドを実行すると、ターミナルに `Your webhook signing secret is whsec_XXXXXXXX` と表示されます。この値を `.env` に追記してください。
+
+```env
+STRIPE_WEBHOOK_SECRET=whsec_(表示された値)
+```
+
+**注意**
+
+※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。
+
+※`stripe listen` を実行するたびに、Webhookシークレット (whsec*...) が変わる可能性があります。`stripe listen` を起動した際に表示される `whsec*...` を確認し、`.env`の`STRIPE_WEBHOOK_SECRET` と一致しているかチェックしてください。
 
 ## 使用技術（実行環境）
 
