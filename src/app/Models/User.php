@@ -51,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
     // ユーザーが「いいね」した商品一覧との紐づけ
     public function likedItems()
     {
-        return $this->belongsToMany(Item::class, 'likes');
+        return $this->belongsToMany(Item::class, 'likes')->withTimestamps();
     }
 
     // 購入した商品
@@ -60,10 +60,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Item::class, 'sold_items');
     }
 
-    //出品した商品←これが無くても動いてるがなぜ？
+    //出品した商品
     public function items()
     {
         return $this->hasMany(Item::class);
     }
-
 }

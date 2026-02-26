@@ -19,10 +19,10 @@ class Item extends Model
         'price',
     ];
 
-    // 中間テーブル名を category_item に指定
+    // 中間テーブルcategory_itemのリレーション
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
     // Usersテーブルとのリレーション
@@ -31,13 +31,13 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Commentsテーブルとのリレーション(1対多)
+    // Commentsテーブルとのリレーション
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
-    // likesテーブルとの1対多のリレーション
+    // likesテーブルとのリレーション
     public function likes()
     {
         return $this->hasMany(Like::class);
