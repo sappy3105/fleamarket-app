@@ -53,8 +53,8 @@ DB_PASSWORD=laravel_pass
 プロジェクト直下の `.env` ファイルに、取得したキーを反映させてください。
 
 ```env
-STRIPE_KEY=pk_test_(あなたの公開可能キー)
-STRIPE_SECRET=sk_test_(あなたのシークレットキー)
+STRIPE_KEY=pk_test_あなたの公開可能キー
+STRIPE_SECRET=sk_test_あなたのシークレットキー
 ```
 
 #### 2-3. 開発環境でのメール認証システム設定 (Mailtrap)
@@ -68,6 +68,7 @@ STRIPE_SECRET=sk_test_(あなたのシークレットキー)
 2. ログイン後、左メニューの「Sandboxes」→「My Sandbox」をクリックします。
 3. 「Integration」タブが選択されていることを確認し、その下の「SMTP」を選択します。
 4. 表示された `Credentials` 欄の `Username` と `Password` を確認します。
+5. 「My Sandbox」ページのURL(`https://mailtrap.io/inboxes/数字/messages`) をコピーします。
 
 **2. 環境設定 (.env)**
 
@@ -76,8 +77,9 @@ STRIPE_SECRET=sk_test_(あなたのシークレットキー)
 ```env
 MAIL_HOST=sandbox.smtp.mailtrap.io
 MAIL_PORT=2525
-MAIL_USERNAME=（確認したユーザー名）
-MAIL_PASSWORD=（確認したパスワード）
+MAIL_USERNAME=確認したユーザー名
+MAIL_PASSWORD=確認したパスワード
+MAIL_DASHBOARD_URL=「My Sandbox」ページのURL
 ```
 
 ### 3. アプリケーションの初期化（コンテナ内操作）
@@ -151,11 +153,11 @@ exit
 
 決済成功時にDBのステータスを更新するためには、Stripe CLIをインストールし、以下の設定を行う必要があります。
 
-1. Stripe CLIのインストール  
+1. Stripe CLIのインストール
 
-   [公式ドキュメント](https://docs.stripe.com/stripe-cli)に従ってインストールしてください。  
+   [公式ドキュメント](https://docs.stripe.com/stripe-cli)に従ってインストールしてください。
 
-2. Stripeへログイン  
+2. Stripeへログイン
 
    ターミナルで以下のコマンドを実行します。
 
@@ -166,12 +168,12 @@ exit
    > **補足：stripe login 実行後**  
    > ターミナルに表示されたURLをブラウザで開き、ペアリングコードを確認して「アクセスを許可（Allow access）」をクリックしてください。ターミナルに Done! と表示されればログイン完了です。
 
-3. Webhookの転送を開始  
+3. Webhookの転送を開始
 
    別のターミナル（ホスト側のローカル環境）を開き、以下のコマンドを常に実行した状態にしてください。
 
    ```Bash
-   stripe listen --forward-to localhost/api/webhook
+   stripe listen --forward-to http://localhost/api/webhook
    ```
 
 4. Webhookシークレットの取得と設定
@@ -187,7 +189,7 @@ exit
    ```bash
    php artisan config:clear
    ```
-   
+
    **注意**
 
    ※もし `stripe listen` を実行した際に「認証エラー（Expired token など）」が出た場合は、再度 `stripe login` を実行して再認証してください。
