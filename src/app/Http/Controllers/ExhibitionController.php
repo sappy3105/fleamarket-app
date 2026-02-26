@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\ExhibitionRequest;
 use App\Models\Category;
 use App\Models\Item;
@@ -17,19 +16,16 @@ class ExhibitionController extends Controller
         return view('exhibition', compact('categories'));
     }
 
-    // 【新規】商品出品の保存処理
+    // 出品商品の保存
     public function store(ExhibitionRequest $request)
     {
-        // 【1】画像のアップロード処理（ProfileControllerと同じ書き方に統一）
-        // 第2引数に 'public' を指定することで、 storage/app/public/item_images に保存され、
-        // 戻り値 $imagePath には自動的に 'item_images/ハッシュ値.jpg' が入ります。
+        // 1.画像のアップロード処理
         $imagePath = $request->file('image_path')->store('item_images', 'public');
 
-        // バリデーション済みデータを取得
+        // 2. バリデーション済みデータの取得
         $validated = $request->validated();
 
-        // 【2】商品情報のDB保存
-        // createメソッドを使って itemsテーブルにデータを保存します。
+        // 3.商品情報のDB保存
         $item = Item::create([
             'user_id' => Auth::id(),
             'name' => $validated['name'],
@@ -37,19 +33,13 @@ class ExhibitionController extends Controller
             'price' => $validated['price'],
             'condition' => $validated['condition'],
             'image_path' => $imagePath,
-            'brand_name' => $validated['brand_name'],
+            'brand_name' => $validated['brand_name'] ?? null,
         ]);
 
+        // 4.カテゴリーの紐付け保存
+        $item->categories()->attach($validated['category_ids']);
 
-        // 【4】カテゴリーの紐付け保存（中間テーブルへの保存）
-        // category_ids は配列で送られてきます（例: [1, 3]）。
-        // attachメソッドを使うと、category_itemsテーブルに「この商品IDと、カテゴリーID 1」「この商品IDと、カテゴリーID 3」というデータを自動で作成してくれます。
-        $item->categories()->attach($request->category_ids);
-
-
-        // 【5】リダイレクト
-        // 保存が完了したら、トップページ（商品一覧）や出品完了画面などへ遷移させます。
-        // ここではルート名 'item.index'（商品一覧）に戻るとします。
+        // 4.リダイレクト
         return redirect()->route('mypage');
     }
 }
