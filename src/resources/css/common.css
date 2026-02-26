@@ -69,8 +69,9 @@
     padding: 0;
 }
 
-/* リンク文字（マイページ・ログアウト）共通設定 */
+/* リンク文字（マイページ・ログイン・ログアウト）共通設定 */
 .header__nav-link {
+    display: inline-block;
     color: #fff;
     text-decoration: none;
     font-size: 18px;
@@ -80,6 +81,7 @@
     border: none;
     padding: 0;
     font-family: inherit;
+    line-height: 1;
 }
 
 /* 出品ボタン */

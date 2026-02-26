@@ -38,10 +38,18 @@
                     <nav>
                         <ul class="header__nav-list">
                             <li>
-                                <form action="/logout" method="POST">
-                                    @csrf
-                                    <button type="submit" class="header__nav-link">ログアウト</button>
-                                </form>
+                                {{-- ログインしている時 --}}
+                                @auth
+                                    <form action="/logout" method="POST">
+                                        @csrf
+                                        <button type="submit" class="header__nav-link">ログアウト</button>
+                                    </form>
+                                @endauth
+
+                                {{-- ログインしていない時 --}}
+                                @guest
+                                    <a href="/login" class="header__nav-link">ログイン</a>
+                                @endguest
                             </li>
                             <li><a href="/mypage" class="header__nav-link">マイページ</a></li>
                             <li><a href="/sell" class="header__nav-btn">出品</a></li>
