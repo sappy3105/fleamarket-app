@@ -8,7 +8,7 @@ class VerifyEmailResponse implements VerifyEmailResponseContract
 {
     public function toResponse($request)
     {
-        // 認証完了後、プロフィール設定画面（profile.edit）へリダイレクト
+        // 認証完了後、プロフィール設定画面へリダイレクト
         return redirect()->route('profile.edit');
     }
 }

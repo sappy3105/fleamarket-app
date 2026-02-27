@@ -11,11 +11,11 @@ class RegisterResponse implements RegisterResponseContract
     {
         // もしユーザーがまだメール認証を終えていないなら
         if (! Auth::user()->hasVerifiedEmail()) {
-            // 誘導画面（verify-email）を表示するルートへ飛ばす
+            // 認証誘導画面を表示するルートへ飛ばす
             return redirect()->route('verification.notice');
         }
 
-        // すでに認証済み（通常はあり得ませんが）ならプロフィールへ
+        // すでに認証済みならプロフィールへ
         return redirect()->route('profile.edit');
     }
 }

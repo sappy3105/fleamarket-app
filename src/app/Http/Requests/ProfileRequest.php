@@ -28,7 +28,7 @@ class ProfileRequest extends FormRequest
             'name'       => ['required', 'max:20'],
             'postcode'   => ['required', 'regex:/^\d{3}-\d{4}$/'],
             'address'    => ['required'],
-            'building'   => ['nullable', 'string', 'max:255'], // 追加
+            'building'   => ['nullable'],
         ];
     }
 
