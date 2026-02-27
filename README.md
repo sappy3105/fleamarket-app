@@ -273,7 +273,9 @@ users {
     unsigned_bigint id PK
     varchar name
     varchar email UK
+    timestamp email_verified_at
     varchar password
+    varchar remember_token
     timestamp created_at
     timestamp updated_at
 }

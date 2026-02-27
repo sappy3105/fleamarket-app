@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
@@ -13,7 +12,7 @@ class LikeController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        $user->likedItems()->attach($item_id);
+        $user->likedItems()->syncWithoutDetaching([$item_id]);
         return back();
     }
 

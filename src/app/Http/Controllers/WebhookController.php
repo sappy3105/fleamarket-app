@@ -5,26 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SoldItem;
 use Illuminate\Support\Facades\Log;
+use Stripe\Stripe;
+use Stripe\Webhook;
+use Stripe\Exception\SignatureVerificationException;
 
 class WebhookController extends Controller
 {
     public function handle(Request $request)
     {
         // 1. Stripeの秘密鍵をセット
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
-        // 2. Webhookシークレットと、届いたデータ（中身と署名）を取得
-        $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
+        // 2. Webhookシークレット
+        $endpoint_secret = config('services.stripe.webhook_secret');
         $payload = $request->getContent();
         $sig_header = $request->header('Stripe-Signature');
 
         try {
-            // 3. データの「真偽」を検証する
-            // 悪意のある人がStripeのフリをして偽の通知を送ってきても、ここでブロック（エラー）されます。
-            $event = \Stripe\Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
-        } catch (\Exception $e) {
-            // もしハンコが偽物だったり、設定が間違っていたらエラーを返して終了します。
-            return response()->json(['error' => $e->getMessage()], 400);
+            // 3. データの検証
+            $event = Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
+        } catch (SignatureVerificationException $e) {
+            Log::error("Webhook署名検証失敗: " . $e->getMessage());
+            return response()->json(['error' => 'Invalid signature'], 400);
+        } catch (\UnexpectedValueException $e) {
+            Log::error("Webhookペイロード不正: " . $e->getMessage());
+            return response()->json(['error' => 'Invalid payload'], 400);
         }
 
         // 4. イベントの種類によって処理を分ける
@@ -38,7 +43,6 @@ class WebhookController extends Controller
 
         // --- ケースA: チェックアウト完了（カード決済の完了、またはコンビニ決済の番号発行時） ---
         if ($event->type === 'checkout.session.completed') {
-
             \Log::info("Checkout Session Completed 届きました: " . $session->id);
 
             $soldItem = SoldItem::where('stripe_checkout_id', $session->id)->first();
@@ -61,7 +65,7 @@ class WebhookController extends Controller
         // --- ケースB: 非同期決済の成功（コンビニで実際に現金が支払われた時） ---
         if ($event->type === 'checkout.session.async_payment_succeeded') {
 
-            \Log::info("コンビニ入金通知届きました: " . $session->id);
+            \Log::info("コンビニ入金通知が届きました: " . $session->id);
 
             $soldItem = SoldItem::where('stripe_checkout_id', $session->id)->first();
 

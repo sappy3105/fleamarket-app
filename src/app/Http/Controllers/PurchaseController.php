@@ -47,7 +47,7 @@ class PurchaseController extends Controller
             session(["payment_method_{$item_id}" => $request->payment_method]);
         }
 
-        // 2. 【重要】配送先情報の取得
+        // 2. 配送先情報の取得
         // すでにセッションに変更後の住所があるか確認
         if (session()->has("shipping_address_{$item_id}")) {
             $address = session("shipping_address_{$item_id}");
@@ -78,21 +78,19 @@ class PurchaseController extends Controller
         $item = Item::findOrFail($item_id);
         $user = Auth::user();
 
-        // 1. Stripeの設定（.envから読み込み）
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        // 1. Stripeの設定
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         // 2. 支払い方法の判定 (1:コンビニ, 2:カード)
         $payment_method_types = ($request->payment_method == 1) ? ['konbini'] : ['card'];
 
         // 3. Stripe Checkoutセッションの作成
-        $checkout_session = \Stripe\Checkout\Session::create([
+        $checkout_session = Session::create([
             'payment_method_types' => $payment_method_types,
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'jpy',
-                    'product_data' => [
-                        'name' => $item->name,
-                    ],
+                    'product_data' => ['name' => $item->name],
                     'unit_amount' => $item->price,
                 ],
                 'quantity' => 1,
@@ -114,9 +112,9 @@ class PurchaseController extends Controller
 
             $sessionAddress = session("shipping_address_{$item_id}");
             $addressData = $sessionAddress ?? [
-                'postcode' => $user->profile->postcode,
-                'address'  => $user->profile->address,
-                'building' => $user->profile->building,
+                'postcode' => $user->profile->postcode ?? '',
+                'address'  => $user->profile->address ?? '',
+                'building' => $user->profile->building ?? '',
             ];
 
             ShippingAddress::create([

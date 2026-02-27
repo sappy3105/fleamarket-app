@@ -19,7 +19,6 @@ class Profile extends Model
 
     public function user()
     {
-        // Profileは1人のUserに属している
         return $this->belongsTo(User::class);
     }
 }

@@ -32,7 +32,7 @@
                             <input type="hidden" name="page" value="{{ request('page', 'sell') }}">
                         @elseif (Route::is('item.index'))
                             {{-- 商品一覧ページにいるときは 'tab' を送る --}}
-                            <input type="hidden" name="page" value="{{ request('tab', 'all') }}">
+                            <input type="hidden" name="tab" value="{{ request('tab', 'all') }}">
                         @endif
                     </form>
                     <nav>

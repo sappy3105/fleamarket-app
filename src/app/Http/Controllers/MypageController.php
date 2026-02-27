@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Item;
 
 class MypageController extends Controller
 {
     public function index(Request $request)
     {
-        $user = Auth::user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user()->load('profile');
         $profile = $user->profile;
         $page = $request->query('page', 'sell');
         $keyword = $request->query('keyword');
@@ -24,7 +24,7 @@ class MypageController extends Controller
         // キーワードがあれば商品名で絞り込む
         $query->keywordSearch($keyword);
 
-        $items = $query->get();
+        $items = $query->with('soldItem')->get();
 
         return view('mypage', compact('user', 'profile', 'items', 'page'));
     }
