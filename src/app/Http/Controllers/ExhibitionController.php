@@ -19,11 +19,11 @@ class ExhibitionController extends Controller
     // 出品商品の保存
     public function store(ExhibitionRequest $request)
     {
-        // 1.画像のアップロード処理
-        $imagePath = $request->file('image_path')->store('item_images', 'public');
-
-        // 2. バリデーション済みデータの取得
+        // 1. バリデーション済みデータの取得
         $validated = $request->validated();
+
+        // 2.画像のアップロード処理
+        $imagePath = $validated['image_path']->store('item_images', 'public');
 
         // 3.商品情報のDB保存
         $item = Item::create([
@@ -39,7 +39,7 @@ class ExhibitionController extends Controller
         // 4.カテゴリーの紐付け保存
         $item->categories()->attach($validated['category_ids']);
 
-        // 4.リダイレクト
+        // 5.リダイレクト
         return redirect()->route('mypage');
     }
 }

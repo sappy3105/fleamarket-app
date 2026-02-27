@@ -37,7 +37,7 @@ class ProfileController extends Controller
         $profileData = [
             'postcode' => $validated['postcode'],
             'address'  => $validated['address'],
-            'building' => $validated['building'] ?? null,
+            'building' => $validated['building'],
         ];
 
         // 4. 画像処理

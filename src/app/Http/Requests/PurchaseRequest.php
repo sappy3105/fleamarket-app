@@ -40,7 +40,7 @@ class PurchaseRequest extends FormRequest
 
         // 1. セッション（変更後の住所）があるか確認
         if ($session) {
-            // セッションがある場合は、その中身を信じる（空でもプロフィールは見に行かない）
+            // セッションがある場合は、セッションの値を使う
             $finalPostcode = $session['postcode'] ?? null;
             $finalAddress = $session['address'] ?? null;
         }

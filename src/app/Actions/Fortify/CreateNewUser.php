@@ -10,18 +10,10 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
 {
-    use PasswordValidationRules;
-
-    /**
-     * Validate and create a newly registered user.
-     *
-     * @param  array<string, string>  $input
-     */
     public function create(array $input): User
     {
         // 1. RegisterRequest のインスタンスを作る
         $request = app(RegisterRequest::class);
-        // $request = new RegisterRequest();
 
         // 2. rules と messages を使って、$input をバリデートする
         Validator::make($input, $request->rules(), $request->messages())->validate();

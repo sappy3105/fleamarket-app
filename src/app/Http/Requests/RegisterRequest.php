@@ -23,11 +23,20 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
+        // パスワードが「入力済み」かつ「8文字以上」か判定
+        $password = $this->input('password');
+        $isPasswordValid = !empty($password) && mb_strlen($password) >= 8;
+
         return [
             'name' => ['required', 'max:20'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:8'],
-            'password_confirmation' => ['required', 'min:8', 'same:password'],
+            // パスワードのバリデーションをクリアしている時だけ、確認用のチェックを行う
+            'password_confirmation' => array_filter([
+                $isPasswordValid ? 'required' : null,
+                $isPasswordValid ? 'min:8' : null,
+                $isPasswordValid ? 'same:password' : null,
+            ]),
         ];
     }
 

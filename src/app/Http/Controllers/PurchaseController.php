@@ -66,8 +66,11 @@ class PurchaseController extends Controller
     // 住所をセッションに一時保存
     public function updateAddress(AddressRequest $request, $item_id)
     {
+        // バリデーション済みデータを取得
+        $validated = $request->validated();
+
         // 購入確定までセッションに保持
-        session(["shipping_address_{$item_id}" => $request->only(['postcode', 'address', 'building'])]);
+        session(["shipping_address_{$item_id}" => $validated]);
 
         return redirect()->route('purchase.show', ['item_id' => $item_id]);
     }
