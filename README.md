@@ -321,16 +321,16 @@ items {
 
 category_item {
     unsigned_bigint id PK
-    unsigned_bigint item_id FK,UK
-    unsigned_bigint category_id FK,UK
+    unsigned_bigint item_id FK "Composite UK"
+    unsigned_bigint category_id FK "Composite UK"
     timestamp created_at
     timestamp updated_at
 }
 
 likes {
     unsigned_bigint id PK
-    unsigned_bigint user_id FK,UK
-    unsigned_bigint item_id FK,UK
+    unsigned_bigint user_id FK "Composite UK"
+    unsigned_bigint item_id FK "Composite UK"
     timestamp created_at
     timestamp updated_at
 }
