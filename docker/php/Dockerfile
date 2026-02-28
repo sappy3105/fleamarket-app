@@ -13,9 +13,4 @@ RUN curl -sS https://getcomposer.org/installer | php \
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
-ARG UID=1000
-RUN useradd -u ${UID} -G www-data -m satoko
 WORKDIR /var/www
-RUN chown -R satoko:www-data /var/www
-
-USER satoko

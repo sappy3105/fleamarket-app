@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Item;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ShippingAddressTest extends TestCase
@@ -17,12 +16,11 @@ class ShippingAddressTest extends TestCase
      */
     public function test_updated_address_is_reflected_on_purchase_page()
     {
-        // 1. ユーザーにログインする
+        // 1. ユーザーと商品を作成
         $user = User::factory()->hasProfile()->create();
         $item = Item::factory()->create();
 
         // 2. 送付先住所変更画面で住所を登録する
-        // 住所更新ルート（purchase.address.update）へPOSTリクエストを送信
         $newAddress = [
             'postcode' => '999-8888',
             'address'  => '大阪府大阪市中央区',
@@ -36,7 +34,7 @@ class ShippingAddressTest extends TestCase
         // 3. 商品購入画面を再度開く
         $response = $this->get(route('purchase.show', ['item_id' => $item->id]));
 
-        // 検証：登録した住所が正しく反映されている
+        // 4. 検証：登録した住所が正しく反映されている
         $response->assertStatus(200);
         $response->assertSee('999-8888');
         $response->assertSee('大阪府大阪市中央区');
@@ -48,7 +46,7 @@ class ShippingAddressTest extends TestCase
      */
     public function test_purchased_item_is_linked_to_updated_shipping_address()
     {
-        // 1. ユーザーにログインし、商品を準備
+        // 1. ユーザーと商品を作成
         $user = User::factory()->hasProfile()->create();
         $item = Item::factory()->create();
 

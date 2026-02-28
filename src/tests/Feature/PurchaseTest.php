@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\SoldItem;
 use App\Models\ShippingAddress;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PurchaseTest extends TestCase
@@ -62,7 +61,6 @@ class PurchaseTest extends TestCase
         ]);
 
         // 5. 実行：Webhookのシミュレート
-        // WebhookControllerに送るダミーのJSONデータ（Stripeからの通知を模倣）
         $payload = [
             'type' => 'checkout.session.completed',
             'data' => [
@@ -73,7 +71,7 @@ class PurchaseTest extends TestCase
             ]
         ];
 
-        // 署名検証（constructEvent）をスキップするため、モック化する
+        // 署名検証（constructEvent）をスキップするため、モック化
         $this->mock('alias:Stripe\Webhook', function ($mock) use ($payload) {
             $mock->shouldReceive('constructEvent')->andReturn((object)[
                 'type' => $payload['type'],
@@ -94,7 +92,7 @@ class PurchaseTest extends TestCase
             'status' => 'paid',
         ]);
 
-        // 7. 実行：決済成功後のリダイレクト画面（successPurchase）
+        // 7. 実行：決済成功後のリダイレクト画面
         $response = $this->actingAs($user)->get(route('purchase.success', ['item_id' => $item->id]));
         $response->assertRedirect('/?tab=mylist');
     }
@@ -149,11 +147,9 @@ class PurchaseTest extends TestCase
 
         // 6. 実行：商品一覧画面を表示する
         $response = $this->get(route('item.index'));
-
-        // 7. 検証：一覧画面で「Sold」ラベルが表示されているか
         $response->assertStatus(200);
 
-        // Bladeの @if ($item->isSold()) が正しく機能しているか確認
+        // 7. 検証：一覧画面で「Sold」ラベルが表示されているか
         $response->assertSeeInOrder(['テスト商品A', 'Sold']);
     }
 
@@ -210,7 +206,6 @@ class PurchaseTest extends TestCase
         $this->actingAs($user)->get(route('purchase.success', ['item_id' => $item->id]));
 
         // 6. 実行：プロフィール画面の「購入した商品」一覧（?page=buy）を表示する
-        // クエリパラメータ ?page=buy を付与してアクセス
         $response = $this->actingAs($user)->get(route('mypage', ['page' => 'buy']));
 
         // 7. 検証：プロフィール画面で購入した商品名と画像が表示されているか

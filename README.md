@@ -121,7 +121,15 @@ php artisan db:seed
 php artisan storage:link
 ```
 
-#### 3-5. フロントエンドの環境構築
+#### 3-5. ディレクトリの権限設定
+
+ブラウザでアクセスした際に Permission denied エラーが発生する場合、以下のコマンドを実行して書き込み権限を付与してください。
+
+```bash
+chmod -R 777 storage bootstrap/cache
+```
+
+#### 3-6. フロントエンドの環境構築
 
 本プロジェクトでは Autoprefixer を使用して CSS のブラウザ互換性を管理しています。スタイルを正しく反映させるため、以下の手順を実行してください。
 
@@ -143,7 +151,7 @@ npm run production
 npm install postcss-loader autoprefixer --save-dev
 ```
 
-#### 3-6. 完了したらコンテナを抜ける
+#### 3-7. 完了したらコンテナを抜ける
 
 ```bash
 exit

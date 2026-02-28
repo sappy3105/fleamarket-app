@@ -10,12 +10,7 @@ services:
       - php
 
   php:
-    build:
-      context: ./docker/php
-      args:
-        UID: 1000
-        GID: 1000
-    user: satoko
+    build: ./docker/php
     volumes:
       - ./src:/var/www/
 

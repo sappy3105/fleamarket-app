@@ -7,7 +7,6 @@ use App\Models\Item;
 use App\Models\Like;
 use App\Models\SoldItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class MyListDisplayTest extends TestCase
@@ -19,7 +18,7 @@ class MyListDisplayTest extends TestCase
      */
     public function test_only_liked_items_are_displayed_in_mylist()
     {
-        // 準備
+        // 1. 準備
         $user = User::factory()->create();
         $likedItem = Item::factory()->create(['name' => 'いいねした商品']);
         $notLikedItem = Item::factory()->create(['name' => 'いいねしていない商品']);
@@ -29,11 +28,11 @@ class MyListDisplayTest extends TestCase
             'item_id' => $likedItem->id,
         ]);
 
-        // 実行：マイリストタブを表示
+        // 2. 実行：マイリストタブを表示
         $response = $this->actingAs($user)->get('/?tab=mylist');
         $response = $this->actingAs($user)->get(route('item.index', ['tab' => 'mylist']));
 
-        // 検証
+        // 3. 検証
         $response->assertStatus(200);
         $response->assertSee('いいねした商品');
         $response->assertDontSee('いいねしていない商品');
@@ -44,17 +43,17 @@ class MyListDisplayTest extends TestCase
      */
     public function test_purchased_items_show_sold_label_in_mylist()
     {
-        // 準備
+        // 1. 準備
         $user = User::factory()->create();
         $soldItem = Item::factory()->create(['name' => '売却済み商品']);
 
-        // いいね登録
+        // 2. いいね登録
         Like::create([
             'user_id' => $user->id,
             'item_id' => $soldItem->id,
         ]);
 
-        // 購入済み状態にする（SoldItemテーブルにレコード作成）
+        // 3. 購入済み状態にする（SoldItemテーブルにレコード作成）
         SoldItem::create([
             'item_id' => $soldItem->id,
             'user_id' => User::factory()->create()->id, // 自分以外の誰かが購入
@@ -62,10 +61,10 @@ class MyListDisplayTest extends TestCase
             'status'  => 'paid',
         ]);
 
-        // 実行
+        // 4. 実行
         $response = $this->actingAs($user)->get(route('item.index', ['tab' => 'mylist']));
 
-        // 検証
+        // 5. 検証
         $response->assertStatus(200);
         $response->assertSee('売却済み商品');
         $response->assertSee('Sold'); // 「Sold」という文字列が含まれているか
@@ -76,15 +75,16 @@ class MyListDisplayTest extends TestCase
      */
     public function test_guest_user_sees_nothing_in_mylist()
     {
-        // 準備：適当に商品を作っておく（いいねされていても見えないはず）
+        // 1. 準備：商品を作る
         $item = Item::factory()->create(['name' => '商品A']);
 
-        // 実行：ログインせずにマイリストタブへ
+        // 2. 実行：ログインせずにマイリストタブへ
         $response = $this->get('/?tab=mylist');
 
-        // 検証
+        // 3. 検証
         $response->assertStatus(200);
-        // 未認証なら商品名は表示されない（空の状態、またはログインへ促すメッセージ等）
+
+        // 4. 未認証なら商品名は表示されない
         $response->assertDontSee('商品A');
     }
 }

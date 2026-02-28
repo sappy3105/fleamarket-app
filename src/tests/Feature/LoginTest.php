@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -58,7 +57,6 @@ class LoginTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
-        // Fortifyのデフォルトメッセージ、またはLoginRequestで設定したメッセージを確認
         $response->assertSessionHasErrors(['email' => 'ログイン情報が登録されていません']);
     }
 

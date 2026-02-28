@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -29,10 +28,10 @@ class ItemExhibitionTest extends TestCase
         $categories = Category::factory()->count(3)->create();
         $categoryIds = $categories->pluck('id')->toArray();
 
-        // 送信データ（Bladeのname属性に合わせる）
+        // 送信データ
         $exhibitionData = [
             'image_path' => UploadedFile::fake()->create('test_item.png', 100),
-            'category_ids' => $categoryIds, // 配列形式
+            'category_ids' => $categoryIds,
             'condition'    => 1,            // 1:良好
             'name'         => 'テスト商品名',
             'brand_name'   => 'テストブランド',
@@ -49,7 +48,7 @@ class ItemExhibitionTest extends TestCase
         // 出品リクエスト
         $response = $this->post(route('exhibition.store'), $exhibitionData);
 
-        // 保存後のリダイレクト先（実装に合わせて /mypage 等に変更してください）
+        // 保存後のリダイレクト先
         $response->assertRedirect(route('mypage'));
 
         // 3. 検証

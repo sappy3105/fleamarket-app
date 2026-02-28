@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Item;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ItemsTableSeeder extends Seeder
 {
@@ -20,7 +22,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => '腕時計',
                 'price' => 15000,
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Armani+Mens+Clock.jpg',
+                'image_name' => 'watch.jpg',
                 'condition' => 1, // 良好
                 'brand_name' => 'Rolax',
             ],
@@ -29,7 +31,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'HDD',
                 'price' => 5000,
                 'description' => '高速で信頼性の高いハードディスク',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/HDD+Hard+Disk.jpg',
+                'image_name' => 'hdd.jpg',
                 'condition' => 2, // 目立った傷や汚れなし
                 'brand_name' => '西芝',
             ],
@@ -38,7 +40,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => '玉ねぎ3束',
                 'price' => 300,
                 'description' => '新鮮な玉ねぎ3束のセット',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/iLoveIMG+d.jpg',
+                'image_name' => 'onion.jpg',
                 'condition' => 3, // やや傷や汚れあり
                 'brand_name' => 'なし',
             ],
@@ -47,7 +49,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => '革靴',
                 'price' => 4000,
                 'description' => 'クラシックなデザインの革靴',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+Product+Photo.jpg',
+                'image_name' => 'leather_shoes.jpg',
                 'condition' => 4, // 状態が悪い
                 'brand_name' => '',
             ],
@@ -56,7 +58,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'ノートPC',
                 'price' => 45000,
                 'description' => '高性能なノートパソコン',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Living+Room+Laptop.jpg',
+                'image_name' => 'laptop.jpg',
                 'condition' => 1, // 良好
                 'brand_name' => '',
             ],
@@ -65,7 +67,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'マイク',
                 'price' => 8000,
                 'description' => '高音質のレコーディング用マイク',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Music+Mic+4632231.jpg',
+                'image_name' => 'music_mic.jpg',
                 'condition' => 2, // 目立った傷や汚れなし
                 'brand_name' => 'なし',
             ],
@@ -74,7 +76,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'ショルダーバッグ',
                 'price' => 3500,
                 'description' => 'おしゃれなショルダーバッグ',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Purse+fashion+pocket.jpg',
+                'image_name' => 'shoulder_bag.jpg',
                 'condition' => 3, // やや傷や汚れあり
                 'brand_name' => '',
             ],
@@ -83,7 +85,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'タンブラー',
                 'price' => 500,
                 'description' => '使いやすいタンブラー',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Tumbler+souvenir.jpg',
+                'image_name' => 'tumbler.jpg',
                 'condition' => 4, // 状態が悪い
                 'brand_name' => 'なし',
             ],
@@ -92,7 +94,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'コーヒーミル',
                 'price' => 4000,
                 'description' => '手動のコーヒーミル',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Waitress+with+Coffee+Grinder.jpg',
+                'image_name' => 'coffee_grinder.jpg',
                 'condition' => 1, // 良好
                 'brand_name' => 'Starbacks',
             ],
@@ -101,14 +103,23 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'メイクセット',
                 'price' => 2500,
                 'description' => '便利なメイクアップセット',
-                'image_path' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/%E5%A4%96%E5%87%BA%E3%83%A1%E3%82%A4%E3%82%AF%E3%82%A2%E3%83%83%E3%83%95%E3%82%9A%E3%82%BB%E3%83%83%E3%83%88.jpg',
+                'image_name' => 'makeup_set.jpg',
                 'condition' => 2, // 目立った傷や汚れなし
                 'brand_name' => '',
             ],
         ];
 
         foreach ($items as $itemData) {
-            // user_id と name が一致するデータがあれば更新、なければ新規作成
+            $fileName = $itemData['image_name'];
+            $storagePath = 'item_images/' . $fileName;
+
+            // 1. database/seeders/images から storage/app/public/item_images へコピー
+            $seedImagePath = database_path('seeders/images/' . $fileName);
+            if (File::exists($seedImagePath)) {
+                Storage::disk('public')->put($storagePath, File::get($seedImagePath));
+            }
+
+            // 2. DB保存
             Item::updateOrCreate(
                 [
                     'user_id' => $itemData['user_id'],
@@ -117,7 +128,7 @@ class ItemsTableSeeder extends Seeder
                 [
                     'price'       => $itemData['price'],
                     'description' => $itemData['description'],
-                    'image_path'  => $itemData['image_path'],
+                    'image_path'  => $storagePath,
                     'condition'   => $itemData['condition'],
                     'brand_name'  => $itemData['brand_name'],
                 ]

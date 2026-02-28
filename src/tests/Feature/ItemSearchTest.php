@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Item;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ItemSearchTest extends TestCase
@@ -17,10 +16,10 @@ class ItemSearchTest extends TestCase
     public function test_can_search_items_by_name()
     {
         // 1. 準備：対象となる商品と対象外の商品を作成
-        $targetItem = Item::factory()->create(['name' => '黒色のキーボード']);
-        $otherItem = Item::factory()->create(['name' => '白色のマウス']);
+        Item::factory()->create(['name' => '黒色のキーボード']);
+        Item::factory()->create(['name' => '白色のマウス']);
 
-        // 2. 実行：検索クエリを投げる（inputのname属性が 'query' の場合）
+        // 2. 実行：検索クエリを投げる
         $response = $this->get('/?keyword=黒色');
 
         // 3. 検証
@@ -38,19 +37,17 @@ class ItemSearchTest extends TestCase
         $keyword = '魔法';
 
         // 2. キーワード付きでトップページ（おすすめタブ）にアクセス
-        // あなたのBladeコードでは 'keyword' を使用しているので、パラメータ名を合わせます
         $response = $this->get('/?keyword=' . urlencode($keyword));
 
         $response->assertStatus(200);
 
-        // 3. 検証（プロの書き方）
-        // 期待されるフルURLを生成し、HTMLエスケープ（& -> &amp;）をシミュレートする
+        // 3. 検証
         $expectedUrl = str_replace('&', '&amp;', route('item.index', [
             'tab' => 'mylist',
             'keyword' => $keyword
         ]));
 
-        // href属性として存在するか、エスケープを考慮してチェック（falseで生HTMLを比較）
+        // href属性として存在するかチェック
         $response->assertSee('href="' . $expectedUrl . '"', false);
     }
 }

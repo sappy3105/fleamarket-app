@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class EmailVerificationTest extends TestCase
 {
@@ -30,11 +29,10 @@ class EmailVerificationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        // 3. 登録後にメール認証誘導画面（/email/verify）にリダイレクトされることを確認
-        // ※FortifyServiceProviderの設定（RegisterResponse）に依存します
+        // 3. 登録後にメール認証誘導画面にリダイレクトされることを確認
         $response->assertRedirect('/email/verify');
 
-        // 4. メール送信（Registeredイベント）がディスパッチされたことを検証
+        // 4. メール送信がディスパッチされたことを検証
         Event::assertDispatched(Registered::class, function ($event) {
             return $event->user->email === 'test@example.com';
         });
@@ -58,7 +56,7 @@ class EmailVerificationTest extends TestCase
         $response->assertSee('href="' . $expectedUrl . '"', false);
         $response->assertSee('認証はこちらから');
 
-        // 4. 画面内にMailtrapへのリンク（aタグ）が存在することを確認
+        // 4. 画面内に認証画面へのURLが存在することを確認
         $response->assertSee('href="https://mailtrap.io/inboxes"', false);
     }
 
@@ -70,7 +68,7 @@ class EmailVerificationTest extends TestCase
         // 1. 未認証ユーザーを作成
         $user = User::factory()->unverified()->create();
 
-        // 2. ユーザー用の署名付き認証URL（Fortifyが発行するものと同じ形式）を生成
+        // 2. ユーザー用の署名付き認証URLを生成
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(60),
@@ -80,9 +78,8 @@ class EmailVerificationTest extends TestCase
         // 3. 生成した認証URLにアクセスして認証を完了させる
         $response = $this->actingAs($user)->get($verificationUrl);
 
-        // 4. FortifyServiceProviderで設定した VerifyEmailResponse により、
-        // プロフィール設定画面（/mypage/profile）へリダイレクトされることを確認
-        $response->assertRedirect(route('profile.edit')); // 実際のパスに合わせて調整してください
+        // 4. プロフィール設定画面へリダイレクトされることを確認
+        $response->assertRedirect(route('profile.edit'));
 
         // 5. ユーザーのメールが認証済み（email_verified_at に値が入っている）ことを確認
         $this->assertTrue($user->fresh()->hasVerifiedEmail());

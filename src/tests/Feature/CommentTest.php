@@ -4,9 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Item;
 use App\Models\User;
-use App\Models\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CommentTest extends TestCase
@@ -23,7 +21,6 @@ class CommentTest extends TestCase
         $item = Item::factory()->create();
 
         // 2. 実行：ログインしてコメントを投稿（POSTリクエスト）
-        // route('comment.store', $item->id) を想定しています
         $commentData = [
             'content' => 'これはテストコメントです。',
         ];
@@ -44,7 +41,7 @@ class CommentTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('これはテストコメントです。');
 
-        // コメントカウントが増えていることを確認
+        // 5. コメントカウントが増えていることを確認
         $response->assertSee('コメント(1)');
     }
 
@@ -64,7 +61,6 @@ class CommentTest extends TestCase
         $response = $this->post(route('comment.store', ['item_id' => $item->id]), $commentData);
 
         // 3. 検証：ログイン画面へリダイレクトされること
-        // Laravelのデフォルトのauthミドルウェアであれば、loginルートへ飛ばされます
         $response->assertRedirect(route('login'));
 
         // 4. 検証：データベースにコメントが保存されていないこと
@@ -84,7 +80,7 @@ class CommentTest extends TestCase
 
         // 2. 実行：空のコメントを送信（POSTリクエスト）
         $response = $this->actingAs($user)
-            ->from(route('item.show', ['item_id' => $item->id])) // 元のページを指定
+            ->from(route('item.show', ['item_id' => $item->id]))
             ->post(route('comment.store', ['item_id' => $item->id]), [
                 'content' => '', // 未入力
             ]);
@@ -112,7 +108,6 @@ class CommentTest extends TestCase
         $item = Item::factory()->create();
 
         // 2. 実行：256文字のコメントを生成して送信（POSTリクエスト）
-        // fakerのrealTextなどではなく、確実に文字数を指定できる str_repeat や faker->lexify を使います
         $longComment = str_repeat('あ', 256);
 
         $response = $this->actingAs($user)
@@ -126,7 +121,6 @@ class CommentTest extends TestCase
         $response->assertRedirect(route('item.show', ['item_id' => $item->id]));
 
         // 4. 検証：エラーメッセージがセッションに保持されているか
-        // CommentRequestで設定したメッセージと一致させる
         $response->assertSessionHasErrors([
             'content' => 'コメントは255文字以内で入力してください',
         ]);

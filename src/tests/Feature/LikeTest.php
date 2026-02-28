@@ -6,7 +6,6 @@ use App\Models\Item;
 use App\Models\User;
 use App\Models\Like;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LikeTest extends TestCase
@@ -33,7 +32,6 @@ class LikeTest extends TestCase
         ]);
 
         // 3. アクション：いいね登録フォームの送信（POSTリクエスト）
-        // Bladeのフォーム先が route('like.store', $item->id) であることを想定
         $response = $this->actingAs($user)->post(route('like.store', $item->id));
 
         // 4. 検証：データベースに登録されているか
@@ -59,7 +57,7 @@ class LikeTest extends TestCase
         $user = User::factory()->create();
         $item = Item::factory()->create();
 
-        // 2. Factoryを使用して、あらかじめ「いいね」を登録しておく
+        // 2. あらかじめ「いいね」を登録する
         Like::factory()->create([
             'user_id' => $user->id,
             'item_id' => $item->id,
@@ -82,7 +80,7 @@ class LikeTest extends TestCase
         $user = User::factory()->create();
         $item = Item::factory()->create();
 
-        // 2. Factoryを使用して、あらかじめ「いいね」を登録しておく
+        // 2. あらかじめ「いいね」を登録しておく
         Like::factory()->create([
             'user_id' => $user->id,
             'item_id' => $item->id,
@@ -99,16 +97,15 @@ class LikeTest extends TestCase
         ]);
 
         // 5. アクション：いいね解除フォームの送信（POSTリクエスト）
-        // Bladeのフォーム先が route('like.store', $item->id) であることを想定
         $response = $this->actingAs($user)->delete(route('like.destroy', $item->id));
 
-        // DBから実際にレコードが消えているかを確認
+        // 6. DBから実際にレコードが消えているかを確認
         $this->assertDatabaseMissing('likes', [
             'user_id' => $user->id,
             'item_id' => $item->id,
         ]);
 
-        // 6. 検証：詳細ページを再度開き、デフォルトアイコンで、カウントが「0」に減っているか
+        // 7. 検証：詳細ページを再度開き、デフォルトアイコンで、カウントが「0」に減っているか
         $response = $this->actingAs($user)->get(route('item.show', ['item_id' => $item->id]));
         $response->assertSeeInOrder([
             'heartlogo_default.png', // いいねアイコン（デフォルト）

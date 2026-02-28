@@ -11,8 +11,7 @@
             {{-- 商品情報 --}}
             <div class="purchase__item">
                 <div class="item__image">
-                    <img src="{{ Str::startsWith($item->image_path, 'http') ? $item->image_path : asset('storage/' . $item->image_path) }}"
-                        alt="{{ $item->name }}">
+                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
                 </div>
                 <div class="item__detail">
                     <h2>{{ $item->name }}</h2>

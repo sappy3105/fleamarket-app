@@ -9,8 +9,7 @@
         {{-- 左側：商品画像 --}}
         <div class="item-detail__left">
             <div class="item-detail__image-box">
-                <img src="{{ Str::startsWith($item->image_path, 'http') ? $item->image_path : asset('storage/' . $item->image_path) }}"
-                    alt="{{ $item->name }}">
+                <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
             </div>
         </div>
 

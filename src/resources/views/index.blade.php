@@ -21,9 +21,7 @@
                 <div class="item-card">
                     <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item-card__link">
                         <div class="item-card__image">
-                            {{-- 画像URLがhttpから始まる場合はそのまま、そうでない場合はstorageから取得 --}}
-                            <img src="{{ Str::startsWith($item->image_path, 'http') ? $item->image_path : asset('storage/' . $item->image_path) }}"
-                                alt="{{ $item->name }}">
+                            <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
                         </div>
                         <p class="item-card__name">
                             {{ $item->name }}

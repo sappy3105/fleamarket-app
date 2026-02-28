@@ -10,7 +10,6 @@ use App\Models\Like;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ItemDetailTest extends TestCase
@@ -22,13 +21,13 @@ class ItemDetailTest extends TestCase
      */
     public function test_can_view_all_item_details()
     {
-        // 1. ストレージのフェイクを宣言（これで実ファイルがなくてもexistsが効くようになります）
+        // 1. ストレージのフェイクを宣言
         Storage::fake('public');
 
-        // 1. データの準備
+        // 2. データの準備
         $category = Category::factory()->create(['name' => 'テストカテゴリ']);
 
-        // プロフィール付きのユーザーを作成
+        // 3. プロフィール付きのユーザーを作成
         $commentUser = User::factory()->create(['name' => 'コメントした人']);
         $imagePath = 'profiles/profile.png';
         Profile::factory()->create([
@@ -36,10 +35,10 @@ class ItemDetailTest extends TestCase
             'image_path' => $imagePath,
         ]);
 
-        // フェイクストレージに空のファイルを置く
+        // 4. フェイクストレージに空のファイルを置く
         Storage::disk('public')->put($imagePath, 'dummy content');
 
-        // 商品の作成
+        // 5. 商品の作成
         $item = Item::factory()->create([
             'name' => 'テスト商品名',
             'brand_name' => 'テストブランド',
@@ -49,10 +48,10 @@ class ItemDetailTest extends TestCase
             'image_path' => 'item_images/item_image.png',
         ]);
 
-        // リレーションの作成
+        // 6. リレーションの作成
         $item->categories()->attach($category->id);
 
-        // Factoryを使って「いいね」と「コメント」を作成
+        // 7. Factoryを使って「いいね」と「コメント」を作成
         Like::factory()->count(2)->create(['item_id' => $item->id]);
         Comment::factory()->count(1)->create([
             'item_id' => $item->id,
@@ -60,13 +59,13 @@ class ItemDetailTest extends TestCase
             'content' => 'これはテストコメントです',
         ]);
 
-        // 2. 実行：詳細ページへアクセス
+        // 8. 実行：詳細ページへアクセス
         $response = $this->get(route('item.show', ['item_id' => $item->id]));
 
-        // 3. 検証（全12項目）
+        // 9. 検証（全12項目）
         $response->assertStatus(200);
 
-        // 項目1: 商品画像 (imgタグのsrcに含まれているか)
+        // 項目1: 商品画像
         $response->assertSee('item_images/item_image.png');
 
         // 項目2: 商品名
@@ -93,7 +92,7 @@ class ItemDetailTest extends TestCase
         // 項目8: カテゴリ名
         $response->assertSee('テストカテゴリ');
 
-        // 項目9: 商品の状態 (@switchの判定結果)
+        // 項目9: 商品の状態
         $response->assertSee('目立った傷や汚れなし');
 
         // 項目10: コメント数
