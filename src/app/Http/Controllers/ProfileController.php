@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Profile;
 use App\Http\Requests\ProfileRequest;
 
 class ProfileController extends Controller
@@ -15,7 +16,7 @@ class ProfileController extends Controller
 
         // 1. profilesテーブルの情報を取得
         // もし初めてでプロフィールがまだ無いなら、空の入れ物(new Profile)を準備する
-        $profile = $user->profile ?? new \App\Models\Profile;
+        $profile = $user->profile ?? new Profile;
 
         // 2. viewに、取得した$userと$profileのデータを渡して表示する
         return view('profile', compact('user', 'profile'));

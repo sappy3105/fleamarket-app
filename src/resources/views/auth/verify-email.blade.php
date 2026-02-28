@@ -13,8 +13,8 @@
             </p>
 
             <div class="verify__button-wrapper">
-                <a href="{{ env('MAIL_DASHBOARD_URL', 'https://mailtrap.io/inboxes') }}" target="_blank"
-                    rel="noopener noreferrer" class="verify__button">
+                <a href="{{ config('services.mail_dashboard') }}" target="_blank" rel="noopener noreferrer"
+                    class="verify__button">
                     認証はこちらから
                 </a>
             </div>

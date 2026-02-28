@@ -70,6 +70,7 @@ class LoginTest extends TestCase
         // テスト用のユーザーを作成
         $user = User::factory()->create([
             'password' => bcrypt($password = 'password123'),
+            'email_verified_at' => now(),
         ]);
 
         $response = $this->post('/login', [

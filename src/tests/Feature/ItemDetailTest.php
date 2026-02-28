@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Models\Like;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -21,13 +22,22 @@ class ItemDetailTest extends TestCase
      */
     public function test_can_view_all_item_details()
     {
+        // 1. ストレージのフェイクを宣言（これで実ファイルがなくてもexistsが効くようになります）
+        Storage::fake('public');
+
         // 1. データの準備
         $category = Category::factory()->create(['name' => 'テストカテゴリ']);
 
         // プロフィール付きのユーザーを作成
-        $commentUser = User::factory()
-            ->has(Profile::factory()->state(['image_path' => 'profiles/profile.png']))
-            ->create(['name' => 'コメントした人']);
+        $commentUser = User::factory()->create(['name' => 'コメントした人']);
+        $imagePath = 'profiles/profile.png';
+        Profile::factory()->create([
+            'user_id'    => $commentUser->id,
+            'image_path' => $imagePath,
+        ]);
+
+        // フェイクストレージに空のファイルを置く
+        Storage::disk('public')->put($imagePath, 'dummy content');
 
         // 商品の作成
         $item = Item::factory()->create([
@@ -106,7 +116,6 @@ class ItemDetailTest extends TestCase
         $categories = Category::factory()->count(3)->create();
 
         // 商品を作成し、同時に作成したカテゴリを紐付ける
-        // hasCategories() のようなマジックメソッドを使うと、attachを隠蔽できます
         $item = Item::factory()
             ->hasAttached($categories)
             ->create();

@@ -48,12 +48,17 @@ class EmailVerificationTest extends TestCase
         // 1. 未認証ユーザーを作成してログイン
         $user = User::factory()->unverified()->create();
 
-        // 2. メール認証誘導画面を表示
+        // 2. テスト用にURLをセット
+        $expectedUrl = 'https://mailtrap.io/inboxes';
+        config(['services.mail_dashboard' => $expectedUrl]);
+
+        // 3. メール認証誘導画面を表示
         $response = $this->actingAs($user)->get('/email/verify');
-
         $response->assertStatus(200);
+        $response->assertSee('href="' . $expectedUrl . '"', false);
+        $response->assertSee('認証はこちらから');
 
-        // 3. 画面内にMailtrapへのリンク（aタグ）が存在することを確認
+        // 4. 画面内にMailtrapへのリンク（aタグ）が存在することを確認
         $response->assertSee('href="https://mailtrap.io/inboxes"', false);
     }
 

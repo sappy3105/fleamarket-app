@@ -36,4 +36,5 @@ return [
         'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
     ],
 
+    'mail_dashboard' => env('MAIL_DASHBOARD_URL', 'https://mailtrap.io/inboxes'),
 ];

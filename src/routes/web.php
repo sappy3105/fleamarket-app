@@ -8,7 +8,6 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\ExhibitionController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------

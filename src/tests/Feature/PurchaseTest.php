@@ -68,6 +68,7 @@ class PurchaseTest extends TestCase
             'data' => [
                 'object' => [
                     'id' => $stripeSessionId,
+                    'payment_status' => 'paid'
                 ]
             ]
         ];
@@ -123,7 +124,12 @@ class PurchaseTest extends TestCase
         // 4. 実行：Webhookをシミュレートしてステータスを 'paid' に更新
         $payload = [
             'type' => 'checkout.session.completed',
-            'data' => ['object' => ['id' => $stripeSessionId]]
+            'data' => [
+                'object' => [
+                    'id' => $stripeSessionId,
+                    'payment_status' => 'paid'
+                ]
+            ]
         ];
 
         $this->mock('alias:Stripe\Webhook', function ($mock) use ($payload) {
@@ -183,7 +189,12 @@ class PurchaseTest extends TestCase
         // 4. 実行：Webhookをシミュレートしてステータスを 'paid' に更新
         $payload = [
             'type' => 'checkout.session.completed',
-            'data' => ['object' => ['id' => $stripeSessionId]]
+            'data' => [
+                'object' => [
+                    'id' => $stripeSessionId,
+                    'payment_status' => 'paid'
+                ]
+            ]
         ];
 
         $this->mock('alias:Stripe\Webhook', function ($mock) use ($payload) {
