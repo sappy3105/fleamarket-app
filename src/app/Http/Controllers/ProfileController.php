@@ -28,22 +28,38 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // 1. バリデーション済みデータを取得
-        $validated = $request->validated();
+        // $validated = $request->validated();
 
         // 2. usersテーブルの更新
-        $user->update(['name' => $validated['name']]);
+        $user->update(['name' => $request->name]);
 
         // 3. profilesテーブル用の準備
         $profileData = [
-            'postcode' => $validated['postcode'],
-            'address'  => $validated['address'],
-            'building' => $validated['building'],
+            'postcode' => $request->postcode,
+            'address'  => $request->address,
+            'building' => $request->building,
         ];
 
         // 4. 画像処理
         if ($request->hasFile('image_path')) {
             $path = $request->file('image_path')->store('profiles', 'public');
             $profileData['image_path'] = $path;
+        } elseif ($request->filled('image_preview_data')) {
+            // ★追加: ファイルはないが、バリデーションエラー復元用のBase64データがある場合
+            $base64Image = $request->input('image_preview_data');
+
+            // Base64文字列からデータを抽出して保存する
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
+                $data = substr($base64Image, strpos($base64Image, ',') + 1);
+                $data = base64_decode($data);
+
+                $extension = strtolower($type[1]); // png, jpg etc
+                $fileName = 'profiles/' . uniqid() . '.' . $extension;
+
+                // Storageに保存
+                \Illuminate\Support\Facades\Storage::disk('public')->put($fileName, $data);
+                $profileData['image_path'] = $fileName;
+            }
         }
 
         // 5. 保存

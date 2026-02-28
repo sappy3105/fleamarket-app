@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Category;
-use Illuminate\Support\Facades\DB;
 
 class CategoriesTableSeeder extends Seeder
 {
@@ -33,10 +32,10 @@ class CategoriesTableSeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            // 名前を条件に探し、なければ作成、あれば何もしない（更新なし）
+            // 名前を条件に探し、なければ作成、あれば更新なし
             Category::updateOrCreate(
-                ['name' => $category['name']], // 探す条件
-                [] // 更新する内容（名前が一致すれば更新不要なので空でもOK）
+                ['name' => $category['name']],
+                [] // 名前が一致すれば更新不要なので空でも可
             );
         }
     }

@@ -15,6 +15,7 @@ class SoldItemFactory extends Factory
             'item_id' => Item::factory(),
             'user_id' => User::factory(),
             'payment_method' => $this->faker->randomElement([1, 2]), // 1:コンビニ払い 2:カード払い
+            'status' => $this->faker->randomElement(['pending', 'paid']),
             'stripe_checkout_id' => 'txt_' . $this->faker->uuid(),
         ];
     }

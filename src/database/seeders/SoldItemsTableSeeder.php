@@ -65,7 +65,7 @@ class SoldItemsTableSeeder extends Seeder
                     'user_id' => $data['user_id'],
                     'payment_method' => $data['payment_method'],
                     'status' => $data['status'],
-                    'stripe_checkout_id' => null, // シーダーでは一旦null
+                    'stripe_checkout_id' => null,
                 ]
             );
         }

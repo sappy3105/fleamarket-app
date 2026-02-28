@@ -17,7 +17,6 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('image_path');
-            // 商品の状態(1=良好、2=目立った傷や汚れなし、3=やや傷や汚れあり、4=状態が悪い)
             $table->tinyInteger('condition')->comment('1:良好 2:目立った傷や汚れなし 3:やや傷や汚れあり 4:状態が悪い');
             $table->string('name');
             $table->string('brand_name')->nullable();

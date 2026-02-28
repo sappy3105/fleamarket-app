@@ -12,21 +12,32 @@
             @csrf
             <div class="profile-form__image-group">
                 <div class="profile-form__image-preview">
-                    {{-- 初期状態はグレーの円、選択されたら画像を表示 --}}
+                    {{-- srcの優先順位: 1. old(エラー復帰) 2. DB保存済み画像 3. 空の透過画像(ダミー) --}}
                     <img id="preview"
-                        src="{{ $profile->image_path ? asset('storage/' . $profile->image_path) : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' }}"
+                        src="{{ old('image_preview_data') ?? ($profile->image_path ? asset('storage/' . $profile->image_path) : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=') }}"
                         alt="" class="profile-form__circle">
                 </div>
                 <label class="profile-form__image-label" for="image-input">
                     画像を選択する
                     <input type="file" name="image_path" id="image-input" accept="image/png,image/jpeg">
                 </label>
+
+                {{-- データの受け渡し用隠しフィールド --}}
+                <input type="hidden" name="image_preview_data" id="image-preview-data"
+                    value="{{ old('image_preview_data') }}">
             </div>
 
             <div class="profile-form__error-message">
                 @error('image_path')
                     {{ $message }}
                 @enderror
+
+                {{-- 他の項目でエラーが出て画像がリセットされた時の注釈 --}}
+                @if ($errors->any() && !$errors->has('image_path') && old('image_preview_data'))
+                    <p class="profile-form__error-note">
+                        ※プレビューが表示されていますが、保存のため再度画像を選択してください。
+                    </p>
+                @endif
             </div>
 
             <div class="profile-form__group">
@@ -74,11 +85,18 @@
         document.getElementById('image-input').addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
+
                 reader.onload = function(e) {
+                    const result = e.target.result;
                     const preview = document.getElementById('preview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
+                    const hiddenInput = document.getElementById('image-preview-data');
+
+                    preview.src = result;
+
+                    if (hiddenInput) {
+                        hiddenInput.value = result;
+                    }
+                };
                 reader.readAsDataURL(e.target.files[0]);
             }
         });

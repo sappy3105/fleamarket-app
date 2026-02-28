@@ -65,14 +65,6 @@
     font-size: 18px;
 }
 
-.profile-form__error-message {
-    height: 25px;
-    margin-bottom: 5px;
-    color: #ff4d4b;
-    font-size: 14px;
-    text-align: left;
-}
-
 .profile-form__button-submit {
     width: 100%;
     padding: 15px;
@@ -85,4 +77,20 @@
     font-weight: bold;
     cursor: pointer;
     margin-top: 40px;
+}
+
+/* バリデーション */
+.profile-form__error-message {
+    min-height: 25px;
+    height: auto;
+    margin-bottom: 5px;
+    color: #ff4d4b;
+    font-size: 14px;
+    text-align: left;
+}
+
+.profile-form__error-note {
+    margin-top: 4px;
+    font-weight: bold;
+    line-height: 1.4;
 }

@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // 1. 外部キー制約を一時的に無効化（関連があるテーブルも強制的に操作可能にする）
+        // 1. 外部キー制約を一時的に無効化
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         // 2. データを空にするテーブルを指定
@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
         DB::table('shipping_addresses')->truncate();
         DB::table('likes')->truncate();
         DB::table('comments')->truncate();
-        // 今後テーブルが増えたらここに追記していく
 
         // 3. 外部キー制約を元に戻す
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
@@ -42,7 +41,7 @@ class DatabaseSeeder extends Seeder
             CategoryItemSeeder::class,
             SoldItemsTableSeeder::class,
             ShippingAddressesTableSeeder::class,
-            LikesTableSeeder::class,    // 追記
+            LikesTableSeeder::class,
             CommentsTableSeeder::class,
         ]);
     }

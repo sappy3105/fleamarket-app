@@ -11,7 +11,7 @@ use Tests\TestCase;
 class ShippingAddressTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     /**
      * 12-1 送付先住所変更画面にて登録した住所が商品購入画面に反映されている
      */
@@ -66,21 +66,11 @@ class ShippingAddressTest extends TestCase
         ];
         $this->actingAs($user)->post(route('purchase.address.update', ['item_id' => $item->id]), $updatedAddress);
 
-        // 3. 商品を購入する（ID10-1と同様の流れ）
+        // 3. 商品を購入する
         // 購入リクエスト
         $this->post(route('purchase.store', ['item_id' => $item->id]), ['payment_method' => 1]);
 
-        // 決済完了コールバックのシミュレート
-        $this->withSession([
-            "pending_purchase_{$item->id}" => [
-                'payment_method' => 1,
-                'stripe_checkout_id' => 'test_id',
-            ],
-            // 変更した住所がセッションに残っていることを想定
-            "shipping_address_{$item->id}" => $updatedAddress
-        ])->get(route('purchase.success', ['item_id' => $item->id]));
-
-        // 検証：正しく送付先住所（shipping_addressesテーブル）が紐づいているか
+        // 4. 検証：正しく送付先住所（shipping_addressesテーブル）が紐づいているか
         $this->assertDatabaseHas('shipping_addresses', [
             'postcode' => '111-2222',
             'address'  => '東京都新宿区',

@@ -22,8 +22,8 @@ class ExhibitionController extends Controller
         // 1. バリデーション済みデータの取得
         $validated = $request->validated();
 
-        // 2.画像のアップロード処理
-        $imagePath = $validated['image_path']->store('item_images', 'public');
+        // 2. 画像のアップロード処理
+        $imagePath = $request->file('image_path')->store('item_images', 'public');
 
         // 3.商品情報のDB保存
         $item = Item::create([

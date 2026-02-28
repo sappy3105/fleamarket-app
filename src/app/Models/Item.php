@@ -59,8 +59,6 @@ class Item extends Model
     // 商品が売り切れかどうかを判定するメソッド
     public function isSold()
     {
-        // sold_itemsテーブルにこのitem_idが存在すれば true を返す
-        // SoldItemモデルがある場合:
         return $this->soldItem && $this->soldItem->status === 'paid';
     }
 

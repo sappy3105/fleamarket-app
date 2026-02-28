@@ -54,11 +54,11 @@
     max-width: 100%;
     max-height: 200px;
     margin-bottom: 20px;
+    object-fit: contain;
 }
 
-.image-upload__preview:not([src]),
-.image-upload__preview[src=""] {
-    display: none;
+.image-upload__preview.is-show {
+    display: block;
 }
 
 .image-upload__button {
@@ -167,4 +167,10 @@
     color: #ff4d4b;
     font-size: 14px;
     margin: 5px 0 0 0;
+}
+
+.exhibition__error-note {
+    margin: 2px 0 0 0;
+    font-weight: bold;
+    line-height: 1.4;
 }

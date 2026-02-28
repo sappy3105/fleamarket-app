@@ -18,27 +18,24 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                // 'id' => 1,
                 'name' => 'テストユーザー1（認証済み）',
                 'email' => 'test1@example.com',
                 'password' => Hash::make('password'),
-                'verified' => true, // 認証済みにするフラグ
+                'verified' => true, // 認証済みにする
             ],
             [
-                // 'id' => 2,
                 'name' => 'テストユーザー2（未認証・メールあり）',
                 'email' => 'test2@example.com',
                 'password' => Hash::make('password'),
                 'verified' => false, // 未認証のままにする
-                'send_mail' => true, // シーダ実行時にメールを送るフラグ
+                'send_mail' => true, // シーダ実行時にメールを送る
             ],
             [
-                // 'id' => 3,
                 'name' => 'テストユーザー3（未認証・メールなし）',
                 'email' => 'test3@example.com',
                 'password' => Hash::make('password'),
                 'verified' => false,
-                'send_mail' => false, // 何もしない（ログイン後に再送ボタンでテスト用）
+                'send_mail' => false, // 何もしない（ログイン後に再送ボタンのテスト）
             ],
         ];
 

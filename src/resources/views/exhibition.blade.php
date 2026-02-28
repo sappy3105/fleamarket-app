@@ -15,17 +15,27 @@
             <div class="exhibition__section">
                 <h4 class="exhibition__label">商品画像</h4>
                 <div class="image-upload__box">
-                    <img id="preview" src="" alt="" class="image-upload__preview">
+                    <img id="preview" src="{{ old('image_preview_data') }}" alt=""
+                        class="image-upload__preview {{ old('image_preview_data') ? 'is-show' : '' }}">
                     <label class="image-upload__label">
                         <input type="file" name="image_path" id="image-input" class="image-upload__input"
                             accept="image/png, image/jpeg">
                         <span class="image-upload__button">画像を選択する</span>
+
+                        {{-- データの受け渡し用隠しフィールド --}}
+                        <input type="hidden" name="image_preview_data" id="image-preview-data"
+                            value="{{ old('image_preview_data') }}">
                     </label>
                 </div>
                 <div class="exhibition__error-message">
                     @error('image_path')
                         {{ $message }}
                     @enderror
+
+                    {{-- 他の項目でエラーが出て戻ってきた（画像がリセットされた）時のメッセージ --}}
+                    @if ($errors->any() && !$errors->has('image_path') && old('image_preview_data'))
+                        <p class="exhibition__error-note">※プレビューが表示されていますが、保存のため再度画像を選択してください。</p>
+                    @endif
                 </div>
             </div>
 
@@ -148,9 +158,16 @@
             if (e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
+                    const result = e.target.result;
                     const preview = document.getElementById('preview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
+                    const hiddenInput = document.getElementById('image-preview-data');
+
+                    preview.src = result;
+                    preview.classList.add('is-show'); // CSSで表示を切り替えるためのクラス
+
+                    if (hiddenInput) {
+                        hiddenInput.value = result;
+                    }
                 }
                 reader.readAsDataURL(e.target.files[0]);
             }

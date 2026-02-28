@@ -33,11 +33,11 @@ class ShippingAddressesTableSeeder extends Seeder
                     'building' => $profile1->building,
                 ];
             } else {
-                // それ以外はFactory(Faker)でランダム生成した配列を取得
+                // それ以外はFactoryでランダム生成した配列を取得
                 $addressData = ShippingAddress::factory()->raw();
             }
 
-            // 最後に sold_item_id をセットして保存
+            // sold_item_id をセットして保存
             ShippingAddress::updateOrCreate(
                 ['sold_item_id' => $soldItem->id],
                 $addressData
