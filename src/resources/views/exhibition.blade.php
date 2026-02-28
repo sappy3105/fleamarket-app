@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/exhibition.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="exhibition__container">
         <h2 class="exhibition__title">商品の出品</h2>

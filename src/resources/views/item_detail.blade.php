@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/item_detail.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="item-detail__container">
         {{-- 左側：商品画像 --}}
@@ -15,12 +11,12 @@
 
         {{-- 右側：商品情報 --}}
         <div class="item-detail__right">
-            <h1 class="item-detail__name">
+            <h2 class="item-detail__name">
                 {{ $item->name }}
                 @if ($item->isSold())
                     <span class="sold-label">Sold</span>
                 @endif
-            </h1>
+            </h2>
             <p class="item-detail__brand">{{ $item->brand_name ?? 'ブランド名なし' }}</p>
             <p class="item-detail__price">
                 ¥{{ number_format($item->price) }}
@@ -90,12 +86,12 @@
             @endif
 
             <div class="item-detail__section">
-                <h2 class="item-detail__section-title">商品説明</h2>
+                <h3 class="item-detail__section-title">商品説明</h3>
                 <p class="item-detail__description">{{ $item->description }}</p>
             </div>
 
             <div class="item-detail__section">
-                <h2 class="item-detail__section-title">商品の情報</h2>
+                <h3 class="item-detail__section-title">商品の情報</h3>
                 <div class="item-detail__info-row">
                     <span class="item-detail__info-label">カテゴリー</span>
                     <div class="item-detail__categories">
@@ -130,7 +126,7 @@
 
             {{-- コメント表示エリア --}}
             <div class="item-detail__section" id="comment-area">
-                <h2 class="item-detail__section-title">コメント({{ $item->comments->count() }})</h2>
+                <h3 class="item-detail__section-title">コメント({{ $item->comments->count() }})</h3>
                 @if ($item->comments->isNotEmpty())
                     @foreach ($item->comments as $comment)
                         <div class="comment-item">
@@ -162,7 +158,7 @@
 
             {{-- コメント投稿フォーム --}}
             <div class="item-detail__comment-form">
-                <h3 class="item-detail__comment-label">商品へのコメント</h3>
+                <h4 class="item-detail__comment-label">商品へのコメント</h4>
                 <form action="{{ route('comment.store', $item->id) }}" method="POST">
                     @csrf
                     <textarea name="content" class="item-detail__comment-textarea">{{ old('content') }}</textarea>

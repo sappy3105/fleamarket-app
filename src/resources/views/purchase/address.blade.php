@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="address__container">
         <h2 class="address-form__heading">住所の変更</h2>

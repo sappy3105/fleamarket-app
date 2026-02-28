@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="login-form__content"> {{-- 共通のスタイルを適用 --}}
         <h2 class="login-form__heading">ログイン</h2>

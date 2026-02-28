@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="purchase__container">
         {{-- 左側：商品・支払い・配送先 --}}

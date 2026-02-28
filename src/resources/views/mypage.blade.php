@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="mypage__container">
         {{-- ユーザー情報セクション --}}

@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="item-list__container">
         <div class="item-list__tabs">

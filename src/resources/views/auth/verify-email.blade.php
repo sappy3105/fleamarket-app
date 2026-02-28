@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/auth/verify-email.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="verify__container">
         <div class="verify__content">

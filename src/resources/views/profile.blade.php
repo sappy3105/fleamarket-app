@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-@endsection --}}
-
 @section('content')
     <div class="profile-form">
         <h2 class="profile-form__title">プロフィール設定</h2>
