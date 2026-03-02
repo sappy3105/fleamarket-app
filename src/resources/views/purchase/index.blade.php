@@ -68,8 +68,8 @@
                         id="address-edit-link">変更する</a>
                 </div>
                 <div class="address__content">
-                    <p class="address__postcode">〒 {{ $address['postcode'] }}</p>
-                    <p class="address__text">{{ $address['address'] }} {{ $address['building'] }}</p>
+                    <p class="address__postcode">〒 {{ $address['postcode'] ?? '' }}</p>
+                    <p class="address__text">{{ $address['address'] ?? '' }} {{ $address['building'] ?? '' }}</p>
                 </div>
                 <div class="purchase-form__error">
                     @error('shipping_address')
@@ -100,8 +100,10 @@
                 </tr>
             </table>
 
-            <form action="{{ route('purchase.store', $item->id) }}" method="POST" id="purchase-form">
+            <form action="{{ route('purchase.store', $item->id) }}" method="POST" id="purchase-form" novalidate>
                 @csrf
+                <input type="hidden" name="payment_method" id="hidden-payment-method"
+                value="{{ session("payment_method_{$item->id}") }}">
                 <button type="submit" class="purchase__button">購入する</button>
             </form>
         </div>
@@ -124,6 +126,10 @@
                 if (addressLink) {
                     addressLink.href = baseAddressUrl + "?payment_method=" + value;
                 }
+
+                // 追加：隠しフィールドに値をコピー あとで削除？
+                const hiddenInput = document.getElementById('hidden-payment-method');
+                if (hiddenInput) hiddenInput.value = value;
             });
 
             // ページ読み込み時の初期化

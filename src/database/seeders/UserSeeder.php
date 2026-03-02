@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'email' => 'test2@example.com',
                 'password' => Hash::make('password'),
                 'verified' => false, // 未認証のままにする
-                'send_mail' => false, // シーダ実行時にメールを送る
+                'send_mail' => true, // シーダ実行時にメールを送る
             ],
             [
                 'name' => 'テストユーザー3（未認証・メールなし）',

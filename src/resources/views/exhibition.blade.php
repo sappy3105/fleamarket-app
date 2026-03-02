@@ -4,7 +4,7 @@
     <div class="exhibition__container">
         <h2 class="exhibition__title">商品の出品</h2>
 
-        <form action="{{ route('exhibition.store') }}" method="POST" enctype="multipart/form-data" class="exhibition__form">
+        <form action="{{ route('exhibition.store') }}" method="POST" enctype="multipart/form-data" class="exhibition__form" novalidate>
             @csrf
 
             {{-- 商品画像 --}}

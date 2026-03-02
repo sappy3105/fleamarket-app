@@ -4,7 +4,7 @@
     <div class="login-form__content"> {{-- 共通のスタイルを適用 --}}
         <h2 class="login-form__heading">ログイン</h2>
 
-        <form action="{{ route('login') }}" method="post">
+        <form action="{{ route('login') }}" method="post" novalidate>
             @csrf
 
             <div class="login-form__group">

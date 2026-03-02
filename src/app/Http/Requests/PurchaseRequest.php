@@ -54,8 +54,12 @@ class PurchaseRequest extends FormRequest
         if (!empty(trim($finalPostcode ?? '')) && !empty(trim($finalAddress ?? ''))) {
             $this->merge(['shipping_address' => 'exists']);
         } else {
-            $this->merge(['shipping_address' => null]);
+            $this->merge(['shipping_address' => '']);
         }
+
+        // $this->merge([
+        //     'payment_method' => $this->payment_method ?: session("payment_method_{$item_id}"),
+        // ]);
     }
 
     public function messages(): array

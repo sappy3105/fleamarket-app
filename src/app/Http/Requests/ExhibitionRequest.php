@@ -26,7 +26,7 @@ class ExhibitionRequest extends FormRequest
         return [
             'name' => ['required'],
             'description' => ['required', 'max:255'],
-            'image_path' => ['required', 'image', 'mimes:jpeg,jpg,png'],
+            'image_path' => ['required', 'mimes:jpeg,jpg,png'],
             'category_ids' => ['required', 'array'],
             'category_ids.*' => ['exists:categories,id'],
             'condition' => ['required'],
@@ -42,7 +42,6 @@ class ExhibitionRequest extends FormRequest
             'description.required' => '商品の説明を入力してください',
             'description.max' => '商品の説明は255文字以内で入力してください',
             'image_path.required' => '商品画像を選択してください',
-            'image_path.image'      => '画像ファイルをアップロードしてください',
             'image_path.mimes' => '商品画像は .jpeg もしくは .png 形式でアップロードしてください',
             'category_ids.required' => 'カテゴリーを選択してください',
             'category_ids.array'    => 'カテゴリーの形式が正しくありません',

@@ -159,7 +159,7 @@
             {{-- コメント投稿フォーム --}}
             <div class="item-detail__comment-form">
                 <h4 class="item-detail__comment-label">商品へのコメント</h4>
-                <form action="{{ route('comment.store', $item->id) }}" method="POST">
+                <form action="{{ route('comment.store', $item->id) }}" method="POST" novalidate>
                     @csrf
                     <textarea name="content" class="item-detail__comment-textarea">{{ old('content') }}</textarea>
                     {{-- エラーがあれば表示する --}}
